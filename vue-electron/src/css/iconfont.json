@@ -1,0 +1,65 @@
+{
+  "id": "3279663",
+  "name": "chart",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "9662065",
+      "name": "涂色",
+      "font_class": "icon-test",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "5387527",
+      "name": "加号",
+      "font_class": "jiahao",
+      "unicode": "eaf3",
+      "unicode_decimal": 60147
+    },
+    {
+      "icon_id": "6496552",
+      "name": "阴影",
+      "font_class": "-",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "8900080",
+      "name": "方格",
+      "font_class": "fangge",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "14695110",
+      "name": "长箭头",
+      "font_class": "right",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "18171247",
+      "name": "列,列表",
+      "font_class": "columns-full",
+      "unicode": "ea37",
+      "unicode_decimal": 59959
+    },
+    {
+      "icon_id": "19629070",
+      "name": "涂色",
+      "font_class": "tuse",
+      "unicode": "ea4a",
+      "unicode_decimal": 59978
+    },
+    {
+      "icon_id": "26507481",
+      "name": "折线",
+      "font_class": "zhexian",
+      "unicode": "ee57",
+      "unicode_decimal": 61015
+    }
+  ]
+}

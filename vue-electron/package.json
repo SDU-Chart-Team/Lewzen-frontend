@@ -1,0 +1,49 @@
+{
+  "name": "vue-electron",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "webpack --mode development",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
+  },
+  "main": "background.js",
+  "dependencies": {
+    "core-js": "^3.8.3",
+    "cors": "^2.8.5",
+    "element-ui": "^2.15.6",
+    "ffi-napi": "^4.0.3",
+    "file-loader": "^6.2.0",
+    "net": "^1.0.2",
+    "path": "^0.12.7",
+    "socket.io": "^4.4.1",
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.1",
+    "vue-socket.io": "^3.0.10",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "css-loader": "^5.2.6",
+    "electron": "^12.0.0",
+    "electron-devtools-installer": "^3.1.0",
+    "node-loader": "^2.0.0",
+    "socket.io-client": "^4.4.1",
+    "style-loader": "^3.0.0",
+    "vue-cli-plugin-electron-builder": "~2.1.1",
+    "vue-template-compiler": "^2.6.14",
+    "webpack-cli": "^4.9.2"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
