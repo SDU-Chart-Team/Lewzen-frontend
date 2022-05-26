@@ -11,12 +11,14 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
-  "main": "background.js",
+  "main": "src/background.js",
   "dependencies": {
+    "@wangeditor/editor": "^5.0.1",
+    "@wangeditor/editor-for-vue": "^1.0.0",
     "core-js": "^3.8.3",
     "cors": "^2.8.5",
+    "echarts": "^5.3.2",
     "element-ui": "^2.15.6",
-    "ffi-napi": "^4.0.3",
     "file-loader": "^6.2.0",
     "net": "^1.0.2",
     "path": "^0.12.7",

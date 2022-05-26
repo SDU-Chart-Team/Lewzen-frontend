@@ -5,11 +5,19 @@
       <div style="text-align: left; font-size: 12px;height: 60px ;margin-bottom: 5px" class="el-header">
         <div class="head-top clear">
           <div class="head-top-logo left">
-            <el-image :src="logo" class="logo"></el-image>
+            <el-image :src="require('@/assets/logo.png')" class="logo"></el-image>
           </div>
           <div class="head-top-item left">
             <div class="item-top">
-              SDUChart
+              <div @dblclick="file_name_change=true" v-if="!file_name_change">
+                  {{file_name}}
+              </div>
+              <el-input
+                      @change="file_name_change=false"
+                      v-if="file_name_change"
+                      v-model="file_name"
+                      size="mini"
+              ></el-input>
             </div>
             <div class="item-bottom">
               <DropdownMenu>
@@ -23,43 +31,88 @@
     <div style="text-align: left; font-size: 12px;height: 30px;margin-top: 5px;" class="el-header">
       <div class="head-bottom">
           <div class="OperationBar">
-              <el-dropdown>
-            <span class="el-dropdown-link">
-                <i class="iconfont icon-columns-full icon-left"></i>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-                  <el-dropdown-menu slot="dropdown">
-
-                  </el-dropdown-menu>
-              </el-dropdown>
-              <el-dropdown>
-            <span class="el-dropdown-link">
+<!--              <el-dropdown @command="handleModelChange">-->
+<!--            <span class="el-dropdown-link">-->
+<!--                <i class="iconfont icon-columns-full icon-left">-->
+<!--                </i>-->
+<!--                <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--            </span>-->
+<!--                  <el-dropdown-menu slot="dropdown">-->
+<!--                          <el-dropdown-item command=0>Diagram</el-dropdown-item>-->
+<!--                          <el-dropdown-item command=1>Note</el-dropdown-item>-->
+<!--                  </el-dropdown-menu>-->
+<!--              </el-dropdown>-->
+<!--              画布百分比显示-->
+              <el-dropdown @command="handleScale">
+               <span class="el-dropdown-link" >
                 <span class="icon-left">{{this.scaleNum}}%</span>
                 <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
+               </span>
                   <el-dropdown-menu slot="dropdown">
-
+                      <el-dropdown-item command=75>75%</el-dropdown-item>
+                      <el-dropdown-item command=100>100%</el-dropdown-item>
+                      <el-dropdown-item command=125>125%</el-dropdown-item>
+                      <el-dropdown-item command=150>150%</el-dropdown-item>
                   </el-dropdown-menu>
               </el-dropdown>
-              <i class="el-icon-zoom-in icon leftBorder" @click="biggerCanvas"></i>
-              <i class="el-icon-zoom-out icon rightBorder" @click="smallerCanvas"></i>
-              <i class="el-icon-delete icon rightBorder" @click="deleteShape"></i>
-              <i class="el-icon-back icon" @click="backAction"></i>
-              <i class="el-icon-right icon rightBorder" @click="upAction"></i>
-              <i class="el-icon-top icon" @click="extendWidth"></i>
-              <i class="el-icon-bottom icon rightBorder" @click="extendHeight"></i>
-              <i class="iconfont icon-tuse icon"></i>
-              <i class="el-icon-edit icon "></i>
 
-              <i class="iconfont icon-- icon rightBorder"></i>
+
+
+              <!--              画布放大-->
+              <i class="el-icon-zoom-in icon leftBorder"
+                 :style="zoom_in_color"
+                 @click="biggerCanvas"></i>
+<!--              画布缩小-->
+              <i class="el-icon-zoom-out icon rightBorder"
+                 :style="zoom_out_color"
+                 @click="smallerCanvas"></i>
+<!--              删除-->
+              <i class="el-icon-delete icon rightBorder"
+                 :style="delete_color"
+                 @click="deleteShape"></i>
+<!--              撤销-->
+              <i class="el-icon-back icon"
+                 :style="back_color"
+                 @click="backAction"></i>
+<!--              重做-->
+              <i class="el-icon-right icon rightBorder"
+                 :style="up_color"
+                 @click="upAction"></i>
+<!--              置顶-->
+              <i class="el-icon-top icon"
+                 :style="top_color"
+                 @click="topAction"
+                 ></i>
+<!--              置底-->
+              <i class="el-icon-bottom icon rightBorder"
+                 :style="bottom_color"
+                 @click="bottomAction"
+                 ></i>
+<!--              填充颜色-->
+              <i class="iconfont icon-tuse icon"
+                 :style="fill_color"
+                 @click="fillAction"
+              ></i>
+<!--              线条颜色-->
+              <i class="el-icon-edit icon "
+                 :style="line_color"
+                 @click="lineAction"
+              ></i>
+<!--              添加阴影-->
+              <i class="iconfont icon-- icon rightBorder"
+                 :style="shadow_color"
+                 @click="shadowAction"
+              ></i>
+<!--              添加箭头-->
               <el-dropdown>
-            <span class="el-dropdown-link">
-                <i class="iconfont icon-right icon-left"></i>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-                  <el-dropdown-menu slot="dropdown">
-                  </el-dropdown-menu>
+                <span class="el-dropdown-link">
+                    <i class="iconfont icon-right icon-left"></i>
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                </el-dropdown-menu>
               </el-dropdown>
+<!--              添加折线-->
               <el-dropdown>
             <span class="el-dropdown-link">
                 <i class="iconfont icon-zhexian icon-left"></i>
@@ -68,27 +121,41 @@
                   <el-dropdown-menu slot="dropdown">
                   </el-dropdown-menu>
               </el-dropdown>
-              <!-- 创建图形   -->
+<!--              创建图形-->
               <el-dropdown @command="handleCommand">
-            <span class="el-dropdown-link">
-                <i class="leftBorder iconfont icon-jiahao icon-left"></i>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-                  <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item command=0>Rectangle</el-dropdown-item>
-                      <el-dropdown-item command=1>Ellipase</el-dropdown-item>
-                      <el-dropdown-item command=2>Rhombus</el-dropdown-item>
-                  </el-dropdown-menu>
+                    <span class="el-dropdown-link">
+                        <i class="leftBorder iconfont icon-jiahao icon-left"></i>
+                        <i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command=0>Rectangle</el-dropdown-item>
+                        <el-dropdown-item command=1>Ellipase</el-dropdown-item>
+                        <el-dropdown-item command=2>Rhombus</el-dropdown-item>
+                        <el-dropdown-item command=7>Line</el-dropdown-item>
+                    </el-dropdown-menu>
               </el-dropdown>
+<!--              <el-dropdown>-->
+<!--            <span class="el-dropdown-link">-->
+<!--                <i class="iconfont icon-fangge icon-left"></i>-->
+<!--                <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--            </span>-->
+<!--                  <el-dropdown-menu slot="dropdown">-->
+<!--                  </el-dropdown-menu>-->
+<!--              </el-dropdown>-->
+<!--创建block-->
+<!--              <el-dropdown @command="handleAddBlock">-->
+<!--            <span class="el-dropdown-link">-->
+<!--                <i class="leftBorder iconfont icon-jiahao icon-left"></i>-->
+<!--                <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--            </span>-->
+<!--                  <el-dropdown-menu slot="dropdown">-->
+<!--                      <el-dropdown-item command=1>Note</el-dropdown-item>-->
+<!--                      <el-dropdown-item command=2>Svg</el-dropdown-item>-->
+<!--                      <el-dropdown-item command=3>Graph</el-dropdown-item>-->
+<!--                  </el-dropdown-menu>-->
+<!--              </el-dropdown>-->
 
-              <el-dropdown>
-            <span class="el-dropdown-link">
-                <i class="iconfont icon-fangge icon-left"></i>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-                  <el-dropdown-menu slot="dropdown">
-                  </el-dropdown-menu>
-              </el-dropdown>
+
           </div>
       </div>
     </div>
@@ -111,25 +178,82 @@
         </div>
       </el-aside>
 <!--midcanvas-->
-      <el-main style="padding: 0" class="el-main">
-<!--        <el-scrollbar style="height:100%;width: 100%">-->
+      <el-main style="padding: 0" id="main_canvas" class="el-main">
+<!--        <el-scrollbar style="height:100%">-->
 <!--          <canvas @click="click_canvas" @mouseenter="mouseenter_canvas" @mousemove="mousemove_canvas" @mousedown="mousedown_canvas" @mouseup="mouseup_canvas" id="myCanvas" width="2000" height="1600">-->
 <!--          </canvas>-->
           <div id="myCanvas" >
-              <svg xmlns="http://www.w3.org/2000/svg" class="svg"  @click="click_canvas" id="mySvg" :width="canvas.width" :height="canvas.height"></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="svg"  @click="click_canvas" id="mySvg" :width="canvas_width" :height="canvas_height">
+                  <defs id="myDefs"></defs>
+                  <g id="last_map">
+                      <rect id="last" :height="canvas_height" :width="canvas_width" style="fill-opacity: 0"></rect>
+                  </g>
+                  <g id="text_map"></g>
+                  <g id="shape_map"></g>
+                  <g id="hover_map"></g>
+                  <g id="key_map"></g>
+
+                  <!--                  <g>-->
+                  <!--                      <foreignObject width="100%" height="100%" style="display: inline-block">-->
+                  <!--                          <div-->
+                  <!--                                  xmlns="http://www.w3.org/1999/xhtml"-->
+                  <!--                                  style="display: inline-block"-->
+                  <!--                                  @dblclick="ondblclick"-->
+                  <!--                          >-->
+                  <!--                              <p><em>hel11111</em><em><strong>111</strong></em><u><em><strong>111</strong></em></u><u><em>1lo</em></u></p>-->
+                  <!--                          </div>-->
+                  <!--                      </foreignObject>-->
+                  <!--                  </g>-->
+              </svg>
           </div>
+
+          <el-dialog
+                  title="fill style"
+                  :visible.sync="fillVisible"
+                  width="30%"
+
+          >
+              <fill-bar></fill-bar>
+          </el-dialog>
+
+
+          <el-dialog
+                  title="line style"
+                  :visible.sync="lineVisible"
+                  width="30%"
+
+          >
+              <line-bar></line-bar>
+
+          </el-dialog>
+          <div id="rightClickDiv">
+              <ul id="rightClickUl">
+                  <li class="createLi rightClickLi liHover"><span class="liContent createSpan">新建文件夹</span></li>
+                  <li class="addProduct rightClickLi liHover"><span class="liContent addProductSpan">添加产品</span></li>
+                  <li class="addWp rightClickLi liHover"><span class="liContent addWpSpan">添加类型</span></li>
+                  <li class="addPg rightClickLi liHover"><span class="liContent addPgSpan">添加编码</span></li>
+                  <hr class="splitLine" />
+                  <li class="deleteLi rightClickLi liHover"><span class="liContent deleteSpan">删除</span></li>
+                  <li class="renameLi rightClickLi liHover"><span class="liContent renameSpan">重命名</span></li>
+              </ul>
+          </div>
+
 <!--        </el-scrollbar>-->
       </el-main>
 <!--rightsider-->
       <el-aside width="300px" class="aside-div left" style="background-color:#FBFBFB">
         <right-side-bar></right-side-bar>
       </el-aside>
+
     </el-container>
 <!--footer-->
     <el-container>
       <el-footer style="text-align: right; font-size: 12px">
       </el-footer>
     </el-container>
+
+
+
   </div>
 </template>
 <script>
@@ -140,67 +264,297 @@
   import rightSideBar from "@/components/rightSideBar";
   import RightSideBar from "@/components/rightSideBar";
   import IconBase from "@/components/icon/iconBase";
-  import SimpleWebsocket from "./js/simplewebsocket.min.js"
-  // import {moveSvg,scaleSvg,init,adjustCanvas,createGrid} from "@/js/svgdom.js";
-  import {createSvg,deleteElement} from "@/js/svg";
-  import {initSocket,sendSocket} from "@/js/socket/socket";
-  import {popQueue,popOutQueue} from "@/js/actionQueue";
-  import {canvas_init,canvas_change} from "@/js/canvasAction/canvasOperator";
-  import {appendElement, deleteInCore} from "@/js/element/elementQueue";
-  import {canvas_scale,canvas_adjust} from "@/js/canvasAction/canvasOperator";
-  import {backward, forward} from "@/js/action/actionQueue";
-  import {create_Action_Before} from "@/js/action/el_create_action";
 
+  import GlobalTextEditor from "./components/integratedEditor.vue";
+  import editorToolbar from "./components/toolbar.vue";
+  import {create_Action_Before} from "@/js/action/create_action";
+  import {initSocket} from "@/js/socket/socket";
+  import {backAction, forwardAction, getActionCounter, P} from "@/js/action/actionQueue";
+  import {DomOperator} from "@/js/util/domOperation";
+  import {offCoreAll} from "@/js/element/core/core_queue";
+  import {inDiagramModel} from "@/js/canvas/operation/canvas_model_operation";
+  import {initKey} from "@/js/keymap/keyModel";
+  import {init_canvas} from "@/js/element/last/last_map_operation";
+  import IntegratedEditor from "@/components/integratedEditor";
+  import NodeView from "@/views/NoteView";
+  import {addBlockById} from "@/js/note/addBlock";
+  import {updateCanvas} from "@/js/util/getCanvasIdOperation";
+  import {get_canvas_scale, setSvgScaleNum} from "@/js/util/canvas_operation";
+  import {cssParser} from "@/js/util/cssParser";
+  import {canvasAdjust} from "@/js/canvas/base_canvas";
+  import FillBar from "@/components/baritem/FillBar";
+  import LineBar from "@/components/baritem/LineBar";
+  import {setShadow} from "@/js/canvas/operation/canvas_style_operation";
   let socket;
+
   export default {
     name: "test",
-    components: {IconBase, RightSideBar, LeftSideBar, OperationBar, DropdownMenu},
-    mounted() {
-        // init();
-        // this.canvasQueue=new ElementQueue();
-        initSocket();
-        canvas_init();
+    components: {
+        LineBar,
+        FillBar,
+        NodeView,
+        IntegratedEditor,
+        IconBase,
+        RightSideBar,
+        LeftSideBar,
+        OperationBar,
+        DropdownMenu,
+        GlobalTextEditor,
+        editorToolbar
     },
+    mounted() {
+        initSocket();
+        initKey();//初始化键盘事件
+        init_canvas();
+        window.mapUpdate=this.mapUpdate;
+        window.color_change_bar=this.color_change_bar;
+        window.get_file_name=this.get_file_name;
+    },
+    data() {
+          const item = {
+              date: '2016-05-02',
+              name: '王小虎',
+              address: '上海市普陀区金沙江路 1518 弄'
+          };
+          return {
+              file_name:"Chart",
+              file_name_change:false,
+              tableData: Array(20).fill(item),
+              state:0,
+              leftAsideWidth:"200px",
+              leftAsideWidth_1:"190px",
+              aside_position:0,
+              aside_change:0,
+              icon_search:"",
+              scaleNum:100,
+              div_width:2000,
+              div_height:2500,
+              canvas_width:1629,
+              canvas_height:2209,
+              canvasQueue:{},
+              message: "<h1> 123 </h1>",
+              editting: false,
+              ViewModel:false,
+              can_set_color:"color:#409EFF",
+              cant_set_color:"color:#C9C9C9",
+              zoom_in_color:"color:#409EFF",
+              zoom_in_can:true,
+              zoom_out_color:"color:#409EFF",
+              zoom_out_can:true,
+              delete_color:"color:#C9C9C9",
+              delete_can:false,
+              back_color:"color:#C9C9C9",
+              back_can:false,
+              up_color:"color:#C9C9C9",
+              up_can:false,
+              top_color:"color:#C9C9C9",
+              top_can:false,
+              bottom_color:"color:#C9C9C9",
+              bottom_can:false,
+              fill_color:"color:#C9C9C9",
+              fill_can:false,
+              line_color:"color:#C9C9C9",
+              line_can:false,
+              shadow_color:"color:#C9C9C9",
+              shadow_can:false,
+              fillVisible:false,
+              lineVisible:false
+          }
+      },
     methods:{
+        get_file_name(){
+          return this.file_name;
+        },
+        color_change_bar(msg){
+            if(msg['zoom_in']!==undefined){
+                this.zoom_in_color=msg['zoom_in']===true?this.can_set_color:this.cant_set_color;
+                this.zoom_in_can=msg['zoom_in']
+            }
+            if(msg['zoom_out']!==undefined){
+                this.zoom_out_color=msg['zoom_out']===true?this.can_set_color:this.cant_set_color;
+                this.zoom_out_can=msg['zoom_out']
+            }
+            if(msg['delete']!==undefined){
+                this.delete_color=msg['delete']===true?this.can_set_color:this.cant_set_color;
+                this.delete_can=msg['delete']
+            }
+            if(msg['back']!==undefined){
+                this.back_color=msg['back']===true?this.can_set_color:this.cant_set_color;
+                this.back_can=msg['back']
+            }
+            if(msg['up']!==undefined){
+                this.up_color=msg['up']===true?this.can_set_color:this.cant_set_color;
+                this.up_can=msg['up']
+            }
+            if(msg['top']!==undefined){
+                this.top_color=msg['top']===true?this.can_set_color:this.cant_set_color;
+                this.top_can=msg['top']
+            }
+            if(msg['bottom']!==undefined){
+                this.bottom_color=msg['bottom']===true?this.can_set_color:this.cant_set_color;
+                this.bottom_can=msg['bottom']
+            }
+            if(msg['fill']!==undefined){
+                this.fill_color=msg['fill']===true?this.can_set_color:this.cant_set_color;
+                this.fill_can=msg['fill']
+            }
+            if(msg['line']!==undefined){
+                this.line_color=msg['line']===true?this.can_set_color:this.cant_set_color;
+                this.line_can=msg['line']
+            }
+            if(msg['shadow']!==undefined){
+                this.shadow_color=msg['shadow']===true?this.can_set_color:this.cant_set_color;
+                this.shadow_can=msg['shadow']
+            }
+
+        },
+
+        scaleMap(msg){
+          this.scaleNum=msg['scale'];
+          let width=this.canvas_width;
+          let height=this.canvas_height;
+          let scale=this.scaleNum/100;
+          let new_width=width*scale;
+          let new_height=height*scale;
+          let canvas=document.getElementById("mySvg");
+          let text="scale("+scale+","+scale+")"
+          canvas.setAttribute("transform",text)
+          // let width_div=Math.floor(200+new_width)+"px";
+          // let height_div=Math.floor(200+new_height)+"px"
+            let width_div="5000px";
+          let height_div="5000px";
+          console.log(width_div);console.log(height_div);
+          let node=document.getElementById("myCanvas");
+          node.setAttribute("height",height_div);
+          node.setAttribute("width",width_div);
+
+        },
+
+        handleScale(command){
+            let scale=parseInt(command)/100
+            setSvgScaleNum(scale)
+        },
+        mapUpdate(msg){
+            if(msg['height']!==undefined){
+                this.canvas_height=msg['height']
+            }
+            if(msg['width']!==undefined){
+                this.canvas_width=msg['width'];
+            }
+            let scale=get_canvas_scale();
+            this.scaleNum=Math.floor(scale*100)
+            let width=this.canvas_width*scale+"px";
+            let height=this.canvas_height*scale+"px";
+            let node=document.getElementById("myCanvas");
+            let padding_left=this.canvas_width*(scale-1)/2+"px";
+            let padding_top=this.canvas_height*(scale-1)/2+"px";
+            let parser=new cssParser();
+            parser.updateStyle({"padding-top":padding_top})
+            parser.updateStyle({"padding-left":padding_left})
+            parser.updateStyle({"padding-right":padding_left})
+            parser.updateStyle({"padding-bottom":padding_top})
+            node.setAttribute("height",height);
+            node.setAttribute("width",width);
+            node.setAttribute("style",parser.get());
+            // console.log(node.getAttribute("height"));
+            // console.log(node.getAttribute("width"));
+            // let width=parseInt(this.canvas_width)+200+"px";
+            // let height=parseInt(this.canvas_height)+200+"px";
+            // node.setAttribute("height",height);
+            // node.setAttribute("width",width);
+        },
       //*****:operationBar的方法聚集
       handleCommand(command){
         this.createShapeInForm1(command);
+      },
+      handleAddBlock(command){
+          addBlockById(command);
+      },
+      handleModelChange(command){
+          if(parseInt(command)===0){
+              let msg=[];
+              msg['last_map']='last_map';
+              msg['shape_map']='shape_map';
+              msg['hover_map']='hover_map';
+              msg['text_map']='text_map';
+              msg['key_map']='key_map';
+              msg['myDefs']='myDefs';
+              msg['mySvg']='mySvg';
+              updateCanvas(msg);
+              let diagram=document.getElementById("myCanvas");
+              let note=document.getElementById("myNote");
+              note.setAttribute("style","display:none");
+              diagram.setAttribute("style","display:block");
+          }else{
+              let diagram=document.getElementById("myCanvas");
+              let note=document.getElementById("myNote");
+              note.setAttribute("style","display:block");
+              diagram.setAttribute("style","display:none");
+          }
+      },
+      handleFunction(){
+          alert(1);
       },
       createShapeInForm1(id){
         // console.log(id);
         this.createShape(id);
       },
       deleteShape(){
-        // alert("delete")
-        //   deleteElement();
-        deleteInCore();
+          if(!this.delete_can)return;
+          let time= getActionCounter();
+          P("remove",{time:time})
       },
       biggerCanvas(){
         // alert("bigger");
         // moveSvg();
-          if(this.scaleNum>=300)return;
+          if(this.scaleNum>=200)return;
           let item=document.getElementById("myCanvas");
           this.scaleNum+=15;
+          setSvgScaleNum(this.scaleNum/100)
+          // scaleMap({scale:this.scaleNum})
           // scaleSvg(this.scaleNum);
-          canvas_scale(this.scaleNum,this.canvas.height,this.canvas.width)
+          // canvas_scale(this.scaleNum,this.canvas.height,this.canvas.width)
       },
       smallerCanvas(){
-          if(this.scaleNum<=25)return;
+          if(this.scaleNum<=50)return;
           this.scaleNum-=15;
           // scaleSvg(this.scaleNum);
-          canvas_scale(this.scaleNum,this.canvas.height,this.canvas.width)
+
+          setSvgScaleNum(this.scaleNum/100)
+          // scaleMap({scale:this.scaleNum})
+          // canvas_scale(this.scaleNum,this.canvas.height,this.canvas.width)
 
       },
       //退回
       backAction(){
+          if(!this.back_can)return;
           // popQueue();
-          backward();
+          backAction();
       },
       //重做
       upAction(){
+          if(!this.up_can)return;
           // popOutQueue();
-          forward();
+          forwardAction();
       },
+
+      topAction(){
+        if(!this.top_can)return;
+        P("forward",{})
+      },
+
+      bottomAction(){
+          if(!this.bottom_can)return;
+          P("backward",{})
+      },
+        fillAction(){
+          if(!this.fill_can)return;
+          this.fillVisible=true;
+        } ,
+        lineAction(){
+          if(!this.line_can)return;
+          this.lineVisible=true;
+        },
       //extend width
       extendWidth(){
           this.canvas.widthNum+=1;
@@ -217,6 +571,10 @@
           canvas_adjust(this.scaleNum,this.canvas.height,this.canvas.width)
       },
 
+
+        shadowAction(){
+          setShadow();
+        },
       //*****:侧边栏的方法
       mousedown_aside(e){
         // console.log("the method is mousedown_aside")
@@ -247,34 +605,8 @@
       click_canvas(e){
       },
       createShape(shape_id){
-        create_Action_Before(shape_id)
-        // appendElement(0);
-          // createSvg(shape_id);
-        // let x=0;
-        // let y=0;
-        let val={
-            avg:0,
-            sort:1
-        }
-        sendSocket(val);
-        // socket.send("message",val);
-        // socket.on('data', function(data) {
-        //     log('got message: ' + data)
-        // });
-        // console.log("createShape");
-        // let canvas=document.getElementById("myCanvas");
-        // let img=document.createElement('img');
-        // img.style.width='462px';
-        // img.style.height='467px';
-        // var html = '<svg xmlns="http://www.w3.org/2000/svg" width="467" height="462" id="source">'
-        //         +  '<rect x="0" y="0" width="250" height="250" rx="20" style="fill:#ff0000; stroke:#000000;stroke-width:2px;"/>'
-        //         +  '<rect x="140" y="120" width="250" height="250" rx="40" style="fill:#0000ff; stroke:#000000; stroke-width:2px; fill-opacity:0.7;"/>'
-        //         +'</svg>';
-        // img.src = 'data:image/svg+xml;base64,' + window.btoa(html);
-        // img.onload = function() {
-        //   canvas.getContext('2d').drawImage(img, x, y);
-        // }
-
+        P("create",{id:shape_id})
+        // create_Action_Before(shape_id)
       },
       mouseenter_canvas(e){
         // console.log("the method is mouseenter_canvas")
@@ -292,34 +624,27 @@
         this.state=0;
         // console.log("state is "+this.state);
       },
-    },
-    data() {
-      const item = {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      };
-      return {
-        tableData: Array(20).fill(item),
-        logo:require("D:\\WebstormProjects\\vue2Electron\\vue-electron\\src\\assets\\logo.png"),
-        state:0,
-        leftAsideWidth:"200px",
-        leftAsideWidth_1:"190px",
-        aside_position:0,
-        aside_change:0,
-        icon_search:"",
-        scaleNum:100,
-        canvas:{
-            width:210*4,
-            height:297*4,
-            widthNum:1,
-            heightNum:1,
-            baseWidth:210*4,
-            baseHeight:297*4
+        ondblclick(event) {
+          // console.log(event.currentTarget.clientHeight);
+          //   console.log(event.currentTarget.clientWidth);
+          //   console.log(event.currentTarget.innerHTML);
+          //   console.log(event.currentTarget.offsetLeft);
+          //   console.log(event.currentTarget.offsetTop);
+            this.editting = editorWake(this.$refs.editor,
+                this.$refs.toolbar,
+                event.currentTarget.clientHeight,
+                event.currentTarget.clientWidth,
+                event.currentTarget.innerHTML,
+                event.currentTarget.offsetLeft,
+                event.currentTarget.offsetTop);
         },
-        canvasQueue:{}
-      }
-    }
+        onEditorBlur() {
+            this.editting = false;
+
+            console.log(this.$refs.editor.getContent())
+            editorHide();
+        },
+    },
   };
 </script>
 <style>
@@ -426,15 +751,21 @@
   .el-icon-arrow-down {
       font-size: 12px;
   }
+  .el-main{
+      overflow-y: scroll;
+      overflow-x: scroll;
+  }
+
   #myCanvas{
-      height: 1600px;
-      width: 2000px;
-      text-align: left;
-      padding: 100px;
+      /*display: block;*/
+      /*text-align: left;*/
+      /*padding: 100px;*/
+      width:1629px;
+      height:2209px;
       background-color: #F8F9FA;
-      /*overflow:hidden;*/
-      overflow-x: auto;
-      overflow-y: auto;
+      overflow:hidden;
+      /*overflow-x: scroll;*/
+      /*overflow-y: scroll;*/
   }
   #mySvg{
       background-color: white;
@@ -443,5 +774,61 @@
   .hover:hover{
       border: yellow solid 3px;
   }
+
+    #myNote{
+        display: none;
+    }
+  .sidebar-wrapper .el-scrollbar__wrap {
+      overflow-x: hidden;
+  }
+  .is-horizontal {
+      display: block;
+  }
+
+
+  #rightClickDiv{
+      display: none;
+      position: absolute;
+      float: left;
+      width: 9.5vw;
+      height: 25vh;
+      border: 1px solid #d8d8d8;
+      box-shadow:3px 3px 5px #dadada;
+      z-index: 10001;
+      background-color: white;
+  }
+
+  ul#rightClickUl {
+      position: relative;
+      width: 100%;
+      height: 96%;
+      top: 2%;
+      font-size: 0.77vw;
+      color: #525252;
+      cursor: default;
+  }
+
+  #rightClickUl> li{
+      position: relative;
+      margin-top: 2%;
+      height: 3vh;
+      font-size: 0.77vw;
+      line-height: 1.5vw;
+  }
+
+  .liHover:hover{
+      /*鼠标悬浮样式*/
+      background-color: #e1e1e1;
+  }
+  .dLi{
+      /*禁止访问时文件颜色变更*/
+      color: #bababa;
+  }
+
+  .liContent{
+      position: relative;
+      left: 21%;
+  }
+
 </style>
 
