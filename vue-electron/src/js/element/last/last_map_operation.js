@@ -59,6 +59,7 @@ export function init_canvas(){
         }
         svg.onmouseup=function(e){
             offCoreAll();
+
             let x=parseInt(rect.getAttribute("x"));
             let y=parseInt(rect.getAttribute("y"));
             let width=parseInt(rect.getAttribute("width"));
@@ -87,32 +88,27 @@ export function init_canvas(){
             flag=false;
         }
     }
-    // init_canvas_right_menu()
+    init_canvas_right_menu()
 
 }
 function init_canvas_right_menu() {
     let svg=document.getElementById(getMySvg());
-    svg.oncontextmenu=function () {
-        return false;
-    }
+    svg.oncontextmenu=function (e) {
+        // console.log(111);
+        document.getElementById("rightClick").style.left=e.offsetX+'px';
+        document.getElementById("rightClick").style.top=e.offsetY+'px';
+        document.getElementById("rightClick").style.display='block';
+        e.preventDefault();
 
-    svg.onmousedown=function (event) {
-        var code=event.which;
-        console.log(code);
-        switch (code) {
-            case 1:
-                console.log(event);
-                break;
-            case 3:
-                var x=event.offsetX;
-                var y=event.offsetY;
-                let node=document.getElementById("rightClickDiv");
-                // let style="left:"+x+";top:"+y+";display:block";
-                // console.log(style);
-                let parser=new cssParser()
-                parser.parseStyle(node.getAttribute("style"))
-                parser.updateStyle({left:x,top:y,display:"block"})
-                node.setAttribute("style",parser.get())
+    }
+    svg.onmousedown=function (e) {
+        let code=e.which;
+        if(code===1){
+            let menu=document.getElementById("rightClick");
+            if(menu!==undefined){
+                menu.style.display="none";
+            }
         }
     }
+
 }
