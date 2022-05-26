@@ -183,6 +183,7 @@
 <!--          <canvas @click="click_canvas" @mouseenter="mouseenter_canvas" @mousemove="mousemove_canvas" @mousedown="mousedown_canvas" @mouseup="mouseup_canvas" id="myCanvas" width="2000" height="1600">-->
 <!--          </canvas>-->
           <div id="myCanvas" >
+              <right-click-bar></right-click-bar>
               <svg xmlns="http://www.w3.org/2000/svg" class="svg"  @click="click_canvas" id="mySvg" :width="canvas_width" :height="canvas_height">
                   <defs id="myDefs"></defs>
                   <g id="last_map">
@@ -226,17 +227,7 @@
               <line-bar></line-bar>
 
           </el-dialog>
-          <div id="rightClickDiv">
-              <ul id="rightClickUl">
-                  <li class="createLi rightClickLi liHover"><span class="liContent createSpan">新建文件夹</span></li>
-                  <li class="addProduct rightClickLi liHover"><span class="liContent addProductSpan">添加产品</span></li>
-                  <li class="addWp rightClickLi liHover"><span class="liContent addWpSpan">添加类型</span></li>
-                  <li class="addPg rightClickLi liHover"><span class="liContent addPgSpan">添加编码</span></li>
-                  <hr class="splitLine" />
-                  <li class="deleteLi rightClickLi liHover"><span class="liContent deleteSpan">删除</span></li>
-                  <li class="renameLi rightClickLi liHover"><span class="liContent renameSpan">重命名</span></li>
-              </ul>
-          </div>
+
 
 <!--        </el-scrollbar>-->
       </el-main>
@@ -285,11 +276,13 @@
   import FillBar from "@/components/baritem/FillBar";
   import LineBar from "@/components/baritem/LineBar";
   import {setShadow} from "@/js/canvas/operation/canvas_style_operation";
+  import RightClickBar from "@/components/rightClickBar";
   let socket;
 
   export default {
     name: "test",
     components: {
+        RightClickBar,
         LineBar,
         FillBar,
         NodeView,
@@ -306,6 +299,9 @@
         initSocket();
         initKey();//初始化键盘事件
         init_canvas();
+
+        window.showLine=this.lineAction;
+        window.showFill=this.fillAction;
         window.mapUpdate=this.mapUpdate;
         window.color_change_bar=this.color_change_bar;
         window.get_file_name=this.get_file_name;
@@ -760,6 +756,7 @@
       /*display: block;*/
       /*text-align: left;*/
       /*padding: 100px;*/
+      position: relative;
       width:1629px;
       height:2209px;
       background-color: #F8F9FA;
@@ -785,50 +782,6 @@
       display: block;
   }
 
-
-  #rightClickDiv{
-      display: none;
-      position: absolute;
-      float: left;
-      width: 9.5vw;
-      height: 25vh;
-      border: 1px solid #d8d8d8;
-      box-shadow:3px 3px 5px #dadada;
-      z-index: 10001;
-      background-color: white;
-  }
-
-  ul#rightClickUl {
-      position: relative;
-      width: 100%;
-      height: 96%;
-      top: 2%;
-      font-size: 0.77vw;
-      color: #525252;
-      cursor: default;
-  }
-
-  #rightClickUl> li{
-      position: relative;
-      margin-top: 2%;
-      height: 3vh;
-      font-size: 0.77vw;
-      line-height: 1.5vw;
-  }
-
-  .liHover:hover{
-      /*鼠标悬浮样式*/
-      background-color: #e1e1e1;
-  }
-  .dLi{
-      /*禁止访问时文件颜色变更*/
-      color: #bababa;
-  }
-
-  .liContent{
-      position: relative;
-      left: 21%;
-  }
 
 </style>
 

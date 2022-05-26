@@ -3,7 +3,7 @@ import {Move_action} from "@/js/action/move_action";
 import {Core_action} from "@/js/action/core_action";
 import {Create_action} from "@/js/action/create_action";
 import {Scale_action} from "@/js/action/scale_action";
-import {getCMD, pushAction, V} from "@/js/action/actionQueue";
+import {getActionCounter, getCMD, P, pushAction, V} from "@/js/action/actionQueue";
 import {parserCmd} from "@/js/util/DomInterpreter";
 import {AddAction} from "@/js/action/Register/addAction";
 import {CursorAction} from "@/js/action/Register/cursorAction";
@@ -61,6 +61,7 @@ export function socketPush(socket_return){
     let msg=socket_return['ok'];
     if(msg===undefined){
         V();
+        // let time=getActionCounter();
         return;
     }
     msg=JSON.parse(msg);
