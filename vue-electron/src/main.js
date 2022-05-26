@@ -12,6 +12,7 @@ Vue.use(ElementUI)
 //   connection:'http://localhost:8081',
 //   cors_allowed_origins:'*'
 // }))
+
 new Vue({
   router,
   store,

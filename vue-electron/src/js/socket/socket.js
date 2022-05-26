@@ -1,6 +1,6 @@
 import SimpleWebsocket from "@/js/simplewebsocket.min";
-import da from "element-ui/src/locale/lang/da";
 import {socketPush} from "@/js/socket/socketQueue";
+import {updateCMD} from "@/js/action/actionQueue";
 let socketVal={};
 function SocketWrapper(init)
 {
@@ -77,8 +77,8 @@ export function initSocket(){
     });
 
     socket.on('data',function (data) {
+        // log(JSON.parse(''+data)['id']);
         socketPush(JSON.parse(''+data));
-        log(JSON.parse(''+data));
     });
 
     socket.on('close',function () {
@@ -90,18 +90,9 @@ export function initSocket(){
     })
 }
 
-var cloneObj=function (obj) {
-    var newObj = {};
-    if (obj instanceof Array) {
-        newObj = [];
-    }
-    for (var key in obj) {
-        var val = obj[key];
-        newObj[key] = typeof val === 'object' ? cloneObj(val) : val;
-    }
-    return newObj;
-}
 export function sendSocket(val){
+    // console.log(val['cmd']);
+    updateCMD(val['cmd'])
     socket.send("message",val);
-    return{}
 }
+

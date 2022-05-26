@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--测试为svg添加渐变的颜色属性-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <defs id="myDefs">
+    </defs>
+    <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#gradient_0)" />
+</svg>
+
+<script>
+    function createElementByTag(tag,id=""){
+        let node=document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            tag
+        )
+        if(id!==""){
+            node.setAttribute("id",id);
+        }
+        return node;
+    }
+    class LinearGradientCreator {
+        constructor() {
+            this.defs="myDefs"
+            this.counter=0;
+        }
+        addLinearGradient(){
+            // let direction=msg['direction'];
+            let id="gradient_"+this.counter;
+            this.counter++;
+            let node=createElementByTag("linearGradient",id);
+            console.log(node);
+            node.setAttribute("x1","0%");
+            node.setAttribute("x2","100%");
+            node.setAttribute("y1","0%");
+            node.setAttribute("y2","0%");
+            let start=createElementByTag("stop");
+            start.setAttribute("offset","0%")
+            start.setAttribute("style","stop-color:rgb(255,255,0);stop-opacity:1")
+            let end=createElementByTag("stop");
+            end.setAttribute("offset","100%")
+            end.setAttribute("style","stop-color:rgb(255,0,0);stop-opacity:1")
+            node.appendChild(start);
+            node.appendChild(end);
+            let defs=document.getElementById("myDefs");
+            console.log(defs);
+            defs.appendChild(node);
+        }
+    }
+    let line=new LinearGradientCreator();
+    line.addLinearGradient()
+</script>
+</body>
+</html>

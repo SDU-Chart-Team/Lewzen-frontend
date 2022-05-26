@@ -1,13 +1,22 @@
 <template>
     <div>
-        <el-dropdown>
+        <el-dropdown @command="handleFile" >
         <span class="el-dropdown-link">
             File
         </span>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>new</el-dropdown-item>
-                <el-dropdown-item>open</el-dropdown-item>
-                <el-dropdown-item>save</el-dropdown-item>
+            <el-dropdown-menu  slot="dropdown">
+                <el-dropdown-item command=0>new</el-dropdown-item>
+                <el-dropdown-item command=1>
+                    <input
+                            type="file"
+                            name="open"
+                            id="filePath"
+                            style="display:none;"
+                            @change="getFile($event)"
+                    />
+                    open
+                </el-dropdown-item>
+                <el-dropdown-item command=2>save</el-dropdown-item>
                 <el-dropdown-item>rename</el-dropdown-item>
                 <el-dropdown-item disabled>close</el-dropdown-item>
             </el-dropdown-menu>
@@ -68,8 +77,55 @@
 </template>
 
 <script>
+    import {P} from "@/js/action/actionQueue";
+
     export default {
-        name: "dropdownMenu"
+        name: "dropdownMenu",
+        mounted() {
+            // window.saveFile=this.saveFile;
+        },
+        methods:{
+            handleFile(command){
+                console.log(command)
+                if(command==='2'){
+                    P("save",{})
+                }else if(command==="1"){
+                    const input=document.getElementById("filePath")
+                    input.click();
+                }
+            },
+            handleChange(file,fileList){
+              console.log(file);
+                this.fileList=[];
+            },
+            saveFile(json){
+                // 创建a标签
+                var elementA = document.createElement('a');
+
+                //文件的名称为时间戳加文件名后缀
+                elementA.download = +new Date() + ".txt";
+                elementA.style.display = 'none';
+
+                //生成一个blob二进制数据，内容为json数据
+                var blob = new Blob([JSON.stringify(json)]);
+
+                //生成一个指向blob的URL地址，并赋值给a标签的href属性
+                elementA.href = URL.createObjectURL(blob);
+                document.body.appendChild(elementA);
+                elementA.click();
+                document.body.removeChild(elementA);
+            },
+            getFile(obj){
+              var fileobj=document.getElementById("filePath").files[0];
+              var reader=new FileReader();
+              reader.readAsText(fileobj)
+              reader.onload=function () {
+                  let json=JSON.parse(this.result)
+                  console.log(json);
+                  P("load",{json:json})
+              }
+            },
+        }
     }
 </script>
 
@@ -80,6 +136,10 @@
     }
     .el-icon-arrow-down {
         font-size: 12px;
+    }
+    #filePath{
+        outline: 0;
+
     }
 
 </style>

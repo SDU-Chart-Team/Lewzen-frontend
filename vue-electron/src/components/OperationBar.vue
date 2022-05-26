@@ -79,7 +79,8 @@
             createShapeInForm1(id){
                 console.log(id);
                 this.$emit('createShapeInForm1',id);
-            }
+            },
+            // saveFile()
         }
     }
 </script>

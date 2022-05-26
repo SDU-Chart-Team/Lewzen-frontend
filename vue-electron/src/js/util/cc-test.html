@@ -1,0 +1,106 @@
+
+<script type="text/javascript">
+    interpret = (root, cmds) => {
+        let i = 0;
+        let next_parameter = () => {
+            let j = i;
+            while (cmds[j] !== ' ' && cmds[j] !== '\t' && cmds[j] !== '\n' && j < cmds.length) j++;
+            let str = cmds.substring(i, j);
+            i = j + 1;
+            return str;
+        }
+        let next_string_nonspace = () => {
+            let j = i + 1;
+            while (cmds[j] !== '"' && j < cmds.length) j++;
+            let str = cmds.substring(i + 1, j);
+            i = j + 2;
+            return str;
+        }
+        let next_string = (len) => {
+            let str = cmds.substring(i, i + len);
+            i = i + len + 1;
+            return str;
+        }
+        let current = root;
+        while (i < cmds.length) {
+            cmd = next_parameter(i);
+            switch (cmd) {
+                case '':
+                    break;
+                case 'child':
+                    index = Number(next_parameter(i));
+                    current = current.childNodes[index];
+                    break;
+                case 'parent':
+                    current = current.parentNode;
+                    break;
+                case 'remove':
+                    index = Number(next_parameter(i));
+                    current.removeChild(current.childNodes[index]);
+                    break;
+                case 'append':
+                    xml = next_string(Number(next_parameter(i)));
+                    current.insertAdjacentHTML('beforeend', xml);
+                    break;
+                case 'sort':
+                    indices = next_string_nonspace(i);
+                    indices = indices.split(',').map(x => Number(x));
+                    [...current.childNodes]
+                    .map((node,i)=>{node._index=indices[i];return node;})
+                    .sort((a,b)=>a._index>b._index?1:-1)
+                    .forEach(node=>current.appendChild(node));
+                    break;
+                case 'modify':
+                    attr = next_parameter(i);
+                    val = next_string_nonspace(i);
+                    current.setAttribute(attr, val);
+                    break;
+                case 'reset':
+                    attr = next_parameter(i);
+                    current.removeAttribute(attr);
+                    break;
+                default:
+                    console.log('DOM CMD Interpret: Unknown CMD "' + cmd + '"');
+            }
+        }
+    }
+    
+    run = () => {
+        let org = document.getElementById("A").value;
+        let cmds = document.getElementById("CMD").value;
+        let res = document.getElementById("RES").value;
+        
+        let root = document.getElementById("exp");
+        root.innerHTML = org;
+        root = root.childNodes[0];
+        interpret(root, cmds);
+
+        root = document.getElementById("exp");
+        let resA = document.getElementById("resA");
+        let resB = document.getElementById("resB");
+        resA.innerText = root.innerHTML;
+        root.innerHTML = "";
+        root.insertAdjacentHTML('beforeend', res);
+        resB.innerText = root.innerHTML;
+        root.innerHTML = "";
+    }
+</script>
+
+<body>
+    <div>
+        <div>
+            org: <br/><textarea style="height: 100px; width: 500px; margin-bottom: 10px;" id="A" type="text"></textarea>
+        </div>
+        <div>
+            cmd: <br/><textarea style="height: 200px; width: 500px; margin-bottom: 10px;" id="CMD" type="text"></textarea>
+        </div>
+        <div>
+            res: <br/><textarea style="height: 100px; width: 500px; margin-bottom: 10px;" id="RES" type="text"></textarea>
+        </div>
+    </div>
+    <div id="exp">
+    </div>
+    <button onclick="run()">Submit</button>
+    <div id="resA" style="margin-top:30px"></div>
+    <div id="resB" style="margin-top:30px"></div>
+</body>

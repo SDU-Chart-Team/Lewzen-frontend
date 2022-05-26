@@ -2,7 +2,15 @@
 
             <el-collapse v-model="activeNames">
                 <el-collapse-item class="item" title="General" name="1">
-                    <el-image v-for="i in 20" :src="require('D:\\WebstormProjects\\vue2Electron\\vue-electron\\src\\assets\\circle.png')" @click="createShapeInForm2" fit="contain" style="width: 40px; height: 30px" ></el-image>
+                    <el-image
+                            v-for="i in 20"
+                            :src="require('@/assets/circle.png')"
+                            @click="createShapeInForm2"
+                            fit="contain"
+                            style="width: 40px; height: 30px"
+                            @mousedown="handlemousedown(i)"
+                            @mouseup="handlemouseup(i)"
+                    ></el-image>
                 </el-collapse-item>
                 <el-collapse-item class="item" title="Misc" name="2"></el-collapse-item>
                 <el-collapse-item class="item" title="Advanced" name="3"></el-collapse-item>
@@ -15,6 +23,8 @@
 </template>
 
 <script>
+    import {cancel_shape_create, set_shape_create} from "@/js/util/canvas_operation";
+
     export default {
         name: "leftSideBar",
         data() {
@@ -26,6 +36,12 @@
             createShapeInForm2(){
                 console.log("createShapeInForm2");
                 this.$emit('createShapeInForm2',0);
+            },
+            handlemousedown(i){
+                set_shape_create(0);
+            },
+            handlemouseup(i){
+                cancel_shape_create(0);
             }
         }
     }

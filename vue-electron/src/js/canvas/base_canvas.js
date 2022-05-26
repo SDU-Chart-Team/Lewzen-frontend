@@ -1,71 +1,78 @@
-import {offCoreAll} from "@/js/element/elementQueue_new";
-import {getCanvasShape} from "@/js/canvasAction/canvasAction";
-import {DomOperator} from "@/js/dom/domOperation";
+import {Grid_canvas} from "@/js/canvas/grid_canvas";
+import {Guide_canvas} from "@/js/canvas/guide_canvas";
+import {Connection_canvas} from "@/js/canvas/connection_canvas";
 
-export class Base_canvas {
+class Base_canvas {
     constructor() {
-        this.init();
-        this.heightNum=1;
-        this.widthNum=1;
-        this.scaleNum=1.0;
-        this.baseWidth=210*4;
-        this.baseHeight=297*4;
-    }
-    init(){
-        let svg=document.getElementById("mySvg");
-        let domOperator=new DomOperator();
-        svg.onclick=function () {
-            offCoreAll();
+        this.canvasList={
+            grid:new Grid_canvas(),
+            guide:new Guide_canvas(),
+            connect:new Connection_canvas(),
         }
     }
-    AfterMove(left_top_x,left_top_y){
-        return {width:0,height:0};
+    setState(sort,state){
+        this.canvasList[sort].setState(state);
     }
-    unInit(){
 
+    adjust(sort,msg={}){
+        this.canvasList[sort].adjust(msg)
     }
-    adjustCanvas(width,height,scale){
-        // console.log(1);
-        let canvas=document.getElementById("myCanvas");
-        scale=scale*1.0/100;
-        console.log(width,height);
-        canvas.style.paddingTop=(scale-1)*height/2+100+'px';
-        canvas.style.paddingLeft=(scale-1)*width/2+100+'px';
-        console.log(canvas.style.paddingLeft);
-        console.log(canvas.style.paddingTop);
-        if(height*scale+200>1600)
-            height=height*scale+200;
-        else
-            height=1600
-        if(width*scale+200>2000)
-            width=width*scale+200
-        else
-            width=2000
-        canvas.style.height=height+'px';
-        canvas.style.width=width+'px';
+
+    getState(sort){
+        return this.canvasList[sort].getState(sort);
     }
-    scaleCanvas(x){
-        let svg=document.getElementById("mySvg");
-        let canvas=document.getElementById("myCanvas");
-        x=x*1.0/100;
-        svg.style.transform="scale("+x+","+x+")";
-    }
-    extendCanvas(state){
-        let attrs=getCanvasShape();
-        let height=attrs['height'];
-        let width=attrs['width'];
-        if(state['right']){
-            width+=this.baseWidth;
-            this.widthNum+=1;
+    guideSet(g_id,flag){
+        if(flag){
+            this.canvasList['guide'].adjust(g_id)
+        }else{
+            this.canvasList['guide'].deleteGuide();
         }
-        if(state['top']){
-            height+=this.baseHeight;
-            this.heightNum+=1;
-        }
-        let svg=document.getElementById("mySvg")
-        console.log(width)
-        svg.style.width=width+'px';
-        svg.style.height=height+'px';
-        this.adjustCanvas(width,height,this.scaleNum);
     }
+    guideCancel(){
+        this.canvasList['guide'].delete();
+    }
+    updatePosition(msg){
+        let trans={x:0,y:0};
+        // console.log(msg);
+        if(this.getState("grid")){
+            trans=this.canvasList['grid'].updatePosition(msg);
+        }else if(this.getState("guide")){
+            trans=this.canvasList['guide'].updatePosition(msg);
+        }
+        return trans;
+    }
+    update(sort,g_id,msg){
+        if(sort==="connect"){
+            this.canvasList['connect'].update(g_id,msg);
+        }
+    }
+}
+
+let base_canvas=new Base_canvas();
+
+export function setCanvasState(sort,state){
+    base_canvas.setState(sort,state);
+}
+
+export function getCanvasState(sort){
+    return base_canvas.getState(sort);
+}
+
+export function canvasAdjust(sort,msg={}){
+    base_canvas.adjust(sort,msg);
+}
+
+export function guideSet(g_id,flag=true){
+    base_canvas.guideSet(g_id,flag);
+}
+
+export function guideCancel(msg){
+    base_canvas.guideCancel(msg);
+}
+
+export function updatePosition(msg) {
+    return base_canvas.updatePosition(msg);
+}
+export function canvas_update(sort,g_id,msg){
+    base_canvas.update(sort,g_id,msg);
 }

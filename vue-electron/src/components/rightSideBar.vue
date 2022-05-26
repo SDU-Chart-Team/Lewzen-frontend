@@ -2,278 +2,184 @@
     <div>
 
 <!--  diagram的设置  -->
-        <el-tabs v-model="activeName" :stretch="card" style="display: block" @tab-click="handleClick">
+        <el-tabs v-model="activeName" id="diagramBar" :stretch="card" style="display: block" @tab-click="handleClick">
 
             <!--  Diagram栏的设置      -->
             <el-tab-pane label="Diagram" name="Diagram">
-                <div class="card">
-                    <div class="card-header"> View</div>
-                    <div class="card-item">
-                        <el-checkbox-group @change="handleChange" v-model="viewList">
-                            <div class="bottom-item">
-                                <el-checkbox label="Grid">
-                                </el-checkbox>
-                                <!--                            <el-input-number size="mini" v-model="num_grid"></el-input-number>-->
-                            </div>
-                            <!--                        <div class="bottom-item"><el-checkbox label="Page View"></el-checkbox></div>-->
-<!--                            <div class="bottom-item">-->
-<!--                                <el-checkbox label="Background"></el-checkbox>-->
-<!--                                <el-upload-->
-<!--                                        :file-list="fileList"-->
-<!--                                        list-type="picture">-->
-<!--                                    <el-button size="mini" type="primary">点击上传</el-button>-->
-<!--                                </el-upload>-->
-<!--                            </div>-->
-                            <div class="bottom-item"><el-checkbox label="Shadow"></el-checkbox></div>
-                        </el-checkbox-group>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header"> Options</div>
-                    <div class="card-item">
-                        <el-checkbox-group  v-model="optionList">
-                            <div class="bottom-item"><el-checkbox label="Connection Arrows"></el-checkbox></div>
-                            <div class="bottom-item"><el-checkbox label="Connection Points"></el-checkbox></div>
-                            <div class="bottom-item"><el-checkbox label="Guides"></el-checkbox></div>
-                        </el-checkbox-group>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">Paper Size</div>
-                    <div class="card-item">
-                        <el-select v-model="value" placeholder="请选择">
-                            <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </div>
-                </div>
+
+                <view-bar></view-bar>
+
+                <option-bar></option-bar>
+
+                <paper-bar></paper-bar>
             </el-tab-pane>
 
             <!--  style-Diagram栏的设置      -->
 
             <el-tab-pane label="Style" name="Style">
-                <div class="card">
-                    <el-checkbox-group  v-model="styleList">
-<!--                        <div class="bottom-item"><el-checkbox label="Sketch"></el-checkbox></div>-->
-                        <div class="bottom-item"><el-checkbox label="Rounded"></el-checkbox></div>
-                        <div class="bottom-item"><el-checkbox label="Curved"></el-checkbox></div>
-                    </el-checkbox-group>
 
-                </div>
+                <diagram-style-bar></diagram-style-bar>
+
             </el-tab-pane>
+
         </el-tabs>
 <!--  element svg的设置-->
-        <el-tabs v-model="activeName_element" style="display: none" :stretch="card_element">
+        <el-tabs v-model="activeName_element" id="elementStyleBar" style="display: none" :stretch="card_element">
             <!--  style-element栏的设置      -->
-            <el-tab-pane label="Style" name="Style">
-
-<!--   颜色的设置与gradient的设置-->
-                <div class="card">
-                    <div class="card-header">Fill</div>
-                    <div class="card-item">
-                        <div class="clear">
-                            <div class="card-left">
-                                <el-checkbox label="Fill" @change="fillOn=!fillOn"></el-checkbox>
-                            </div>
-                            <div class="card-right">
-                                <el-color-picker
-                                        size="mini"
-                                        v-model="color_fill"
-                                        show-alpha
-                                        :predefine="predefineColors">
-                                </el-color-picker>
-                            </div>
-                        </div>
-                        <div class="clear" v-if="fillOn">
-                            <div class="card-left-left">
-                                <el-checkbox label="Gradient">
-                                </el-checkbox>
-                            </div>
-                            <div class="card-midden">
-                                <el-select v-model="value_gradient" style="width: 100px;height: 20px" size="mini" placeholder="请选择">
-                                    <el-option
-                                            v-for="item in options_gradient"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-
-                            </div>
-                            <div class="card-right">
-                                <el-color-picker
-                                        size="mini"
-                                        v-model="color_gradient"
-                                        show-alpha
-                                        :predefine="predefineColors">
-                                </el-color-picker>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-<!--    line style   -->
-                <div class="card">
-                    <div class="card-header">Line</div>
-                    <div class="card-item">
-                        <div class="clear">
-                            <div class="card-left">
-                                <el-checkbox label="style" @change="line_style_On=!line_style_On"></el-checkbox>
-                            </div>
-                        </div>
-                        <div class="clear" v-if="line_style_On">
-                            <div class="card-left-item">
-                                color
-                            </div>
-                            <div class="card-right">
-                                <el-color-picker
-                                        size="mini"
-                                        v-model="color_fill"
-                                        show-alpha
-                                        :predefine="predefineColors">
-                                </el-color-picker>
-                            </div>
-                        </div>
-                        <div class="clear" v-if="line_style_On">
-                            <div class="card-left-item">
-                                <el-select v-model="value_line" style="height: 20px;width: 150px" size="mini" placeholder="请选择">
-                                    <el-option
-                                            v-for="item in options_line"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </div>
-                            <div class="card-right">
-                                <el-input
-                                        size="mini"
-                                        placeholder=""
-                                        v-model="line_style_px">
-                                </el-input>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">style setting</div>
-                    <div class="card-item">
-                        <button style="width: 100%">Edit Style</button>
-                    </div>
-                    <div class="card-item">
-                        <button style="width: 50%">Copy Style</button>
-                        <button style="width: 50%">Paste Style</button>
-                    </div>
-                    <div class="card-item">
-                        <button style="width: 100%">Set as Default</button>
-                    </div>
-                </div>
-
+            <el-tab-pane  label="Style" name="Style">
+                <fill-bar></fill-bar>
+                <line-bar></line-bar>
+                <style-bar></style-bar>
             </el-tab-pane>
             <!--  arrange栏的设置      -->
             <el-tab-pane label="Arrange" name="Arrange">
-                <div class="card">
-                    <div class="card-header">z-index</div>
-                    <div class="card-item">
-                        <div>
-                            <button style="width: 50%">To Front</button>
-                            <button style="width: 50%">To Back</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">size</div>
-                    <div class="card-item">
-                        <div class="clear">
-                            <div class="card-left-item">
-                                width
-                            </div>
-                            <div class="card-right">
-                                <el-input v-model="element_width" size="mini"></el-input>
-                            </div>
-                        </div>
+                <z-index-bar></z-index-bar>
 
-                        <div class="clear">
-                            <div class="card-left-item">
-                                height
-                            </div>
-                            <div class="card-right">
-                                <el-input v-model="element_height" size="mini"></el-input>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">Position</div>
-                    <div class="card-item">
-                        <div class="clear">
-                            <div class="card-left-item">
-                                left
-                            </div>
-                            <div class="card-right">
-                                <el-input v-model="element_left" size="mini"></el-input>
-                            </div>
-                        </div>
+                <size-bar></size-bar>
 
-                        <div class="clear">
-                            <div class="card-left-item">
-                                top
-                            </div>
-                            <div class="card-right">
-                                <el-input v-model="element_top" size="mini"></el-input>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="clear">
-                            <div class="card-left">Angle</div>
-                            <div class="card-right">
-                                <el-input size="mini" v-model="element_angle"></el-input>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div>
-                            <button style="width:100%">Rotate shape 90.</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Flip
-                    </div>
-                    <div class="card-item">
-                        <div>
-                            <button style="width: 50%">Horizontal</button>
-                            <button style="width: 50%">Vertical</button>
-                        </div>
-                    </div>
-                </div>
+                <position-bar></position-bar>
+
+                <angle-bar></angle-bar>
+
+                <filp-bar></filp-bar>
+
+                <group-bar></group-bar>
             </el-tab-pane>
+            <!--text栏的设置-->
+            <el-tab-pane v-if="textShow" label="Text" name="Text">
+                <alignment-bar></alignment-bar>
+                <spacing-bar></spacing-bar>
+                <integrated-editor></integrated-editor>
+            </el-tab-pane>
+
+            <el-tab-pane label="Relation" name="Relation">
+                <link-bar></link-bar>
+            </el-tab-pane>
+
+<!--            <el-tab-pane label="Line" name="Line">-->
+<!--                <connect-bar></connect-bar>-->
+<!--                <arrow-style-bar></arrow-style-bar>-->
+<!--                <line-type-bar></line-type-bar>-->
+<!--                <on-offset-bar></on-offset-bar>-->
+<!--                <set-dotted-line-bar></set-dotted-line-bar>-->
+<!--            </el-tab-pane>-->
         </el-tabs>
+
+<!--  graph 的设置      -->
+        <el-tabs v-model="activeName_graph" id="graphStyleBar" style="display: none" :stretch="card_element">
+            <!--  style-graph栏的设置      -->
+            <el-tab-pane label="Arrange" name="Arrange">
+                <graph-size-bar></graph-size-bar>
+
+                <graph-position-bar></graph-position-bar>
+
+                <graph-create-bar></graph-create-bar>
+
+                <graph-change-bar></graph-change-bar>
+            </el-tab-pane>
+
+        </el-tabs>
+
+        <el-tabs v-model="activeName_line" id="lineStyleBar" style="display: none" :stretch="card_element">
+            <!--  style-line栏的设置      -->
+            <el-tab-pane label="Line" name="Line">
+<!--                <connect-bar></connect-bar>-->
+                <arrow-style-bar></arrow-style-bar>
+                <line-type-bar></line-type-bar>
+                <on-offset-bar></on-offset-bar>
+                <set-dotted-line-bar></set-dotted-line-bar>
+            </el-tab-pane>
+
+            <el-tab-pane label="Text" name="Text">
+                <alignment-bar></alignment-bar>
+                <spacing-bar></spacing-bar>
+                <integrated-editor></integrated-editor>
+            </el-tab-pane>
+
+        </el-tabs>
+
+
 
     </div>
 
 
 </template>
 <script>
-    import {createGrid, deleteGrid} from "@/js/svgdom";
-    import {canvas_change,canvas_delete} from "@/js/canvasAction/canvasOperator";
+    import {OffGrid, OffGuides, OnGrid, OnGuides} from "@/js/canvas/operation/canvas_diagram_operation";
+    import {
+        FillColorChange, getStyleInCore, GradientChange,
+        OffFill,
+        OffGradient, OffStrokeModel,
+        OnFill,
+        OnGradient, OnStrokeModel, SetCoreStrokeColor, SetCoreStrokeStyle, SetCoreStrokeWidth, setStyleInCore
+    } from "@/js/canvas/operation/canvas_style_operation";
+    import {ChangeAngle, z_index_to_back, z_index_to_front} from '@/js/canvas/operation/canvas_arrange_operation';
+    import "@wangeditor/editor/dist/css/style.css"; // 引入 css
+    import {Editor, Toolbar} from "@wangeditor/editor-for-vue";
+    import integratedEditor from "@/components/integratedEditor";
+    import FillBar from "@/components/baritem/FillBar";
+    import ColorBar from "@/components/baritem/ColorBar";
+    import LineBar from "@/components/baritem/LineBar";
+    import StyleBar from "@/components/baritem/StyleBar";
+    import ZIndexBar from "@/components/baritem/zIndexBar";
+    import SizeBar from "@/components/baritem/SizeBar";
+    import PositionBar from "@/components/baritem/PositionBar";
+    import AngleBar from "@/components/baritem/AngleBar";
+    import FilpBar from "@/components/baritem/FilpBar";
+    import GraphPositionBar from "@/components/bargraph/graphPositionBar";
+    import GraphCreateBar from "@/components/bargraph/graphCreateBar";
+    import GraphChangeBar from "@/components/bargraph/graphChangeBar";
+    import GraphSizeBar from "@/components/bargraph/graphSizeBar";
+    import OptionBar from "@/components/bardiagram/optionBar";
+    import PaperBar from "@/components/bardiagram/paperBar";
+    import ViewBar from "@/components/bardiagram/viewBar";
+    import DiagramStyleBar from "@/components/bardiagram/diagramStyleBar";
+    import GroupBar from "@/components/baritem/groupBar";
+    import LinkBar from "@/components/baritem/LinkBar";
+    import AlignmentBar from "@/components/baritem/AlignmentBar";
+    import SpacingBar from "@/components/baritem/SpacingBar";
+    import ArrowStyleBar from "@/components/barline/ArrowStyleBar";
+    import ConnectBar from "@/components/barline/ConnectBar";
+    import LineTypeBar from "@/components/barline/LineTypeBar";
+    import OnOffsetBar from "@/components/barline/OnOffsetBar";
+    import SetDottedLineBar from "@/components/barline/SetDottedLineBar";
     export default {
         name: "rightSideBar",
         mounted() {
+            window.setStyle=this.setStyle;
+            window.setArrange=this.setArrange;
+            window.changeText=this.changeText;
+            window.offText=this.offText;
+            window.onText=this.onText;
         },
+        components:{
+            SetDottedLineBar,
+            OnOffsetBar,
+            LineTypeBar,
+            ConnectBar,
+            ArrowStyleBar,
+            SpacingBar,
+            AlignmentBar,
+            LinkBar,
+            GroupBar,
+            DiagramStyleBar,
+            ViewBar,
+            PaperBar,
+            OptionBar,
+            GraphSizeBar,
+            GraphChangeBar,
+            GraphCreateBar,
+            GraphPositionBar,
+            FilpBar,
+            AngleBar, PositionBar, SizeBar, ZIndexBar, StyleBar, LineBar, ColorBar, FillBar, integratedEditor},
         data() {
             return {
                 activeName: 'Diagram',
                 activeName_element:'Style',
+                activeName_graph:'Arrange',
+                activeName_line:"Line",
                 viewList: [],
+                style_change:false,
                 optionList: [],
                 styleList:[],
                 options: [{
@@ -289,6 +195,13 @@
                 card_element:true,
                 num_grid:20,
                 fill_color:'',
+                grid:false,
+                shadow:false,
+                connect_point:false,
+                guides:false,
+                curved:false,
+                rounded:false,
+                copy_style_element:"",
                 options_gradient: [{
                     value: 'south',
                     label: 'south'
@@ -303,6 +216,7 @@
                     label: 'west'
                 }, ],
                 value_gradient: 'south',
+                element_style:"",
                 options_line: [{
                     value: 'dotted',
                     label: 'dotted'
@@ -312,8 +226,10 @@
                 }],
                 value_line: 'solid',
                 fillOn:false,
-                color_fill: 'rgba(255, 69, 0, 0.68)',
-                color_gradient:'rgba(255, 69, 0, 0.68)',
+                gradientOn:false,
+                strokeOn:false,
+                color_fill: 'rgba(255, 255, 255, 1)',
+                color_gradient:'rgba(255, 255, 255, 1)',
                 color_line:'rgba(255, 69, 0, 0.68)',
                 predefineColors: [
                     '#ff4500',
@@ -338,24 +254,267 @@
                 element_left:100,
                 element_top:100,
                 element_angle:0,
+                isArrange:false,
+                textShow:true,
+
+            //    关于graph
+                graph_change:false,
+                graph_style:"",
             };
 
         },
         methods: {
+            offText(){
+                this.textShow=false;
+                this.activeName_element='Style';
+            },
+            onText(){
+                this.textShow=true;
+            },
             handleClick(tab, event) {
                 console.log(tab, event);
             },
-            handleChange(e){
-                for(var item in e){
-                    if(e[item]==="Grid"){
-                        // createGrid(16);
-                        canvas_change();
-                        return;
+            graph_change_set(value){
+                if(!value){
+
+                }else{
+                    this.graph_style="";
+                }
+                this.graph_change=value;
+            },
+            style_change_set(value){
+              if(!value){
+
+              }else{
+                  this.element_style=getStyleInCore();
+              }
+              this.style_change=value;
+            },
+            copy_style(){
+                this.copy_style_element=getStyleInCore();
+            },
+            paste(){
+                setStyleInCore(this.copy_style_element);
+            },
+            setDefault(){
+                this.copy_style_element="stroke : rgba(0,0,0,1);stroke-width : 3;fill : rgba(255,255,255,1);fill-opacity : 0;stroke-opacity : 1.0;";
+            },
+            handleOptionChange(e){
+              let guide_flag=false;
+              let connection_point_flag=false;
+              for(var item in e){
+                  if(e[item]==="Connection Points"&&this.connect_point===false){
+                      OnConnectionPoint();
+                      connection_point_flag=true;
+                      this.connect_point=true;
+                  }else if(e[item]==="Guides"&&this.guides===false){
+                      OnGuides();
+                      guide_flag=true;
+                      this.guides=true;
+                  }
+              }
+              if(!connection_point_flag&&this.connect_point===true){
+                  this.connect_point=false;
+                  OffConnectionPoint();
+              }
+              if(!guide_flag&&this.guides===true){
+                  this.guides=false;
+                  OffGuides();
+              }
+            },
+            handleStyleChange(e){
+                let round_flag=false;
+                let curve_flag=false;
+                for (var item in e){
+                    if(e[item]==="Rounded"&&this.rounded===false){
+                        OnRounded();
+                        this.rounded=true;
+                        round_flag=true;
+                    }else if(e[item]==="Curved"&&this.curved===false){
+                        OnCurved();
+                        this.curved=true;
+                        curve_flag=true;
                     }
                 }
-                // deleteGrid();
-                canvas_delete();
+                if(!round_flag&&this.rounded===true){
+                    OffRounded();
+                    this.rounded=false;
+                }
+                if(!curve_flag&&this.curved===true){
+                    OffCurved();
+                    this.curved=false;
+                }
+            },
+            handleChange(e){
+                let gridFlag=false;
+                let shadowFlag=false;
+                for(var item in e){
+                    if(e[item]==="Grid"&&this.grid===false){
+                        // createGrid(16);
+                        OnGrid();
+                        gridFlag=true;
+                        this.grid=true;
+                    }else if (e[item]==='Shadow'&&this.shadow===false){
+                        OnShadow();
+                        shadowFlag=true;
+                        this.shadow=true;
+                    }
+                }
+                if(!gridFlag&&this.grid===true){
+                    OffGrid();
+                    this.grid=false;
+                }
+                if(!shadowFlag&&this.shadow===true){
+                    OffShadow();
+                    this.shadow=false;
+                }
+            },
 
+            handleOption(e){
+
+            },
+        //    下面是关于style的选项
+
+            setStyle(msg){
+                console.log(msg);
+                this.value_gradient=msg['value_gradient'];
+                this.color_fill=msg['color_fill'];
+                this.color_gradient=msg['color_gradient'];
+                this.fillOn=msg['fillOn'];
+                this.value_gradient=msg['value_gradient'];
+                this.gradientOn=msg['gradientOn'];
+                this.line_style_px=msg['stroke-width'];
+                this.color_line=msg['stroke']
+                this.value_line=msg['stroke-dasharray'];
+
+            },
+
+            handleFill(e){
+                this.fillOn=e;
+                if(this.fillOn){
+                    OnFill();
+                    // console.log(this.color_fill);
+                }else{
+                    OffFill();
+                    this.color_fill="rgba(255, 255, 255, 1)";
+                    this.color_gradient="rgba(255, 255, 255, 1)";
+                }
+            },
+
+
+            fillColorChange(e){
+                // console.log(e)
+                if(!this.gradientOn){
+                    FillColorChange(e);
+                }else{
+                    let msg={}
+                    msg['direction']=this.value_gradient;
+                    msg['start_color']=this.color_fill;
+                    msg['end_color']=this.color_gradient;
+                    GradientChange(msg)
+                }
+            },
+            OnGradientModel(e){
+                this.gradientOn=e;
+                if(this.gradientOn){
+                    OnGradient();
+                    this.color_gradient=this.color_fill;
+                }else{
+                    OffGradient();
+                    FillColorChange(this.color_fill);
+                }
+            },
+            GradientColorChange(e){
+                // console.log(111)
+                let msg={}
+                msg['direction']=this.value_gradient;
+                msg['start_color']=this.color_fill;
+                msg['end_color']=this.color_gradient;
+                GradientChange(msg)
+            },
+            handleGradientDirection(e){
+                let msg={}
+                msg['direction']=this.value_gradient;
+                msg['start_color']=this.color_fill;
+                msg['end_color']=this.color_gradient;
+                GradientChange(msg)
+            },
+
+            OnStroke(e){
+                this.strokeOn=e;
+                if(this.strokeOn){
+                    OnStrokeModel();
+                }else{
+                    OffStrokeModel();
+                    this.line_style_px=3;
+                    this.color_line="rgba(0,0,0,1)"
+                    this.value_line="";
+                }
+            },
+            handleStrokeColor(e){
+                // console.log(e);
+                SetCoreStrokeColor(e)
+            },
+            handleStrokeWidth(e){
+                SetCoreStrokeWidth(this.line_style_px);
+            },
+            handleStrokeStyle: function (e) {
+                // console.log(e);
+                if (e === "dotted") {
+                    SetCoreStrokeStyle("5,5")
+                } else if (e === "solid") {
+                    SetCoreStrokeStyle("")
+                }
+            },
+
+            SubmitStyle(){
+                let style=this.element_style;
+                setStyleInCore(style);
+            },
+
+
+
+
+            //arrange------------------------------
+            zIndexToBack(){
+              z_index_to_back();
+            },
+
+            zIndexToFront(){
+                z_index_to_front();
+            },
+
+            setArrange(msg){
+                if(!msg['flag']){
+                    this.isArrange=true;
+                    this.element_width="";
+                    this.element_height="";
+                    this.element_left="";
+                    this.element_top="";
+                }else{
+                    this.isArrange=false;
+                    this.element_width=msg['width'];
+                    this.element_height=msg['height'];
+                    this.element_left=msg['left'];
+                    this.element_top=msg['top'];
+                }
+            },
+            changeText(){
+                this.activeName_element="Text";
+            },
+
+            angle_change(){
+                let angle=this.element_angle;
+                ChangeAngle(angle);
+            },
+
+
+        //    关于graph
+            SubmitGraph(){
+                let option=this.graph_style;
+                let id=getNoteId();
+                // console.log(eval('('+option+')'));
+                createChart(eval('('+option+')'),id);
             }
         }
     };
