@@ -40,7 +40,7 @@ export class Connect_point {
         while(theta>2*Math.PI)theta-=2*Math.PI;
         while(theta<0)theta+=2*Math.PI;
         let len=Math.sqrt(((x-center_x)*(x-center_x)+(y-center_y)*(y-center_y)))
-        console.log(theta);
+        // console.log(theta);
         // console.log(theta,center_x+len*Math.cos(theta),center_y+len*Math.sin(theta))
 
         // console.log(theta,center_x+len*Math.cos(theta),center_y+len*Math.sin(theta))

@@ -78,6 +78,7 @@
 
 <script>
     import {P} from "@/js/action/actionQueue";
+    import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
 
     export default {
         name: "dropdownMenu",
@@ -88,6 +89,16 @@
             handleFile(command){
                 console.log(command)
                 if(command==='2'){
+                    let svg=document.getElementById(getShapeMapId());
+                    let children=svg.childNodes;
+                    for(let i=0;i<children.length;i++){
+                        let style=children[i].getAttribute("style");
+                        console.log(style);
+                        let id=children[i].getAttribute("id");
+                        console.log(id);
+                        P("cursors",{ids:[id]})
+                        P("set_style",{style:style})
+                    }
                     P("save",{})
                 }else if(command==="1"){
                     const input=document.getElementById("filePath")

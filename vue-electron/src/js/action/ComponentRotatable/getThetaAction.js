@@ -7,8 +7,8 @@ export class GetThetaAction extends Base_action{
         super(type)
         this.cmd=cmd;
         this.msg=msg;
-        console.log(cmd);
-        console.log(msg);
+        // console.log(cmd);
+        // console.log(msg);
     }
 
     before(){
@@ -19,7 +19,7 @@ export class GetThetaAction extends Base_action{
         if(this.msg['status']==="!succeed"){
             set_theta_bar(this.msg['theta'])
         }
-        console.log(this.msg);
+        // console.log(this.msg);
     }
 
     forward(){

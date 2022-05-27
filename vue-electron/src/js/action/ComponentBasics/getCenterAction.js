@@ -11,8 +11,8 @@ export class GetCenterAction extends Base_action{
         super(type)
         this.cmd=cmd;
         this.msg=msg;
-        console.log(cmd);
-        console.log(msg);
+        // console.log(cmd);
+        // console.log(msg);
     }
 
     before(){
@@ -21,7 +21,7 @@ export class GetCenterAction extends Base_action{
 
     after(){
         let coreList=getCoreList();
-        console.log(coreList);
+        // console.log(coreList);
         for(let i=0;i<coreList.length;i++){
             let element=getModuleByGid(coreList[i]);
             element.center_x=this.msg['centers'][i]['x']

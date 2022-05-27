@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+  <div id="svg-parent"></div>
+  <script>
+    var interpret = (root, cmds) => {
+        let i = 0;
+        let next_parameter = () => {
+            let j = i;
+            while (cmds[j] !== ' ' && cmds[j] !== '\t' && cmds[j] !== '\n' && j < cmds.length) j++;
+            let str = cmds.substring(i, j);
+            i = j + 1;
+            return str;
+        }
+        let next_string_nonspace = () => {
+            let j = i + 1;
+            while (cmds[j] !== '"' && j < cmds.length) j++;
+            let str = cmds.substring(i + 1, j);
+            i = j + 2;
+            return str;
+        }
+        let next_string = (len) => {
+            let str = cmds.substring(i, i + len);
+            i = i + len + 1;
+            return str;
+        }
+        let current = root;
+        while (i < cmds.length) {
+            cmd = next_parameter(i);
+            switch (cmd) {
+                case '':
+                    break;
+                case 'child':
+                    index = Number(next_parameter(i));
+                    current = current.childNodes[index];
+                    break;
+                case 'parent':
+                    current = current.parentNode;
+                    break;
+                case 'remove':
+                    index = Number(next_parameter(i));
+                    current.removeChild(current.childNodes[index]);
+                    break;
+                case 'append':
+                    xml = next_string(Number(next_parameter(i)));
+                    current.insertAdjacentHTML('beforeend', xml);
+                    break;
+                case 'sort':
+                    indices = next_string_nonspace(i);
+                    indices = indices.split(',').map(x => Number(x));
+                    [...current.childNodes]
+                    .map((node,i)=>{node._index=indices[i];return node;})
+                    .sort((a,b)=>a._index>b._index?1:-1)
+                    .forEach(node=>current.appendChild(node));
+                    break;
+                case 'modify':
+                    attr = next_parameter(i);
+                    val = next_string_nonspace(i);
+                    current.setAttribute(attr, val);
+                    break;
+                case 'reset':
+                    attr = next_parameter(i);
+                    current.removeAttribute(attr);
+                    break;
+                default:
+                    console.log('DOM CMD Interpret: Unknown CMD "' + cmd + '"');
+            }
+        }
+    }
+
+    // 静态对象
+    document.svg = document.createElement("svg"); document.getElementById("svg-parent").appendChild(document.svg);
+    document.comp_ids = [];
+
+    // 测试方法
+    var add_component = (comp_name) => {
+      var ret = JSON.parse(Module.server_run("{\"command\": \"add\", \"type\": \"" + comp_name + "\"}"));
+      var cmd = ret["domcmd"];
+      document.comp_ids.push(ret["returns"][0]["id"]);
+      interpret(document.svg, cmd);
+    }
+    var move_component = (comp_id, dx, dy) => {
+      Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+      var ret = JSON.parse(Module.server_run("{\"command\": \"move\", \"dx\": " + dx + ", \"dy\": " + dy + "}"));
+      var cmd = ret["domcmd"];
+      interpret(document.svg, cmd);
+    }
+    var set_html = (comp_id, html) => {
+      var ret = JSON.parse(Module.server_run("{\"command\": \"set_html\", \"html\": \"" + html + "\"}"));
+      var cmd = ret["domcmd"];
+      interpret(document.svg, cmd);
+    }
+
+    // WASM模块
+    var Module = {
+      onRuntimeInitialized: function() {
+        initHTML = Module.server_init();
+        document.svg.outerHTML = initHTML;
+        document.svg = document.getElementById("svg-parent").childNodes[0];
+
+        // 进行测试
+        console.time('add rectangle')
+        add_component("rectangle");
+        console.timeEnd('add rectangle')
+
+        console.time('move rectangle')
+        move_component(document.comp_ids[0], 100, 200);
+        console.timeEnd('move rectangle')
+
+        console.time('set html')
+        set_html(document.comp_ids[0], '<em>hel11111</em><em>111</em><u><em>111</em></u><u><em>1lo</em></u>');
+        console.timeEnd('set html')
+      }
+    };
+  </script>
+  <script src="../../public/js/wasm.js"></script>
+</html>

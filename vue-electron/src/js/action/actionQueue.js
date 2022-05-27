@@ -53,10 +53,6 @@ import {createSetDottedLineAction} from "@/js/action/ComponentLinear/setDottedLi
 import {createSetEndArrowAction} from "@/js/action/ComponentLinear/setEndArrowAction";
 import {createGetEndArrowAction} from "@/js/action/ComponentLinear/getEndArrowAction";
 import {createLoadAction} from "@/js/action/Register/loadAction";
-
-
-
-
 class ActionQueue {
     constructor() {
         this.actionQueue=[];
@@ -67,7 +63,8 @@ class ActionQueue {
     }
 
     filter(action){
-        console.log(action.cmd)
+        // console.log(action.cmd)
+        console.log(action)
         if(!action.cmd['flag'])return false;
 
         return action.filter()
@@ -117,7 +114,7 @@ class ActionQueue {
                 }
             }
             this.actionQueue.push(action);
-            console.log(this.actionQueue);
+            // console.log(this.actionQueue);
             if(this.backQueue.length>0){
                 let time=getActionCounter();
                 P("discard",{time:time});
