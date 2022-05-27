@@ -2,7 +2,8 @@ import {Base_action} from "@/js/action/base_action";
 import {sendSocket} from "@/js/socket/socket";
 import {getActionCounter} from "@/js/action/actionQueue";
 import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
-import {createLine} from "@/js/element/module/module_queue";
+import {createLine, createModule} from "@/js/element/module/module_queue";
+import {addModuleToTree} from "@/js/element/module/module_tree";
 
 export class LoadAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -69,8 +70,11 @@ function parseTree(child,indices,index) {
     let type=child['type'];
     if(type==="line"){
         createLine({id:id,type:type})
-    }
+    }else{
+        // createModule({id:});//需要修改
 
+    }
+    addModuleToTree(id,type)
     index+=1;
     if(child['children']===null||child['children']===undefined)return;
     for(let i=0;i<child['children'].length;i++){
