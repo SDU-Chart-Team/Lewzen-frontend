@@ -1,7 +1,8 @@
 import {Base_action} from "@/js/action/base_action";
 import {sendSocket} from "@/js/socket/socket";
 import {getActionCounter} from "@/js/action/actionQueue";
-import {getMySvg} from "@/js/util/getCanvasIdOperation";
+import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
+import {createLine} from "@/js/element/module/module_queue";
 
 export class LoadAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -22,7 +23,11 @@ export class LoadAction extends Base_action{
         let index=0;
         for(let i=0;i<comps.length;i++){
             parseTree(comps[i],indices,index);
-            index+=comps[i]['children'].length+1;
+            if(comps[i]['children']===null){
+                index+=1;
+            }else{
+                index+=comps[i]['children'].length+1;
+            }
             // console.log(index);
         }
     }
@@ -53,17 +58,27 @@ export function createLoadAction(msg,flag){//time
 
 
 function parseTree(child,indices,index) {
-    // console.log(index);
-    // index+=1;
-    // console.log(child);
-    // if(child['children']===null||child['children']===undefined)return;
-    // for(let i=0;i<=child['children'].length;i++){
-    //     console.log(child['children'][i])
-    //     parseTree(child['children'][i],indices,index);
-    //     if(child['children'][i]['children']===null){
-    //         index+=1;
-    //     }else{
-    //         index+=child['children'][i]['children'].length+1;
-    //     }
-    // }
+
+    console.log(index)
+    console.log(indices[index])
+
+    let svg=document.getElementById(getShapeMapId())
+    let childNodes=svg.childNodes;
+    let node=childNodes[indices[index]]
+    let id=node.getAttribute("id");
+    let type=child['type'];
+    if(type==="line"){
+        createLine({id:id,type:type})
+    }
+
+    index+=1;
+    if(child['children']===null||child['children']===undefined)return;
+    for(let i=0;i<child['children'].length;i++){
+        parseTree(child['children'][i],indices,index);
+        if(child['children'][i]['children']===null){
+            index+=1;
+        }else{
+            index+=child['children'][i]['children'].length+1;
+        }
+    }
 }

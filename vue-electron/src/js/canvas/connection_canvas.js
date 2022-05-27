@@ -24,6 +24,15 @@ export class Connection_canvas {
 
     update_connect_point(g_id){
         if(!this.flag)return;
+        let mat=window.getComputedStyle(document.getElementById(g_id), null).getPropertyValue("transform");
+        let rotation=[1,0,0,1]
+        let translate=[0,0];
+        if (mat!==undefined&&mat!=='none') {
+            mat=mat.match(/\(([^)]+)\)/)[1].split(',').map(v=>Number(v));
+            rotation=mat.splice(0,4);
+            translate=mat.splice(0,2);
+            console.log(rotation, translate)
+        }
         if(this.connect_map[g_id]===undefined){
             let position=getHoverPosition(g_id);
             console.log(position);
@@ -31,7 +40,7 @@ export class Connection_canvas {
             this.connect_map[g_id]['start']=this.connect_list.length;
             this.connect_map[g_id]['len']=position.length;
             for(let i=0;i<position.length;i++){
-                let connect_point=new Connect_point({g_id:g_id,a_id:i,x:position[i]['cx'],y:position[i]['cy']})
+                let connect_point=new Connect_point({rotation:rotation,translate:translate,g_id:g_id,a_id:i,x:position[i]['cx'],y:position[i]['cy']})
                 this.connect_list.push(connect_point);
             }
         }else{
@@ -40,7 +49,7 @@ export class Connection_canvas {
             this.connect_map[g_id]['start']=this.connect_list.length;
             this.connect_map[g_id]['len']=position.length;
             for(let i=0;i<position.length;i++){
-                let connect_point=new Connect_point({g_id:g_id,a_id:i,x:position[i]['cx'],y:position[i]['cy']})
+                let connect_point=new Connect_point({rotation:rotation,translate:translate,g_id:g_id,a_id:i,x:position[i]['cx'],y:position[i]['cy']})
                 this.connect_list.push(connect_point);
             }
         }
