@@ -67,7 +67,7 @@ class Module_tree {
                 break;
             }
         }
-        console.log(this.head)
+        // console.log(this.head)
 
     }
 
@@ -97,7 +97,7 @@ class Module_tree {
                 // break;
             }
         }
-        console.log(this.head)
+        // console.log(this.head)
     }
 
 
@@ -166,9 +166,9 @@ class Module_tree {
             let element=getModuleByGid(list[i])
             element.center_x=center['x'];
             element.center_y=center['y'];
-            console.log(list[i])
-            console.log(element.center_y)
-            console.log(element.center_x)
+            // console.log(list[i])
+            // console.log(element.center_y)
+            // console.log(element.center_x)
         }
         // let core_list=getCoreList();
         // P("cursors",list);
@@ -269,7 +269,7 @@ class Module_tree {
         let now=this.nodeList[id];
         path.push(now);
         // console.log(now);
-        console.log(this.head)
+        // console.log(this.head)
         while(true){
             if(this.head[now]['tid']!==this.head[now]['father']){
                 now=this.head[now]['father'];

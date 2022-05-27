@@ -1,6 +1,7 @@
 import SimpleWebsocket from "@/js/simplewebsocket.min";
 import {socketPush} from "@/js/socket/socketQueue";
 import {updateCMD} from "@/js/action/actionQueue";
+import {Module} from "../../../public/js/wasm"
 let socketVal={};
 function SocketWrapper(init)
 {
@@ -90,9 +91,18 @@ export function initSocket(){
     })
 }
 
+Module = {
+    onRuntimeInitialized: function() {
+        Module.server_init();
+    }
+}
+
+
 export function sendSocket(val){
     // console.log(val['cmd']);
     updateCMD(val['cmd'])
+    // var ret=Module.server_run(val['cmd'])
+    // console.log(ret);
+    // socketPush(JSON.parse(''+ret));
     socket.send("message",val);
 }
-

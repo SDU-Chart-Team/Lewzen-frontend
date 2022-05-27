@@ -66,7 +66,7 @@
         },
         methods:{
             set_alignment_bar(msg){
-                console.log(msg);
+                // console.log(msg);
                 this.vertical_value=""+msg['vertical'];
                 this.horizontal_value=""+msg['horizontal']
                 this.vertical_value_last=this.vertical_value;

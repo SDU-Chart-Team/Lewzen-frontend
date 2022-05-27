@@ -278,7 +278,7 @@
   import {setShadow} from "@/js/canvas/operation/canvas_style_operation";
   import RightClickBar from "@/components/rightClickBar";
   let socket;
-
+  import Module from "../public/js/wasm"
   export default {
     name: "test",
     components: {
@@ -297,6 +297,7 @@
     },
     mounted() {
         initSocket();
+        // Module.server_init();
         initKey();//初始化键盘事件
         init_canvas();
 

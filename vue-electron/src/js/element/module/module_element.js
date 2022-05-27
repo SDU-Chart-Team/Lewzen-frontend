@@ -131,48 +131,55 @@ export class Module_element {
     setElementMouseClick(){
         let that=this;
         let element=document.getElementById(this.g_id);
-        // for(let i=0;i<element.childNodes.length;i++){
-        //     let node=element.childNodes[i];
-        //     node.onclick=function(){
-        //         if(that.move){
-        //             that.move=false;
-        //         }else if(that.isCore===false) {
-        //             let ancestor=undefined;
-        //             let ancestorList=getAncestorAll(that.g_id);
-        //             for(let i=0;i<ancestorList.length;i++) {
-        //                 let el = getModuleByGid(ancestorList[i])
-        //                 if(el.isCore){
-        //                     i++;
-        //                     while(i<ancestorList.length){
-        //                         el=getModuleByGid(ancestorList[i])
-        //                         if(!el.show)ancestor=el.g_id;
-        //                         break;
-        //                     }
-        //                     if (ancestor===undefined){
-        //                         ancestor=that.g_id;
-        //                     }
-        //                     pushElementInQueue([ancestor]);
-        //                     return;
-        //                 }
-        //             }
-        //             for(let i=0;i<ancestorList.length;i++){
-        //                 let el = getModuleByGid(ancestorList[i])
-        //                 if(!el.show)ancestor=el.g_id;
-        //                 break;
-        //             }
-        //             if (ancestor===undefined){
-        //                 ancestor=that.g_id;
-        //             }
-        //             // console.log(ancestor);
-        //             pushElementInQueue([ancestor]);
-        //             // P("cursor",{id:that.g_id})
-        //             // create_core_Before(that.g_id);
-        //         }else{
-        //             offCoreByGid(that.g_id);
-        //             // updateArrange();
-        //         }
-        //     }
-        // }
+        for(let i=0;i<element.childNodes.length;i++){
+            let node=element.childNodes[i];
+            node.onclick=function(){
+                if(that.move){
+                    that.move=false;
+                }else if(that.isCore===false) {
+                    let ancestor=undefined;
+                    let ancestorList=getAncestorAll(that.g_id);
+                    for(let j=0;j<ancestorList.length;j++) {
+                        let el = getModuleByGid(ancestorList[j])
+                        if(el.isCore){
+                            j++;
+                            // console.log(j);
+                            while(j<ancestorList.length){
+                                el=getModuleByGid(ancestorList[j])
+                                if(!el.show){
+                                    ancestor=el.g_id;
+                                    console.log(ancestor)
+                                    console.log(that.g_id);
+                                }
+                                break;
+                            }
+                            if (ancestor===undefined){
+                                ancestor=that.g_id;
+                            }
+                            pushElementInQueue([ancestor]);
+                            return;
+                        }
+                    }
+                    for(let j=0;j<ancestorList.length;j++){
+                        let el = getModuleByGid(ancestorList[j])
+                        if(!el.show){
+                            ancestor=el.g_id;
+                            break;
+                        }
+                    }
+                    if (ancestor===undefined){
+                        ancestor=that.g_id;
+                    }
+                    // console.log(ancestor);
+                    pushElementInQueue([ancestor]);
+                    // P("cursor",{id:that.g_id})
+                    // create_core_Before(that.g_id);
+                }else{
+                    offCoreByGid(that.g_id);
+                    // updateArrange();
+                }
+            }
+        }
 
     }
 
@@ -185,16 +192,24 @@ export class Module_element {
             node.onmousedown=function(e){
                 let flag=false;
                 let ancestorList=getAncestorAll(that.g_id);
-                for(let i=0;i<ancestorList.length;i++) {
-                    let el = getModuleByGid(ancestorList[i])
+                // console.log("!!!!!!!!!!!!!!!!!!!!!!")
+
+                for(let j=0;j<ancestorList.length;j++){
+                    let el=getModuleByGid(ancestorList[j]);
                     if(el.isCore){
                         flag=true;
-                        break;
                     }
                 }
-                if(!flag){
-                    pushElementInQueue([that.g_id]);
-                }
+                // if(!flag){
+                //     for(let j=0;j<ancestorList.length;j++){
+                //         let el=getModuleByGid(ancestorList[j]);
+                //         if(!el.show){
+                //             pushElementInQueue([ancestorList[j]]);
+                //             break;
+                //         }
+                //     }
+                // }
+
                 if(flag||that.isCore){
                     clearMoveState();
                     let msg={}

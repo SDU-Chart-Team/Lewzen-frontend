@@ -5,8 +5,8 @@ import {getActionCounter} from "@/js/action/actionQueue";
 export class SetStyleAction extends Base_action{
     constructor(type,cmd,msg) {
         super(type)
-        console.log(cmd);
-        console.log(msg);
+        // console.log(cmd);
+        // console.log(msg);
         this.cmd=cmd;
         this.msg=msg;
     }
@@ -28,7 +28,7 @@ export class SetStyleAction extends Base_action{
     }
 
     merge(action){
-
+        return false;
     }
 }
 

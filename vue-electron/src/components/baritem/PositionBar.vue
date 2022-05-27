@@ -45,7 +45,7 @@
 
         methods:{
             setPosition(msg){
-                console.log(msg);
+                // console.log(msg);
                 if(!msg['flag']){
                     this.isArrange=true;
                 }else{

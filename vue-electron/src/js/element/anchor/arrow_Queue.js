@@ -76,8 +76,8 @@ class Arrow_Queue {
     update_position_by_gid(g_id){
         let toList=this.toarrowList[g_id];
         let fromList=this.fromarrowList[g_id];
-        console.log(fromList)
-        console.log(toList)
+        // console.log(fromList)
+        // console.log(toList)
         let position=getHoverPosition(g_id);
         let element=getModuleByGid(g_id);
         let center_x=element.center_x;
@@ -109,7 +109,7 @@ class Arrow_Queue {
                 let node=line.childNodes[0];
                 let d=node.getAttribute('d');
                 d=Trim(d)
-                console.log(d)
+                // console.log(d)
                 // console.log(node.getTotalLength())
                 d=d.split(' ')
                 d[d.length-1]=position[toList[i]['a_id']]['cy']
@@ -117,7 +117,7 @@ class Arrow_Queue {
                 this.updateEndList[toList[i]['id']]=1;
                 let tmp=''
                 for(let i=0;i<d.length;i++)tmp+=d[i]+" ";
-                console.log(tmp)
+                // console.log(tmp)
                 node.setAttribute("d",tmp);
                 // line.setAttribute("x2",position[toList[i]['a_id']]['cx'])
                 // line.setAttribute("y2",position[toList[i]['a_id']]['cy'])
