@@ -55,12 +55,16 @@
                 <span slot="title">Ungroup</span>
             </el-menu-item>
         </el-submenu>
+<!--        <el-menu-item index="5">-->
+<!--            <span slot="title">Graph</span>-->
+<!--        </el-menu-item>-->
     </el-menu>
 </template>
 
 <script>
     import {getActionCounter, P} from "@/js/action/actionQueue";
     import {setShadow} from "@/js/canvas/operation/canvas_style_operation";
+    import {getCoreList} from "@/js/element/core/core_queue";
 
     export default {
         name: "rightClickBar",
@@ -83,11 +87,16 @@
                     this.handleFill();
                 }else if(index==="3-3"){
                     this.handleLine();
+                } else if(index==='5'){
+                    set_graph_id(getCoreList()[0]);
+                    showGraphBar()
                 }
+
                 let menu=document.getElementById("rightClick");
                 if(menu!==undefined){
                     menu.style.display="none";
                 }
+
 
             },
             handleOpen(key, keyPath) {

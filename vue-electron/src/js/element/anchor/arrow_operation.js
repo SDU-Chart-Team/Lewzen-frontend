@@ -1,9 +1,10 @@
 import {createElementByTag} from "@/js/util/createSvgOperation";
-import {getHoverMapId, getMySvg} from "@/js/util/getCanvasIdOperation";
-import {add_arrow, add_arrow_to} from "@/js/element/anchor/arrow_Queue";
+import {getHoverMapId, getKeyMapId, getMySvg} from "@/js/util/getCanvasIdOperation";
+import {add_arrow, add_arrow_from, add_arrow_to} from "@/js/element/anchor/arrow_Queue";
 import th from "element-ui/src/locale/lang/th";
 import {P} from "@/js/action/actionQueue";
 import {getCoreList} from "@/js/element/core/core_queue";
+import {getListInFill} from "@/js/element/module/module_queue";
 
 let counter=0;
 class Arrow_operation {
@@ -38,57 +39,60 @@ class Arrow_operation {
         this.from_point_g_id=g_id;
         this.from_point_a_id=a_id;
         let node=createElementByTag("circle",this.from_id);
-        let map_id=getHoverMapId();
+        let map_id=getKeyMapId();
         let map=document.getElementById(map_id);
         node.setAttribute("cx",msg['x']);
         node.setAttribute("cy",msg['y']);
         node.setAttribute("r",7);
         node.setAttribute("fill","green")
         map.appendChild(node);
-        // node.onmousedown=function(e){
-        //     let line_id="line"+counter
-        //     let line=createElementByTag("line",line_id)
-        //     counter++;
-        //     line.setAttribute("x1",msg['x'])
-        //     line.setAttribute("x2",msg['x'])
-        //     line.setAttribute("y1",msg['y'])
-        //     line.setAttribute("y2",msg['y'])
-        //     line.setAttribute("stroke-width",2);
-        //     line.setAttribute("stroke","black");
-        //     map.appendChild(line);
-        //     add_arrow(that.from_point_g_id,that.from_point_a_id,line_id)
-        //     let svg=document.getElementById(getMySvg());
-        //     let start_x=e.offsetX;
-        //     let end_x=e.offsetX;
-        //     let start_y=e.offsetY;
-        //     let end_y=e.offsetY;
-        //     that.move_flag=true;
-        //     svg.onmousemove=function (e) {
-        //         line.setAttribute("x2",e.offsetX);
-        //         line.setAttribute("y2",e.offsetY);
-        //         end_x=e.offsetX;
-        //         end_y=e.offsetY;
-        //     }
-        //     svg.onmouseup=function(e){
-        //         that.move_flag=false;
-        //         if(start_y===end_y&&
-        //             start_x===end_x
-        //         ){
-        //             map.removeChild(line);
-        //         }
-        //         if(that.now_in_point!==undefined){
-        //             // alert(1);
-        //             add_arrow_to(that.now_in_point['g_id'],that.now_in_point['a_id'],line_id)
-        //         }
-        //         svg.onmousemove=null;
-        //         svg.onmouseup=null;
-        //         that.from_point_remove();
-        //     }
-        // }
+        node.onmousedown=function(e){
+            // let line_id="line"+counter
+            // let line=createElementByTag("line",line_id)
+            // counter++;
+            // line.setAttribute("x1",msg['x'])
+            // line.setAttribute("x2",msg['x'])
+            // line.setAttribute("y1",msg['y'])
+            // line.setAttribute("y2",msg['y'])
+            // line.setAttribute("stroke-width",2);
+            // line.setAttribute("stroke","black");
+            // map.appendChild(line);
+            // add_arrow(that.from_point_g_id,that.from_point_a_id,line_id)
+            P("create",{id:7})
+            P("set_start",{x:e.offsetX,y:e.offsetY})
+            P("set_end",{x:e.offsetX,y:e.offsetY})
+            P("get_p",{})
+            add_arrow_from(g_id,a_id,getCoreList()[0]);
+            let svg=document.getElementById(getMySvg());
+            let start_x=e.offsetX;
+            let end_x=e.offsetX;
+            let start_y=e.offsetY;
+            let end_y=e.offsetY;
+            svg.onmousemove=function (e) {
+                // line.setAttribute("x2",e.offsetX);
+                // line.setAttribute("y2",e.offsetY);
+                P("set_end",{x:e.offsetX,y:e.offsetY})
+                P("get_p",{})
+                end_x=e.offsetX;
+                end_y=e.offsetY;
+                // getListInFill(end_x,end_y)
+            }
+            svg.onmouseup=function(e){
+                if(start_y===end_y&&
+                    start_x===end_x
+                ){
+                    // map.removeChild(line);
+                }
+                svg.onmousemove=null;
+                svg.onmouseup=null;
+                that.from_point_remove();
+            }
+        }
         node.ondblclick=function(e){
             that.flag=true;
         }
         node.onmouseleave=function (e) {
+            console.log(111);
             if(!that.flag){
                 that.from_point_remove();
             }
@@ -101,7 +105,7 @@ class Arrow_operation {
         this.to_point=true;
         let that=this;
         let node=createElementByTag("circle",this.to_id);
-        let map_id=getHoverMapId();
+        let map_id=getKeyMapId();
         this.to_point_a_id=a_id;
         this.to_point_g_id=g_id;
         let map=document.getElementById(map_id);
@@ -122,11 +126,11 @@ class Arrow_operation {
             let from_y=from.getAttribute("cy");
             let to_x=to.getAttribute("cx");
             let to_y=to.getAttribute("cy");
-            let coreList=getCoreList();
+            P("create",{id:7})
             P("set_start",{x:parseInt(from_x),y:parseInt(from_y)})
             P("set_end",{x:parseInt(to_x),y:parseInt(to_y)})
             P("get_p",{})
-
+            let coreList=getCoreList();
             add_arrow(coreList[0],that.from_point_g_id,that.from_point_a_id,that.to_point_g_id,that.to_point_a_id);
             that.clear();
         }
@@ -136,7 +140,7 @@ class Arrow_operation {
         if(!this.from_point)return;
         this.from_point=false;
         let node=document.getElementById(this.from_id);
-        let map=document.getElementById(getHoverMapId());
+        let map=document.getElementById(getKeyMapId());
         map.removeChild(node);
     }
 
@@ -145,7 +149,7 @@ class Arrow_operation {
         this.to_point=false;
         this.now_in_point=undefined
         let node=document.getElementById(this.to_id);
-        let map=document.getElementById(getHoverMapId());
+        let map=document.getElementById(getKeyMapId());
         map.removeChild(node);
     }
 
@@ -160,6 +164,8 @@ let arrower=new Arrow_operation();
 export function signal_arrow(g_id,a_id,msg) {
     arrower.signal(g_id,a_id,msg);
 }
+
+
 export function clear_arrow_point(){
     arrower.clear();
 }

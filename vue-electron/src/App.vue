@@ -228,6 +228,15 @@
 
           </el-dialog>
 
+          <el-dialog
+                  title="Graph"
+                  :visible.sync="graphVisible"
+                  width="50%"
+
+          >
+              <graph-create-bar></graph-create-bar>
+          </el-dialog>
+
 
 <!--        </el-scrollbar>-->
       </el-main>
@@ -278,10 +287,12 @@
   import {setShadow} from "@/js/canvas/operation/canvas_style_operation";
   import RightClickBar from "@/components/rightClickBar";
   let socket;
-  import Module from "../public/js/wasm"
+  import Module from "./js/socket/wasm"
+  import GraphCreateBar from "@/components/bargraph/graphCreateBar";
   export default {
     name: "test",
     components: {
+        GraphCreateBar,
         RightClickBar,
         LineBar,
         FillBar,
@@ -296,7 +307,7 @@
         editorToolbar
     },
     mounted() {
-        initSocket();
+        // initSocket();
         // Module.server_init();
         initKey();//初始化键盘事件
         init_canvas();
@@ -306,6 +317,7 @@
         window.mapUpdate=this.mapUpdate;
         window.color_change_bar=this.color_change_bar;
         window.get_file_name=this.get_file_name;
+        window.showGraphBar=this.createGraph;
     },
     data() {
           const item = {
@@ -355,12 +367,17 @@
               shadow_color:"color:#C9C9C9",
               shadow_can:false,
               fillVisible:false,
-              lineVisible:false
+              lineVisible:false,
+              graphVisible:false
           }
       },
     methods:{
         get_file_name(){
           return this.file_name;
+        },
+        createGraph(){
+            // alert(1);
+            this.graphVisible=true;
         },
         color_change_bar(msg){
             if(msg['zoom_in']!==undefined){

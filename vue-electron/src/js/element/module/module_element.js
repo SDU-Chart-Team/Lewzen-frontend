@@ -34,6 +34,7 @@ export class Module_element {
         this.show=msg['show']//是否为group rect group为false
         this.state=null;
         this.move=false;
+        this.type=msg['type']
         this.isLine=msg['is_line']
         console.log(this.isLine);
         this.rotate_x=0;
@@ -240,7 +241,9 @@ export class Module_element {
                     }
                     document.onmouseup=function (e) {
                         updateCoreMap();
+                        // console.log(111);
                         updateStyleAfterChange()
+                        // console.log(111);
                         // anchor_update(that.g_id,"block")
                         guideSet(that.g_id,false)
                         let coreList=getCoreList();
@@ -265,4 +268,7 @@ export class Module_element {
     setText() {
         // createText(this.g_id,this.svg_id);
     }
+
+
+
 }

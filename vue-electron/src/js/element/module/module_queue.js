@@ -1,5 +1,7 @@
 import {Module_element} from "@/js/element/module/module_element";
 import el from "element-ui/src/locale/lang/el";
+import {getMySvg} from "@/js/util/getCanvasIdOperation";
+import {canvas_update} from "@/js/canvas/base_canvas";
 
 class Module_queue {
     constructor() {
@@ -119,6 +121,35 @@ class Module_queue {
             }
         }
     }
+    getListInFill(x,y){
+        let point=document.getElementById(getMySvg()).createSVGPoint();
+        point.x=x;
+        point.y=y;
+        let list=[]
+        for(var i=0;i<this.moduleQueue.length;i++){
+            // console.log(this.moduleQueue[i])
+            if(this.moduleQueue[i].isLine)continue;
+            let g_id=this.moduleQueue[i].g_id;
+            let node=document.getElementById(g_id);
+            let children=node.childNodes;
+            let flag=false;
+            for(let j=0;j<children.length;j++) {
+                let element = children[j];
+                // console.log(element);
+                if (element.isPointInFill(point)) {
+                    flag = true;
+                }
+            }
+            console.log(flag)
+            if(flag){
+                canvas_update("connect",g_id,{type:"create"})
+            }else{
+                canvas_update("connect",g_id,{type:"delete"})
+            }
+        }
+        // return list;
+
+    }
 }
 
 
@@ -151,4 +182,8 @@ export function removeElementByGid(g_id){
 
 export function createLine(msg,flag=true){
     return moduleQueue.createLine(msg,flag);
+}
+
+export function getListInFill(x,y){
+    moduleQueue.getListInFill(x,y);
 }

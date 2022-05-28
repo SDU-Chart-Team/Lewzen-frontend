@@ -78,7 +78,8 @@
 
 <script>
     import {P} from "@/js/action/actionQueue";
-    import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
+    import {getMyDefs, getShapeMapId} from "@/js/util/getCanvasIdOperation";
+    import {addLinearGradient} from "@/js/util/LinearGradientCreator";
 
     export default {
         name: "dropdownMenu",
@@ -133,7 +134,13 @@
               reader.onload=function () {
                   let json=JSON.parse(this.result)
                   console.log(json);
-                  P("load",{json:json})
+                  let list=json['color']
+                  if(list!==undefined){
+                      for(let i=0;i<list.length;i++){
+                          addLinearGradient(list[i]);
+                      }
+                  }
+                  P("load",{json:json['json']})
               }
             },
         }

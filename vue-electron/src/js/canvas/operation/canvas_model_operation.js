@@ -33,10 +33,14 @@ export function inElementStyleModel(){
         inElementLineModel();
         return;
     }
+    console.log(coreList.length);
+
     if(coreList.length>1){
         offText();
+        offRelation();
     }else{
         onText();
+        onRelation();
     }
     let elementStyle=document.getElementById("elementStyleBar");
     let diagram=document.getElementById("diagramBar");
