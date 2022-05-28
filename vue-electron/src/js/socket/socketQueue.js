@@ -14,7 +14,7 @@ import {ReAddAction} from "@/js/action/Register/reAddAction";
 import {CursorsAction} from "@/js/action/Register/cursorsAction";
 import {MovePAction} from "@/js/action/ComponentBasics/movePAction";
 import {GetModuleAction} from "@/js/action/ComponentBasics/getModuleAction";
-import {GetChildrenAction} from "@/js/action/ComponentBasics/getChildrenAction";
+import {createGetChildrenAction, GetChildrenAction} from "@/js/action/ComponentBasics/getChildrenAction";
 import {GetParentAction} from "@/js/action/ComponentBasics/getParentAction";
 import {GetAncestorsAction} from "@/js/action/ComponentBasics/getAncestorsAction";
 import {LinkAction} from "@/js/action/ComponentBasics/linkAction";
@@ -42,7 +42,7 @@ import {createGetAlignmentAction, GetAlignmentAction} from "@/js/action/Componen
 import {createSetSpacingAction, SetSpacingAction} from "@/js/action/ComponentWritable/setSpacingAction";
 import {createGetSpacingAction, GetSpacingAction} from "@/js/action/ComponentWritable/getSpacingAction";
 import {createGetCenterAction, GetCenterAction} from "@/js/action/ComponentBasics/getCenterAction";
-import {createEnableScaleBindAction, EnableScaleBindAction} from "@/js/action/ComponentScalable/enableScaleBindAction";
+import {createEnableScaleBindAction, EnableScaleBindAction} from "@/js/action/ComponentBindable/enableScaleBindAction";
 import {FlipAction} from "@/js/action/ComponentFlippable/filpAction";
 import {SetDottedLineAction} from "@/js/action/ComponentLinear/setDottedLineAction";
 import {OnOffsetAction} from "@/js/action/ComponentLinear/onOffsetAction";
@@ -53,18 +53,35 @@ import {SetEndArrowAction} from "@/js/action/ComponentLinear/setEndArrowAction";
 import {GetEndArrowAction} from "@/js/action/ComponentLinear/getEndArrowAction";
 import {GetStartAction} from "@/js/action/ComponentLinear/getStartAction";
 import {LoadAction} from "@/js/action/Register/loadAction";
+import {createEnableFlipBindAction, EnableFlipBindAction} from "@/js/action/ComponentBindable/enableFlipBindAction";
+import {
+    createEnableRotateBindAction,
+    EnableRotateBindAction
+} from "@/js/action/ComponentBindable/enableRotateBindAction";
+import {createEnableMoveBindAction, EnableMoveBindAction} from "@/js/action/ComponentBindable/enableMoveBindAction";
+import {
+    createDisableScaleBindAction,
+    DisableScaleBindAction
+} from "@/js/action/ComponentBindable/disableScaleBindAction";
+import {createDisableFlipBindAction, DisableFlipBindAction} from "@/js/action/ComponentBindable/disableFlipBindAction";
+import {createDisableRotateBindAction} from "@/js/action/ComponentBindable/disableRotateBindAction";
+import {createDisableMoveBindAction} from "@/js/action/ComponentBindable/disableMoveBindAction";
+import {createGetScaleBindAction, GetScaleBindAction} from "@/js/action/ComponentBindable/getScaleBindAction";
+import {createGetFlipBindAction, GetFlipBindAction} from "@/js/action/ComponentBindable/getFlipBindAction";
+import {createGetRotateBindAction, GetRotateBindAction} from "@/js/action/ComponentBindable/getRotateBindAction";
+import {createGetMoveBindAction, GetMoveBindAction} from "@/js/action/ComponentBindable/getMoveBindAction";
 
 let socketQueue={}
 
-export function socketPush(socket_return){
-    console.log(socket_return);
-    let msg=socket_return['ok'];
-    if(msg===undefined){
-        V();
-        // let time=getActionCounter();
-        return;
-    }
-    msg=JSON.parse(msg);
+export function socketPush(msg){
+    // console.log(socket_return);
+    // msg=msg['ok'];
+    // if(msg===undefined){
+    //     V();
+    //     // let time=getActionCounter();
+    //     return;
+    // }
+    // msg=JSON.parse(msg);
     // let type=socket_return["type"];
     // let domOperator=new DomOperator();
     // if(socket_return["dom_change"]!==undefined){
@@ -74,8 +91,8 @@ export function socketPush(socket_return){
 
     let cmd=getCMD();
     cmd=JSON.parse(cmd);
-    // console.log(cmd);
-    // console.log(msg);
+    console.log(cmd);
+    console.log(msg);
     let val = parserCmd(msg);
     // console.log(val);
 
@@ -121,7 +138,7 @@ let cmdTypeList={
     "back":backAction,
     "front":frontAction,
     "get_center":getCenterAction,
-
+    "get_children":getChildrenAction,
     //旋转模块
     "set_theta":setThetaAction,
     "get_theta":getThetaAction,
@@ -158,8 +175,21 @@ let cmdTypeList={
     "set_spacing":getSpacingAction,
     "get_spacing":getSpacingAction,
 
-    //放缩模块
+    //绑定模块
     "enable_scale_bind":enableScaleBindAction,
+    "enable_flip_bind":enableFlipBindAction,
+    "enable_rotate_bind":enableRotateBindAction,
+    "enable_move_bind":enableMoveBindAction,
+
+    "disable_scale_bind":disableScaleBindAction,
+    "disable_flip_bind":disableFlipBindAction,
+    "disable_rotate_bind":disableRotateBindAction,
+    "disable_move_bind":disableMoveBindAction,
+
+    "get_scale_bind":getScaleBindAction,
+    "get_flip_bind":getFlipBindAction,
+    "get_rotate_bind":getRotateBindAction,
+    "get_move_bind":getMoveBindAction,
 
 
     //翻转绑定
@@ -365,10 +395,6 @@ function getCenterAction(cmd,msg){
     pushAction(action);
 }
 
-function enableScaleBindAction(cmd,msg){
-    let action=new EnableScaleBindAction("enable_scale_bind",cmd,msg);
-    pushAction(action);
-}
 
 function flipAction(cmd,msg){
     let action=new FlipAction("flip",cmd,msg);
@@ -425,3 +451,65 @@ function loadAction(cmd,msg) {
     let action=new LoadAction("load",cmd,msg);
     pushAction(action);
 }
+
+function enableScaleBindAction(cmd,msg){
+    let action=new EnableScaleBindAction("enable_scale_bind",cmd,msg);
+    pushAction(action);
+}
+
+function enableFlipBindAction(cmd,msg){
+    let action=new EnableFlipBindAction("enable_flip_bind",cmd,msg);
+    pushAction(action);
+}
+
+function enableMoveBindAction(cmd,msg){
+    let action=new EnableMoveBindAction("enable_move_bind",cmd,msg);
+    pushAction(action);
+}
+
+function enableRotateBindAction(cmd,msg){
+    let action=new EnableRotateBindAction("enable_rotate_bind",cmd,msg);
+    pushAction(action);
+}
+
+function disableScaleBindAction(cmd,msg) {
+    let action=new DisableScaleBindAction("disable_scale_bind",cmd,msg);
+    pushAction(action);
+}
+
+function disableFlipBindAction(cmd,msg) {
+    let action=new DisableFlipBindAction("disable_flip_bind",cmd,msg);
+    pushAction(action);
+}
+
+function disableMoveBindAction(cmd,msg) {
+    let action=new DisableScaleBindAction("disable_move_bind",cmd,msg);
+    pushAction(action);
+}
+
+function disableRotateBindAction(cmd,msg) {
+    let action=new DisableScaleBindAction("disable_rotate_bind",cmd,msg);
+    pushAction(action);
+}
+
+function getScaleBindAction(cmd,msg){
+    let action=new GetScaleBindAction("get_scale_bind",cmd,msg);
+    pushAction(action);
+}
+
+function getFlipBindAction(cmd,msg){
+    let action=new GetFlipBindAction("get_flip_bind",cmd,msg);
+    pushAction(action);
+}
+
+function getMoveBindAction(cmd,msg){
+    let action=new GetMoveBindAction("get_move_bind",cmd,msg);
+    pushAction(action);
+}
+
+function getRotateBindAction(cmd,msg){
+    let action=new GetRotateBindAction("get_rotate_bind",cmd,msg);
+    pushAction(action);
+}
+
+

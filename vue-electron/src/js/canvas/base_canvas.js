@@ -46,6 +46,10 @@ class Base_canvas {
             this.canvasList['connect'].update(g_id,msg);
         }
     }
+
+    get_connect_point_list(msg){
+        return this.canvasList['connect'].get_connect_point_list(msg);
+    }
 }
 
 let base_canvas=new Base_canvas();
@@ -75,4 +79,9 @@ export function updatePosition(msg) {
 }
 export function canvas_update(sort,g_id,msg){
     base_canvas.update(sort,g_id,msg);
+}
+
+
+export function get_connect_point_list(msg){
+    return base_canvas.get_connect_point_list(msg);
 }

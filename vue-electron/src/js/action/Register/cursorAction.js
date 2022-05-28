@@ -1,16 +1,19 @@
 import {Base_action} from "@/js/action/base_action";
 import {sendSocket} from "@/js/socket/socket";
-import {getActionCounter, P, updateCMD} from "@/js/action/actionQueue";
+import {getActionCounter, P, P_More} from "@/js/action/actionQueue";
+import {inElementStyleModel} from "@/js/canvas/operation/canvas_model_operation";
+import {updateArrange} from "@/js/canvas/operation/canvas_arrange_operation";
 
 export class CursorAction extends Base_action{
     constructor(type,cmd,msg) {
-        super(type)
-        // console.log(msg);
-        // console.log(cmd);
-        msg["id"]=msg["id"].substr(1,msg['id']-2)
+        super(type);
         this.cmd=cmd;
         this.msg=msg;
-        this.id=msg["id"];//组件id
+        // console.log(this.cmd);
+        // console.log(this.msg);
+        this.ids=cmd['ids'];
+        this.command=cmd['command'];
+        this.status=cmd['status'];
     }
 
     before(){
@@ -18,7 +21,7 @@ export class CursorAction extends Base_action{
     }
 
     after(){
-        P("get_p",{},this.cmd['flag'])
+
     }
 
     forward(){
@@ -32,13 +35,14 @@ export class CursorAction extends Base_action{
     merge(action){
         return false;
     }
-
-
 }
 
-export function createCursorAction(msg){//id
-    let cmd="cursor "+msg['id'];
-    // console.log(cmd);
-    updateCMD(cmd);
+export function createCursorAction(msg,flag){//list of id
+    let val={}
+    val["command"]="cursors";
+    val['ids']=msg['ids'];
+    val['flag']=flag;
+
+    let cmd=JSON.stringify(val);
     sendSocket({cmd:cmd})
 }

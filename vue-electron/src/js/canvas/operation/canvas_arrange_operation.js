@@ -1,6 +1,6 @@
 import {getCoreList} from "@/js/element/core/core_queue";
 import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
-import {getGInPosition, getModuleBySid} from "@/js/element/module/module_queue";
+import {getGInPosition, getModuleByGid, getModuleBySid} from "@/js/element/module/module_queue";
 import {P, updateState} from "@/js/action/actionQueue";
 
 export function z_index_to_back(){
@@ -42,7 +42,7 @@ export function updateArrange(){
     if(coreList.length>1){
         setPosition({flag:false})
         setElementSize({flag:false})
-    }else{
+    }else if (coreList.length===1){
         P("get_rect",{})
     }
 }

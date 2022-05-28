@@ -44,7 +44,8 @@ export class AddAction extends Base_action{
             }
             P("cursors",{ids:[this.msg['id']]})
             P("cover_children",{})
-            P("enable_scale_bind",{})
+            // P("enable_scale_bind",{})
+            P("cursors",{ids:[this.msg['id']]})
             return;
         }
         if(this.type==="line"){
@@ -52,12 +53,14 @@ export class AddAction extends Base_action{
         }else{
             createModule(this.msg);//需要修改
         }
+        addModuleToTree(this.id,this.type);
         P("cursors",{ids:[this.msg['id']]})
         let move=set_move_center();
         let bbox=document.getElementById(this.id).getBBox();
         let msg={g_id:getCoreList()[0],move_x:move['x']-bbox.width/2,move_y:move['y']-bbox.height/2}
         P("move",msg,false)
-        addModuleToTree(this.id,this.type);
+        P("cursors",{ids:[this.msg['id']]})
+
         // anchor_add(this.id);
     }
 
@@ -68,12 +71,15 @@ export class AddAction extends Base_action{
     }
 
     backward(){
+        let coreList=getCoreList();
+        P("cursors",{ids:this.id},false);
         let msg=[];
         // msg['id']=this.id;
         let time=getActionCounter();
         msg['time']=time;
         this.time=time;
         P("remove",msg,false);
+        P("cursors",{ids:coreList},false);
     }
 
     merge(action){

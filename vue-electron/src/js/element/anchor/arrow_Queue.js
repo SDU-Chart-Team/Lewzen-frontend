@@ -32,19 +32,72 @@ class Arrow_Queue {
         }
         this.toarrowList[to_id].push({a_id:to_a_id,id:id})
     }
+    add_arrow_from(from_id,a_id,id){
+        if(from_id===undefined){
+            for(let i=0;i<this.arrowList.length;i++){
+                if(id===this.arrowList[i]['id']){
+                    console.log(111);
+                    let from_id=this.arrowList['from_id']
+                    this.arrowList['from_id']=undefined;
+                    this.arrowList['from_a_id']=undefined;
+                    if(this.fromarrowList[from_id]===undefined){
+                        return;
+                    }
+                    for(let j=0;j<this.fromarrowList[from_id].length;j++){
+                        if(this.fromarrowList[from_id][j]['id']===id){
+                            this.fromarrowList[from_id].splice(j,1);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
 
+
+        // console.log(from_id,a_id,line_id)
+        let arrow={}
+        arrow['id']=id;
+        arrow['from_id']=from_id;
+        arrow['from_a_id']=a_id;
+        this.arrowList.push(arrow);
+        if(this.fromarrowList[from_id]===undefined){
+            this.fromarrowList[from_id]=[];
+        }
+        this.fromarrowList[from_id].push({a_id:a_id,id:id});
+    }
     add_arrow_to(to_id,a_id,line_id){
         // console.log(to_id,a_id,line_id)
-        alert(1);
+        // alert(1);
+        if(to_id===undefined){
+            // console.log(111);
+            for(let i=0;i<this.arrowList.length;i++){
+                if(line_id===this.arrowList[i]['id']){
+                    console.log(111);
+
+                    let to_id=this.arrowList['to_id'];
+                    this.arrowList['to_id']=undefined;
+                    this.arrowList['to_a_id']=undefined;
+                    if(this.toarrowList[to_id]===undefined){
+                        return;
+                    }
+                    for(let j=0;j<this.toarrowList[to_id].length;j++){
+                        if(this.toarrowList[to_id][j]['id']===line_id){
+                            this.toarrowList[to_id].splice(j,1);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
         for(let i=0;i<this.arrowList.length;i++){
-            if(line_id===this.arrowList[i]['line_id']){
+            if(line_id===this.arrowList[i]['id']){
                 this.arrowList['to_id']=to_id;
                 this.arrowList['to_a_id']=a_id;
                 if(this.toarrowList[to_id]===undefined){
                     this.toarrowList[to_id]=[];
                 }
-                // console.log(111);
-                this.toarrowList[to_id].push({a_id:a_id,line_id:line_id})
+                this.toarrowList[to_id].push({a_id:a_id,id:line_id})
                 break;
             }
         }
@@ -74,6 +127,16 @@ class Arrow_Queue {
     }
 
     update_position_by_gid(g_id){
+        let mat_mul = (mat, p) => [p[0]*mat[0]+p[1]*mat[2],p[0]*mat[1]+p[1]*mat[3]];
+        let mat=window.getComputedStyle(document.getElementById(g_id), null).getPropertyValue("transform");
+        let rotation=[1,0,0,1]
+        let translate=[0,0];
+        if (mat!==undefined&&mat!=='none') {
+            mat=mat.match(/\(([^)]+)\)/)[1].split(',').map(v=>Number(v));
+            rotation=mat.splice(0,4);
+            translate=mat.splice(0,2);
+            // console.log(rotation, translate)
+        }
         let toList=this.toarrowList[g_id];
         let fromList=this.fromarrowList[g_id];
         // console.log(fromList)
@@ -86,20 +149,12 @@ class Arrow_Queue {
         for(let i=0;i<position.length;i++){
             // console.log(center_x);
             // console.log(center_y);
+
             let x=position[i]['cx'];
             let y=position[i]['cy'];
-            let theta=Math.atan((y-center_y)/(x-center_x));
-            // console.log(theta)
-            if(x<center_x){
-                theta+=Math.PI;
-            }
-            // console.log(x,y,theta);
-            theta=theta+element.theta;
-            while(theta>2*Math.PI)theta-=2*Math.PI;
-            while(theta<0)theta+=2*Math.PI;
-            let len=Math.sqrt(((x-center_x)*(x-center_x)+(y-center_y)*(y-center_y)))
-            position[i]['cx']=center_x+len*Math.cos(theta)
-            position[i]['cy']=center_y+len*Math.sin(theta)
+            let rp = mat_mul(rotation, [x, y]); rp=[rp[0]+translate[0],rp[1]+translate[1]];
+            position[i]['cx']=rp[0];
+            position[i]['cy']=rp[1];
         }
 
         if(toList!==undefined){
@@ -158,6 +213,8 @@ class Arrow_Queue {
         //     P("cursors",[this.updateStartList[i]['id']])
         //     P("set_start",{x:this.updateStartList[i]['x'],y:this.updateStartList[i]['y']})
         // }
+        console.log(this.updateStartList);
+        console.log(this.updateEndList);
         for(let key in this.updateStartList){
             let line=document.getElementById(key);
             // console.log(line);
@@ -183,7 +240,8 @@ class Arrow_Queue {
             console.log(key)
             P("set_end",{x:parseInt(d[d.length-2]),y:parseInt(d[d.length-1])})
         }
-        P("cursors",coreList);
+        // console.log(coreList);
+        P("cursors",{ids:coreList});
         this.updateEndList={};
         this.updateStartList={};
     }
@@ -195,6 +253,10 @@ export function add_arrow(id,from_id,from_a_id,to_id,to_a_id){
 
 export function add_arrow_to(to_id,a_id,line_id){
     arrowQueue.add_arrow_to(to_id,a_id,line_id);
+}
+
+export function add_arrow_from(from_id,a_id,line_id){
+    arrowQueue.add_arrow_from(from_id,a_id,line_id);
 }
 
 export function update_position_by_gid(g_id){

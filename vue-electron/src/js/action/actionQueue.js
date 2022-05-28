@@ -41,7 +41,7 @@ import {createGetAlignmentAction} from "@/js/action/ComponentWritable/getAlignme
 import {createSetSpacingAction} from "@/js/action/ComponentWritable/setSpacingAction";
 import {createGetSpacingAction} from "@/js/action/ComponentWritable/getSpacingAction";
 import {createGetCenterAction} from "@/js/action/ComponentBasics/getCenterAction";
-import {createEnableScaleBindAction} from "@/js/action/ComponentScalable/enableScaleBindAction";
+import {createEnableScaleBindAction} from "@/js/action/ComponentBindable/enableScaleBindAction";
 import {createFilpAction} from "@/js/action/ComponentFlippable/filpAction";
 import {createGetStartAction} from "@/js/action/ComponentLinear/getStartAction";
 import {createGetEndAction} from "@/js/action/ComponentLinear/getEndAction";
@@ -53,6 +53,17 @@ import {createSetDottedLineAction} from "@/js/action/ComponentLinear/setDottedLi
 import {createSetEndArrowAction} from "@/js/action/ComponentLinear/setEndArrowAction";
 import {createGetEndArrowAction} from "@/js/action/ComponentLinear/getEndArrowAction";
 import {createLoadAction} from "@/js/action/Register/loadAction";
+import {createEnableFlipBindAction} from "@/js/action/ComponentBindable/enableFlipBindAction";
+import {createEnableRotateBindAction} from "@/js/action/ComponentBindable/enableRotateBindAction";
+import {createEnableMoveBindAction} from "@/js/action/ComponentBindable/enableMoveBindAction";
+import {createDisableScaleBindAction} from "@/js/action/ComponentBindable/disableScaleBindAction";
+import {createDisableFlipBindAction} from "@/js/action/ComponentBindable/disableFlipBindAction";
+import {createDisableRotateBindAction} from "@/js/action/ComponentBindable/disableRotateBindAction";
+import {createDisableMoveBindAction} from "@/js/action/ComponentBindable/disableMoveBindAction";
+import {createGetScaleBindAction} from "@/js/action/ComponentBindable/getScaleBindAction";
+import {createGetFlipBindAction} from "@/js/action/ComponentBindable/getFlipBindAction";
+import {createGetRotateBindAction} from "@/js/action/ComponentBindable/getRotateBindAction";
+import {createGetMoveBindAction} from "@/js/action/ComponentBindable/getMoveBindAction";
 class ActionQueue {
     constructor() {
         this.actionQueue=[];
@@ -64,7 +75,7 @@ class ActionQueue {
 
     filter(action){
         // console.log(action.cmd)
-        console.log(action)
+        // console.log(action)
         if(!action.cmd['flag'])return false;
 
         return action.filter()
@@ -189,7 +200,7 @@ export function getActionCounter(){
 }
 
 //处理事件
-let Flag=0;
+let Flag=100;
 let MsgQueue=[];
 let MsgQueueMore=[];
 
@@ -289,8 +300,21 @@ let actionList={
     "get_spacing":createGetSpacingAction,
 
 
-    //放缩模块
+    //绑定模块
     "enable_scale_bind":createEnableScaleBindAction,
+    "enable_flip_bind":createEnableFlipBindAction,
+    "enable_rotate_bind":createEnableRotateBindAction,
+    "enable_move_bind":createEnableMoveBindAction,
+
+    "disable_scale_bind":createDisableScaleBindAction,
+    "disable_flip_bind":createDisableFlipBindAction,
+    "disable_rotate_bind":createDisableRotateBindAction,
+    "disable_move_bind":createDisableMoveBindAction,
+
+    "get_scale_bind":createGetScaleBindAction,
+    "get_flip_bind":createGetFlipBindAction,
+    "get_rotate_bind":createGetRotateBindAction,
+    "get_move_bind":createGetMoveBindAction,
 }
 
 

@@ -3,7 +3,7 @@ import {sendSocket} from "@/js/socket/socket";
 import {getActionCounter} from "@/js/action/actionQueue";
 import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
 import {createLine, createModule} from "@/js/element/module/module_queue";
-import {addModuleToTree} from "@/js/element/module/module_tree";
+import {addModuleToTree, linkInTree} from "@/js/element/module/module_tree";
 
 export class LoadAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -58,27 +58,33 @@ export function createLoadAction(msg,flag){//time
 }
 
 
-function parseTree(child,indices,index) {
+function parseTree(child,indices,index,fid=-1) {
 
-    console.log(index)
-    console.log(indices[index])
+    // console.log(index)
+    // console.log(indices[index])
 
     let svg=document.getElementById(getShapeMapId())
     let childNodes=svg.childNodes;
     let node=childNodes[indices[index]]
     let id=node.getAttribute("id");
     let type=child['type'];
+    let display=node.style.display;
+    // console.log(display);
+    let show=true;
+    if(display==="none"){show=false;}
     if(type==="line"){
-        createLine({id:id,type:type})
+        createLine({id:id,type:type,show:show})
     }else{
-        // createModule({id:});//需要修改
-
+        createModule({id:id,type:type,show:show});//需要修改
     }
     addModuleToTree(id,type)
+    if(fid!==-1){
+        linkInTree(id,fid);
+    }
     index+=1;
     if(child['children']===null||child['children']===undefined)return;
     for(let i=0;i<child['children'].length;i++){
-        parseTree(child['children'][i],indices,index);
+        parseTree(child['children'][i],indices,index,id);
         if(child['children'][i]['children']===null){
             index+=1;
         }else{

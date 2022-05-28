@@ -52,6 +52,8 @@ export class Connect_point {
 
         node.setAttribute("cx",rp[0]);
         node.setAttribute("cy",rp[1]);
+        this.x=rp[0];
+        this.y=rp[1];
         node.setAttribute("r",5);
         node.setAttribute("fill","pink")
         node.onmouseenter=function(e){
@@ -69,5 +71,9 @@ export class Connect_point {
         let map=document.getElementById(map_id);
         let node=document.getElementById(this.id);
         map.removeChild(node);
+    }
+
+    get_point(){
+        return {x:this.x,y:this.y}
     }
 }

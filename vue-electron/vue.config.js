@@ -9,5 +9,13 @@ module.exports = defineConfig({
                 logLevel:'debug'
             }
         }
+    },
+    chainWebpack: (config) => {
+        config.module
+            .rule("wasm")
+            .test(/\.wasm$/)
+            .use("wasm-loader")
+            .loader("wasm-loader")
+            .end();
     }
 })

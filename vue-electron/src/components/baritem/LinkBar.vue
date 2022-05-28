@@ -33,13 +33,17 @@
 </template>
 
 <script>
-    import {linkByUser} from "@/js/element/module/module_tree";
+    import {getTree, linkByUser} from "@/js/element/module/module_tree";
     import * as echarts from 'echarts';
+    import {getCoreList} from "@/js/element/core/core_queue";
+    import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
+    import {getModuleByGid} from "@/js/element/module/module_queue";
 
     export default {
         name: "LinkBar",
         mounted() {
           window.DrawRelation=this.DrawRelation
+          this.myChart = echarts.init(document.getElementById('relation_chart'));
         },
         methods:{
             link_set(){
@@ -48,7 +52,7 @@
             },
             DrawRelation(msg){
                 // console.log(msg);
-                var myChart = echarts.init(document.getElementById('relation_chart'));
+                let id=getCoreList()[0];
                 let item={}
                 item['type']="graph";
                 item['symbolSize']=30;
@@ -66,6 +70,18 @@
                 }
                 for(var i=0;i<nodeList.length;i++){
                     let node={}
+                    let eid=nodeList[i]['eid'];
+                    let color="";
+                    if(eid===id){
+                        color="green";
+                    }else{
+                        let element=getModuleByGid(eid);
+                        if(element.show){
+                            color="blue"
+                        }else{
+                            color="yellow";
+                        }
+                    }
                     node['name']=nodeList[i]['id'];
                     if(widthCounter[nodeList[i]['width']]===1){
                         node['x']=125;
@@ -73,6 +89,7 @@
                         node['x']=(250/(widthCounter[nodeList[i]['width']]-1))*nodeList[i]['cnt']+25;
                     }
                     node['y']=100*parseInt(nodeList[i]['width'])
+                    node['colors']=color;
                     data.push(node);
                 }
                 item['data']=data;
@@ -84,7 +101,14 @@
                 }
                 item['links']=links
                 item['label']={show:true}
-                // console.log(item);
+                item['itemStyle']={
+                    normal:{
+                        color:function (params) {
+                            return params.data.colors;
+                        }
+                    }
+                }
+                console.log(item);
                 // 指定图表的配置项和数据
                 var option = {
                     series: [
@@ -93,13 +117,14 @@
                 };
 
                 // 使用刚指定的配置项和数据显示图表。
-                myChart.setOption(option);
+                this.myChart.setOption(option);
             }
 
         },
         data(){
             return{
-                link_text:""
+                link_text:"",
+                myChart:{},
             }
         }
     }

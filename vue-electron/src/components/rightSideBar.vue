@@ -52,7 +52,13 @@
                 <integrated-editor></integrated-editor>
             </el-tab-pane>
 
-            <el-tab-pane label="Relation" name="Relation">
+            <el-tab-pane
+                    v-if="relationShow"
+                    id="RelationBar"
+                    label="Relation"
+                    name="Relation">
+                <alias-bar></alias-bar>
+                <bind-bar></bind-bar>
                 <link-bar></link-bar>
             </el-tab-pane>
 
@@ -143,6 +149,8 @@
     import LineTypeBar from "@/components/barline/LineTypeBar";
     import OnOffsetBar from "@/components/barline/OnOffsetBar";
     import SetDottedLineBar from "@/components/barline/SetDottedLineBar";
+    import AliasBar from "@/components/baritem/AliasBar";
+    import BindBar from "@/components/baritem/BindBar";
     export default {
         name: "rightSideBar",
         mounted() {
@@ -151,8 +159,12 @@
             window.changeText=this.changeText;
             window.offText=this.offText;
             window.onText=this.onText;
+            window.offRelation=this.offRelation;
+            window.onRelation=this.onRelation;
         },
         components:{
+            BindBar,
+            AliasBar,
             SetDottedLineBar,
             OnOffsetBar,
             LineTypeBar,
@@ -256,6 +268,7 @@
                 element_angle:0,
                 isArrange:false,
                 textShow:true,
+                relationShow:true,
 
             //    关于graph
                 graph_change:false,
@@ -270,6 +283,17 @@
             },
             onText(){
                 this.textShow=true;
+            },
+            offRelation(){
+                // let item=document.getElementById("RelationBar");
+                // item.style.display="none";
+                this.relationShow=false;
+                this.activeName_element='Style';
+            },
+            onRelation(){
+                // let item=document.getElementById("RelationBar");
+                // item.style.display="block";
+                this.relationShow=true;
             },
             handleClick(tab, event) {
                 console.log(tab, event);

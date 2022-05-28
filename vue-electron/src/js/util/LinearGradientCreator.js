@@ -5,7 +5,7 @@ class LinearGradientCreator {
     constructor() {
         this.defs="myDefs"
         this.counter=0;
-        this.list={};
+        this.list=[];
     }
     addLinearGradient(msg){
         let direction=msg['direction'];
@@ -16,11 +16,13 @@ class LinearGradientCreator {
         let end_style="stop-color:"+end_color;
         let id="gradient_"+this.counter;
 
-        this.list[this.counter]={
-            direction:msg['direction'],
-            start_color:msg['start_color'],
-            end_color:msg['end_color']
-        }
+        this.list.push(
+            {
+                direction:msg['direction'],
+                start_color:msg['start_color'],
+                end_color:msg['end_color']
+            }
+        )
         this.counter++;
 
         let node=createElementByTag("linearGradient",id);
@@ -64,6 +66,10 @@ class LinearGradientCreator {
         return id;
     }
 
+    getGradientList(){
+        return this.list;
+    }
+
     getMsgById(id){
         return this.list[id];
     }
@@ -76,4 +82,8 @@ export function addLinearGradient(msg){
 }
 export function getGradient(id){
     return linearGradientCreator.getMsgById(id);
+}
+
+export function getGradientList(){
+    return linearGradientCreator.getGradientList();
 }

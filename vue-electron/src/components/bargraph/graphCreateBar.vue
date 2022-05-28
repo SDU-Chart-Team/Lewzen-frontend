@@ -5,16 +5,8 @@
                 <div class="card-left">create</div>
             </div>
         </div>
-        <div class="card-item">
-            <div>
-                <button
-                        style="width:100%"
-                        @click="graph_change_set(true)"
-                >create graph</button>
-            </div>
-        </div>
         <div>
-            <el-form v-if="graph_change">
+            <el-form>
                 <el-form-item>
                     <el-input
                             type="textarea"
@@ -28,14 +20,25 @@
                     <el-button size="mini" @click="graph_change_set(false)">cancel</el-button>
                 </el-form-item>
             </el-form>
+            <div style="width: 500px;height: 300px" id="graph">
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import * as echarts from 'echarts';
+    import {getCoreList} from "@/js/element/core/core_queue";
+    import {P} from "@/js/action/actionQueue";
     export default {
         name: "graphCreateBar",
+        mounted() {
+            window.set_graph_id=this.set_graph_id;
+        },
         methods:{
+            set_graph_id(value){
+              this.graph_id=value;
+            },
             graph_change_set(value){
                 if(!value){
 
@@ -47,15 +50,22 @@
 
             SubmitGraph(){
                 let option=this.graph_style;
-                let id=getNoteId();
+                let node=document.getElementById(this.graph_id);
+                let divElement=node.getElementsByClassName("foreignObject");
+                console.log(divElement);
+                let myChart = echarts.init(divElement);
                 // console.log(eval('('+option+')'));
-                createChart(eval('('+option+')'),id);
+                myChart.setOption(eval('('+option+')'));
+                // let coreList=getCoreList();
+                // P("set_html",{html:document.getElementById("graph").innerHTML})
+                // createChart(,id);
             }
         },
         data(){
             return{
                 graph_style:"",
-                graph_change:false
+                graph_change:false,
+                graph_id:"",
             }
         }
     }

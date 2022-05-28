@@ -1,6 +1,7 @@
 import {P} from "@/js/action/actionQueue";
 import {getModuleByGid} from "@/js/element/module/module_queue";
 import {getCoreList} from "@/js/element/core/core_queue";
+import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
 
 let aliasCounter={
     rectangle:0,
@@ -14,6 +15,7 @@ class Module_tree {
         this.nameList={}
         this.nodeList={}//id not alias
     }
+
     addModule(id,type){
         if(this.nodeList[id]!==undefined)return;
         let counter=++aliasCounter[type];
@@ -29,7 +31,7 @@ class Module_tree {
         item['theta']=0;
         this.nodeList[id]=this.head.length;
         this.head.push(item);
-        // console.log(this.head);
+        console.log(this.head);
     }
 
 
@@ -194,14 +196,27 @@ class Module_tree {
                 // let element=getModuleByGid(nod);
             }
         }
-        return list;
+
+        let list_order=[];
+        let map={};
+        for(let i=0;i<list.length;i++){
+            map[list[i]]=1;
+        }
+        let children=document.getElementById(getShapeMapId()).childNodes;
+        for(let i=0;i<children.length;i++){
+            if(map[children[i].getAttribute("id")]!==undefined){
+                list_order.push(children[i].getAttribute("id"));
+            }
+        }
+
+        return list_order;
     }
 
     getTree(now,width){
         let linkList=[];
         let nodeList=[];
         let queue=[];
-        let node={id:this.head[now]['id'],width:width,tid:this.head[now]['tid']}
+        let node={id:this.head[now]['id'],width:width,tid:this.head[now]['tid'],eid:this.aliasList[this.head[now]['id']]}
         queue.push(node);
         while(queue.length!==0){
             let node=queue[0];
@@ -211,7 +226,7 @@ class Module_tree {
             let children=this.head[tid]['children'];
             for(let i=0;i<children.length;i++){
                 let child=this.head[children[i]];
-                let nod={id:child['id'],width:node['width']+1,tid:child['tid']};
+                let nod={id:child['id'],width:node['width']+1,tid:child['tid'],eid:this.aliasList[child['id']]};
                 linkList.push({source:node['id'],target:nod['id']});
                 queue.push(nod)
             }
@@ -309,6 +324,24 @@ class Module_tree {
         this.head[now]["children"]=[]
         console.log(this.head)
     }
+
+    setAlias(alias){
+        let id=getCoreList()[0];
+        if(this.aliasList[alias]!==undefined){
+            alert("alias repeat")
+            return;
+        }
+        let alias_before=this.nameList[id];
+        for(let i=0;i<this.head.length;i++){
+            if(this.head[i]['id']===alias_before){
+                this.head[i]['id']=alias;
+                this.nameList[id]=alias;
+                this.aliasList[alias]=this.aliasList[alias_before];
+                this.aliasList[alias_before]=null;
+                return;
+            }
+        }
+    }
 }
 
 
@@ -374,4 +407,8 @@ export function setTreeSonCenter(id,center){
 
 export function getChildren(id) {
     return module_tree.getChildren(id);
+}
+
+export function setAlias(alias){
+    module_tree.setAlias(alias);
 }

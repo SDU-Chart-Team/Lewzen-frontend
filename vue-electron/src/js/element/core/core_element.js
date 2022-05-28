@@ -1,8 +1,8 @@
 import {DomOperator} from "@/js/util/domOperation";
 import {createElementByTag} from "@/js/util/createSvgOperation";
-import {getHoverMapId, getKeyMapId, getLastMapId, getMySvg} from "@/js/util/getCanvasIdOperation";
+import {getHoverMapId, getKeyMapId, getLastMapId, getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
 import en from "element-ui/src/locale/lang/en";
-import {getModuleByGid, getModuleBySid} from "@/js/element/module/module_queue";
+import {getListInFill, getModuleByGid, getModuleBySid} from "@/js/element/module/module_queue";
 import {P, updateState} from "@/js/action/actionQueue";
 import {clearScaleState} from "@/js/action/ComponentBasics/movePAction";
 import {getCoreList, moveUpdateStyle, updateCoreMap} from "@/js/element/core/core_queue";
@@ -10,8 +10,8 @@ import {getAncestorAll, setTreeSonCenter, setTreeSonTheta} from "@/js/element/mo
 import {anchor_update} from "@/js/element/anchor/anchor_queue";
 import {getHoverPosition} from "@/svgParser/hoverProcessor";
 import {cssParser} from "@/js/util/cssParser";
-import {canvas_update} from "@/js/canvas/base_canvas";
-import {updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
+import {canvas_update, get_connect_point_list} from "@/js/canvas/base_canvas";
+import {add_arrow, add_arrow_from, add_arrow_to, updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
 let style_core="fill:#29B6F2"
 
 export class Core_element {
@@ -101,9 +101,21 @@ export class Core_element {
                     svg.onmouseup=function(e){
                         // that.rotate_core_block();
                         // setTreeSonCenter(that.g_id)
+                        let coreList=getCoreList();
+                        let ancestorList=getAncestorAll(that.g_id);
+                        ancestorList.reverse();
+                        for(let i=0;i<ancestorList.length;i++) {
+                            let el = getModuleByGid(ancestorList[i])
+                            if(!el.show){
+                                P("cursors",{ids:[el.g_id]})
+                                P("cover_children",{})
+                            }
+                        }
+                        P("cursors",{ids:coreList})
+
 
                         canvas_update("connect",that.g_id,{type:"flag",flag:true})
-                        P("cursors",getCoreList());
+                        P("cursors",{ids:getCoreList()});
                         P("get_center",{})
                         updateStyleAfterChange()
                         svg.onmousemove=null;
@@ -158,7 +170,12 @@ export class Core_element {
                 let nowX=e.offsetX;
                 let nowY=e.offsetY;
                 clearScaleState();
+                let svg=document.getElementById(getMySvg())
                 document.onmousemove=function (e) {
+                    console.log(id);
+                    if(id==="end"){
+                        getListInFill(e.offsetX,e.offsetY);
+                    }
                     that.movePUpdateStyle(core_id);
                     let newX=e.offsetX;
                     let newY=e.offsetY;
@@ -186,6 +203,35 @@ export class Core_element {
                         }
                     }
                     P("cursors",{ids:coreList})
+                    if(id==="end"){
+                        let x=node.getAttribute('cx')
+                        let y=node.getAttribute('cy')
+                        let list=get_connect_point_list({x:x,y:y});
+                        // alert(list);
+                        // console.log(list)
+                        if(list.length>=1){
+                            let to_aid=list[0].a_id;
+                            let to_gid=list[0].g_id;
+                            add_arrow_to(to_gid,to_aid,that.g_id);
+                        }else if(list.length===0){
+
+                            add_arrow_to(undefined,undefined,that.g_id);
+                        }
+                    }else if(id==="start"){
+                        let x=node.getAttribute('cx')
+                        let y=node.getAttribute('cy')
+                        let list=get_connect_point_list({x:x,y:y});
+                        // alert(list);
+                        // console.log(list)
+                        if(list.length>=1){
+                            let from_aid=list[0].a_id;
+                            let from_gid=list[0].g_id;
+                            add_arrow_from(from_gid,from_aid,that.g_id);
+                        }else if(list.length===0){
+
+                            add_arrow_from(undefined,undefined,that.g_id);
+                        }
+                    }
                     document.onmousemove=null;
                     document.onmouseup=null;
                 }
