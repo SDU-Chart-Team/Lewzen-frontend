@@ -1,11 +1,16 @@
 <template>
-    <div>
+    <div style="user-select: none"
+         class="Tab"
+
+    >
 
 <!--  diagram的设置  -->
         <el-tabs v-model="activeName" id="diagramBar" :stretch="card" style="display: block" @tab-click="handleClick">
 
             <!--  Diagram栏的设置      -->
-            <el-tab-pane label="Diagram" name="Diagram">
+            <el-tab-pane
+                    class="Tab"
+                    label="Diagram" name="Diagram">
 
                 <view-bar></view-bar>
 
@@ -16,7 +21,10 @@
 
             <!--  style-Diagram栏的设置      -->
 
-            <el-tab-pane label="Style" name="Style">
+            <el-tab-pane
+                    class="Tab"
+
+                    label="Style" name="Style">
 
                 <diagram-style-bar></diagram-style-bar>
 
@@ -26,13 +34,17 @@
 <!--  element svg的设置-->
         <el-tabs v-model="activeName_element" id="elementStyleBar" style="display: none" :stretch="card_element">
             <!--  style-element栏的设置      -->
-            <el-tab-pane  label="Style" name="Style">
+            <el-tab-pane
+                    class="Tab"
+                    label="Style" name="Style">
                 <fill-bar></fill-bar>
                 <line-bar></line-bar>
                 <style-bar></style-bar>
             </el-tab-pane>
             <!--  arrange栏的设置      -->
-            <el-tab-pane label="Arrange" name="Arrange">
+            <el-tab-pane
+                    class="Tab"
+                    label="Arrange" name="Arrange">
                 <z-index-bar></z-index-bar>
 
                 <size-bar></size-bar>
@@ -46,13 +58,16 @@
                 <group-bar></group-bar>
             </el-tab-pane>
             <!--text栏的设置-->
-            <el-tab-pane v-if="textShow" label="Text" name="Text">
+            <el-tab-pane
+                    class="Tab"
+                    v-if="textShow" label="Text" name="Text">
                 <alignment-bar></alignment-bar>
                 <spacing-bar></spacing-bar>
                 <integrated-editor></integrated-editor>
             </el-tab-pane>
 
             <el-tab-pane
+                    class="Tab"
                     v-if="relationShow"
                     id="RelationBar"
                     label="Relation"
@@ -74,7 +89,9 @@
 <!--  graph 的设置      -->
         <el-tabs v-model="activeName_graph" id="graphStyleBar" style="display: none" :stretch="card_element">
             <!--  style-graph栏的设置      -->
-            <el-tab-pane label="Arrange" name="Arrange">
+            <el-tab-pane
+                    class="Tab"
+                    label="Arrange" name="Arrange">
                 <graph-size-bar></graph-size-bar>
 
                 <graph-position-bar></graph-position-bar>
@@ -88,7 +105,9 @@
 
         <el-tabs v-model="activeName_line" id="lineStyleBar" style="display: none" :stretch="card_element">
             <!--  style-line栏的设置      -->
-            <el-tab-pane label="Line" name="Line">
+            <el-tab-pane
+                    class="Tab"
+                    label="Line" name="Line">
 <!--                <connect-bar></connect-bar>-->
                 <arrow-style-bar></arrow-style-bar>
                 <line-type-bar></line-type-bar>
@@ -96,7 +115,9 @@
                 <set-dotted-line-bar></set-dotted-line-bar>
             </el-tab-pane>
 
-            <el-tab-pane label="Text" name="Text">
+            <el-tab-pane
+                    class="Tab"
+                    label="Text" name="Text">
                 <alignment-bar></alignment-bar>
                 <spacing-bar></spacing-bar>
                 <integrated-editor></integrated-editor>
@@ -608,4 +629,7 @@
     width:30%;
     height: 30px;
 }
+
+
+
 </style>

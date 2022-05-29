@@ -5,6 +5,8 @@ import th from "element-ui/src/locale/lang/th";
 import {P} from "@/js/action/actionQueue";
 import {getCoreList} from "@/js/element/core/core_queue";
 import {getListInFill} from "@/js/element/module/module_queue";
+import {getActionCounter} from "../../action/actionQueue";
+import {get_connect_point_list} from "../../canvas/base_canvas";
 
 let counter=0;
 class Arrow_operation {
@@ -39,7 +41,7 @@ class Arrow_operation {
         this.from_point_g_id=g_id;
         this.from_point_a_id=a_id;
         let node=createElementByTag("circle",this.from_id);
-        let map_id=getKeyMapId();
+        let map_id="node_map";
         let map=document.getElementById(map_id);
         node.setAttribute("cx",msg['x']);
         node.setAttribute("cy",msg['y']);
@@ -59,9 +61,10 @@ class Arrow_operation {
             // map.appendChild(line);
             // add_arrow(that.from_point_g_id,that.from_point_a_id,line_id)
             P("create",{id:7})
-            P("set_start",{x:e.offsetX,y:e.offsetY})
-            P("set_end",{x:e.offsetX,y:e.offsetY})
+            P("set_start",{x:msg['x'],y:msg['y']})
+            P("set_end",{x:msg['x'],y:msg['y']})
             P("get_p",{})
+            let id=getCoreList()[0];
             add_arrow_from(g_id,a_id,getCoreList()[0]);
             let svg=document.getElementById(getMySvg());
             let start_x=e.offsetX;
@@ -76,27 +79,43 @@ class Arrow_operation {
                 end_x=e.offsetX;
                 end_y=e.offsetY;
                 // getListInFill(end_x,end_y)
+                getListInFill(e.offsetX,e.offsetY);
+
             }
             svg.onmouseup=function(e){
                 if(start_y===end_y&&
                     start_x===end_x
                 ){
+                    add_arrow_from(undefined,undefined,getCoreList()[0]);
+                    let time= getActionCounter();
+                    P("remove",{time:time})
                     // map.removeChild(line);
+                }else{
+                    console.log(id+"_end")
+                    let node=document.getElementById(id+"_"+"end");
+                    console.log(node);
+                    let x=node.getAttribute('cx')
+                    let y=node.getAttribute('cy')
+                    let list=get_connect_point_list({x:x,y:y});
+                    // alert(list);
+                    // console.log(list)
+                    if(list.length>=1){
+                        let to_aid=list[0].a_id;
+                        let to_gid=list[0].g_id;
+                        add_arrow_to(to_gid,to_aid,that.g_id);
+                    }else if(list.length===0){
+
+                        add_arrow_to(undefined,undefined,that.g_id);
+                    }
                 }
+
                 svg.onmousemove=null;
                 svg.onmouseup=null;
                 that.from_point_remove();
             }
         }
-        node.ondblclick=function(e){
-            that.flag=true;
-        }
         node.onmouseleave=function (e) {
-            console.log(111);
-            if(!that.flag){
-                that.from_point_remove();
-            }
-
+            that.from_point_remove();
         }
     }
 
@@ -108,7 +127,7 @@ class Arrow_operation {
         let map_id=getKeyMapId();
         this.to_point_a_id=a_id;
         this.to_point_g_id=g_id;
-        let map=document.getElementById(map_id);
+        let map=document.getElementById("node_map");
         node.setAttribute("cx",msg['x']);
         node.setAttribute("cy",msg['y']);
         node.setAttribute("r",7);
@@ -140,7 +159,7 @@ class Arrow_operation {
         if(!this.from_point)return;
         this.from_point=false;
         let node=document.getElementById(this.from_id);
-        let map=document.getElementById(getKeyMapId());
+        let map=document.getElementById("node_map");
         map.removeChild(node);
     }
 
@@ -149,7 +168,7 @@ class Arrow_operation {
         this.to_point=false;
         this.now_in_point=undefined
         let node=document.getElementById(this.to_id);
-        let map=document.getElementById(getKeyMapId());
+        let map=document.getElementById("node_map");
         map.removeChild(node);
     }
 

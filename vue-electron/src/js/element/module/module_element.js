@@ -23,6 +23,7 @@ import {anchor_update} from "@/js/element/anchor/anchor_queue";
 import {canvas_update, guideSet} from "@/js/canvas/base_canvas";
 import {updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
 import {get_rect_move_flag} from "@/js/element/last/last_map_operation";
+import {initMovePState} from "../../action/ComponentBasics/movePAction";
 
 export class Module_element {
     constructor(msg,flag) {
@@ -210,7 +211,6 @@ export class Module_element {
                 //         }
                 //     }
                 // }
-
                 if(flag||that.isCore){
                     clearMoveState();
                     let msg={}

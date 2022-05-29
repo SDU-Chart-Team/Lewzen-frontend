@@ -113,6 +113,7 @@ export function createMoveAction(msgTo,flag=true){
     let msg={g_id:g_id,move_x:move_x,move_y:move_y,all_move_x:getMoveState()['x'],all_move_y:getMoveState()['y'],start_x:getMoveState()['start_x'],start_y:getMoveState()['start_y']};
     let trans=updatePosition(msg);
     updateTransState(trans);
+    console.log(trans);
     move_x+=trans['x'];
     move_y+=trans['y'];
     // console.log(move_x,move_y);
@@ -124,7 +125,7 @@ export function createMoveAction(msgTo,flag=true){
     val['flag']=flag;
     // console.log(val);
     let cmd=JSON.stringify(val);
-
+    console.log(cmd);
     // updateCMD(cmd);
     sendSocket({cmd:cmd})
 }

@@ -8,16 +8,7 @@
     />
     <Editor
             v-bind:style="{
-      // 'z-index': 5,
-      // bind css.height with data.height
       height: this.height +'px',
-      // bind css.width with data.width
-      // width: this.width +'px',
-      // position: 'absolute',
-      // // bind css.left with data.left
-      // left: this.left + 'px',
-      // // bind css.top with data.top
-      // top: this.top + 'px',
       'overflow-y': 'hidden',
       border: '1px solid #ccc',
     }"
@@ -25,8 +16,7 @@
             :defaultConfig="editorConfig"
             :mode="mode"
             @onCreated="onCreated"
-            @onBlur="handleBlur"
-
+            @onChange="handleBlur"
     />
   </div>
 </template>
@@ -48,7 +38,12 @@
     components: {Editor, Toolbar},
     mounted() {
       window.set_html_bar=this.setValueHtml;
+      // setTimeout(()=>{
+      //   this.valueHtml = '<p>hello</p>';
+      //   console.log('on mounted')
+      // },1500)
     },
+
     props: {},
     data() {
       return {
@@ -87,19 +82,19 @@
             "underline",
             // '|',
             // 'insertFormula',
-            '|',
-            "justifyLeft",
-            "justifyRight",
-            "justifyCenter",
-            "justifyJustify",
+            // '|',
+            // "justifyLeft",
+            // "justifyRight",
+            // "justifyCenter",
+            // "justifyJustify",
             '|',
             'sub',
             'sup',
             // menu key
             "headerSelect",
 
-            // "insertFormula", // “插入公式”菜单
-            // "editFormula", // “编辑公式”菜单
+            "insertFormula", // “插入公式”菜单
+            "editFormula", // “编辑公式”菜单
             // group of menu items
             {
               key: "group-more-style",
@@ -136,7 +131,10 @@
       // set the HTML content of editor
       setContent(contentHTML) {
         this.valueHtml = contentHTML;
+        // this.editor.setHtml(contentHTML);
+        // this.editor?.updateView();
       },
+
       getContent() {
         return this.valueHtml
       },
@@ -157,9 +155,11 @@
         this.$emit("editorBlur");
       },
       setValueHtml(value){
-        console.log(value);
-        this.valueHtml=value;
-        this.valueHtml_last=value;
+        setTimeout(()=>{        console.log("value"+value);
+          console.log("valueHTML1"+this.valueHtml);
+          this.setContent(value)
+          console.log("valueHTML2"+this.valueHtml);
+          this.valueHtml_last=value;},1500)
       }
     },
     beforeDestroy() {

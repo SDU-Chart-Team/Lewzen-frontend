@@ -64,6 +64,8 @@ class Arrow_Queue {
             this.fromarrowList[from_id]=[];
         }
         this.fromarrowList[from_id].push({a_id:a_id,id:id});
+
+
     }
     add_arrow_to(to_id,a_id,line_id){
         // console.log(to_id,a_id,line_id)
@@ -98,6 +100,7 @@ class Arrow_Queue {
                     this.toarrowList[to_id]=[];
                 }
                 this.toarrowList[to_id].push({a_id:a_id,id:line_id})
+
                 break;
             }
         }
@@ -162,6 +165,7 @@ class Arrow_Queue {
                 let line_id=toList[i]['id']
                 let line=document.getElementById(line_id);
                 let node=line.childNodes[0];
+                if(node===undefined)continue;
                 let d=node.getAttribute('d');
                 d=Trim(d)
                 // console.log(d)
@@ -184,6 +188,7 @@ class Arrow_Queue {
                 let line=document.getElementById(line_id);
                 // console.log(line);
                 let node=line.childNodes[0];
+                if(node===undefined)continue;
                 let d=node.getAttribute('d');
                 console.log(d)
                 d=Trim(d)
@@ -218,6 +223,7 @@ class Arrow_Queue {
         for(let key in this.updateStartList){
             let line=document.getElementById(key);
             // console.log(line);
+            if(node===undefined)continue;
             let node=line.childNodes[0];
             let d=node.getAttribute('d');
             d=Trim(d)
@@ -232,6 +238,7 @@ class Arrow_Queue {
             let line=document.getElementById(key);
             // console.log(line);
             let node=line.childNodes[0];
+            if(node===undefined)continue;
             let d=node.getAttribute('d');
             d=Trim(d)
             // console.log(node.getTotalLength())

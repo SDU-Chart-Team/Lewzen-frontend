@@ -34,7 +34,7 @@ let move_enter={}
 export function set_shape_create(sort){
     shape_create=sort;
     var body = document.querySelector("body")
-    body.style.cursor= "move"
+    // body.style.cursor= "move"
     let node=document.getElementById(getMySvg());
     node.onmouseenter=function (e) {
         if(shape_create!==undefined){

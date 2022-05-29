@@ -2,6 +2,7 @@ import {getCoreList} from "@/js/element/core/core_queue";
 import {getTree} from "@/js/element/module/module_tree";
 import {getModuleByGid} from "@/js/element/module/module_queue";
 import {P} from "@/js/action/actionQueue";
+import {getAlias} from "../../element/module/module_tree";
 
 export function updateLink(){
 
@@ -29,4 +30,7 @@ export function updateLink(){
     let id=coreList[0];
     let msg=getTree(id);
     DrawRelation(msg)
+
+    let alias=getAlias(id);
+    alias_update(alias)
 }

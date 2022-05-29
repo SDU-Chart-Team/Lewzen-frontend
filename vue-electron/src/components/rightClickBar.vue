@@ -46,18 +46,7 @@
                 <span slot="title">Line</span>
             </el-menu-item>
         </el-submenu>
-        <el-submenu index="4">
-            <span slot="title">Group</span>
-            <el-menu-item index="4-1">
-                <span slot="title">Group</span>
-            </el-menu-item>
-            <el-menu-item index="4-2">
-                <span slot="title">Ungroup</span>
-            </el-menu-item>
-        </el-submenu>
-<!--        <el-menu-item index="5">-->
-<!--            <span slot="title">Graph</span>-->
-<!--        </el-menu-item>-->
+
     </el-menu>
 </template>
 
@@ -65,6 +54,7 @@
     import {getActionCounter, P} from "@/js/action/actionQueue";
     import {setShadow} from "@/js/canvas/operation/canvas_style_operation";
     import {getCoreList} from "@/js/element/core/core_queue";
+    import {ctrlC, ctrlV} from "@/js/keymap/keyModel";
 
     export default {
         name: "rightClickBar",
@@ -73,7 +63,11 @@
                 // console.log(index);
                 if(index==="1-1"){
                     this.handleDelete();
-                }else if(index==="2-1"){
+                }else if(index==='1-2'){
+                    ctrlC();
+                }else if(index==='1-3'){
+                    ctrlV();
+                } else if(index==="2-1"){
                     this.handleFront();
                 }else if(index==="2-2"){
                     this.handleBack();
@@ -87,9 +81,6 @@
                     this.handleFill();
                 }else if(index==="3-3"){
                     this.handleLine();
-                } else if(index==='5'){
-                    set_graph_id(getCoreList()[0]);
-                    showGraphBar()
                 }
 
                 let menu=document.getElementById("rightClick");

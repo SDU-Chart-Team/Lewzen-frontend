@@ -33,7 +33,6 @@ class Base_canvas {
     }
     updatePosition(msg){
         let trans={x:0,y:0};
-        // console.log(msg);
         if(this.getState("grid")){
             trans=this.canvasList['grid'].updatePosition(msg);
         }else if(this.getState("guide")){

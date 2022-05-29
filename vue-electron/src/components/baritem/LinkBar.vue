@@ -38,6 +38,7 @@
     import {getCoreList} from "@/js/element/core/core_queue";
     import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
     import {getModuleByGid} from "@/js/element/module/module_queue";
+    import {updateLink} from "@/js/canvas/operation/canvas_link_operation";
 
     export default {
         name: "LinkBar",
@@ -49,6 +50,7 @@
             link_set(){
                 let link_text=this.link_text;
                 linkByUser(link_text)
+                updateLink()
             },
             DrawRelation(msg){
                 // console.log(msg);
