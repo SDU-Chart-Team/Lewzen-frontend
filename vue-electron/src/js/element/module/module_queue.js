@@ -2,6 +2,7 @@ import {Module_element} from "@/js/element/module/module_element";
 import el from "element-ui/src/locale/lang/el";
 import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {canvas_update} from "@/js/canvas/base_canvas";
+import {pushElementInQueue} from "../core/core_queue";
 
 class Module_queue {
     constructor() {
@@ -135,7 +136,8 @@ class Module_queue {
             let flag=false;
             for(let j=0;j<children.length;j++) {
                 let element = children[j];
-                // console.log(element);
+                console.log(element);
+                if(element===undefined)continue;
                 if (element.isPointInFill(point)) {
                     flag = true;
                 }
@@ -148,7 +150,13 @@ class Module_queue {
             }
         }
         // return list;
-
+    }
+    selectAll(){
+        let list=[];
+        for(let i=0;i<this.moduleQueue.length;i++){
+            list.push(this.moduleQueue[i].g_id);
+        }
+        pushElementInQueue(list);
     }
 }
 
@@ -186,4 +194,8 @@ export function createLine(msg,flag=true){
 
 export function getListInFill(x,y){
     moduleQueue.getListInFill(x,y);
+}
+
+export function selectAll(){
+    moduleQueue.selectAll();
 }

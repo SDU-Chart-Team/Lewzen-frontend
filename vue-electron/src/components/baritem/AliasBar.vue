@@ -23,12 +23,20 @@
 
 <script>
     import {setAlias} from "@/js/element/module/module_tree";
+    import {updateLink} from "@/js/canvas/operation/canvas_link_operation";
 
     export default {
         name: "AliasBar",
+        mounted() {
+            window.alias_update= this.alias_update
+        },
         methods:{
             alias_set(){
                 setAlias(this.alias_text);
+                updateLink()
+            },
+            alias_update(text){
+                this.alias_text=text;
             }
         },
         data(){

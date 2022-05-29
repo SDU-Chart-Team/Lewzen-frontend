@@ -12,6 +12,7 @@ import {getHoverPosition} from "@/svgParser/hoverProcessor";
 import {cssParser} from "@/js/util/cssParser";
 import {canvas_update, get_connect_point_list} from "@/js/canvas/base_canvas";
 import {add_arrow, add_arrow_from, add_arrow_to, updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
+import {initMovePState} from "../../action/ComponentBasics/movePAction";
 let style_core="fill:#29B6F2"
 
 export class Core_element {
@@ -170,7 +171,8 @@ export class Core_element {
                 let nowX=e.offsetX;
                 let nowY=e.offsetY;
                 clearScaleState();
-                let svg=document.getElementById(getMySvg())
+                let bbox=document.getElementById(that.g_id).getBBox();
+                initMovePState({start_x:bbox.x,start_y:bbox.y}); let svg=document.getElementById(getMySvg())
                 document.onmousemove=function (e) {
                     console.log(id);
                     if(id==="end"){

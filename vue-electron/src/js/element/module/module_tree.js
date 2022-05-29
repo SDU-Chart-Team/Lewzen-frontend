@@ -342,6 +342,9 @@ class Module_tree {
             }
         }
     }
+    getAlias(id){
+        return this.nameList[id];
+    }
 }
 
 
@@ -411,4 +414,7 @@ export function getChildren(id) {
 
 export function setAlias(alias){
     module_tree.setAlias(alias);
+}
+export function getAlias(id){
+    return module_tree.getAlias(id);
 }

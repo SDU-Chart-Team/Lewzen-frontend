@@ -26,25 +26,24 @@
             Edit
         </span>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>cut</el-dropdown-item>
-                <el-dropdown-item>copy</el-dropdown-item>
-                <el-dropdown-item>undo</el-dropdown-item>
-                <el-dropdown-item disabled>redo</el-dropdown-item>
-                <el-dropdown-item divided>select all</el-dropdown-item>
+                <el-dropdown-item command="0">copy</el-dropdown-item>
+                <el-dropdown-item command="1">paste</el-dropdown-item>
+                <el-dropdown-item command="2">undo</el-dropdown-item>
+                <el-dropdown-item command="3">redo</el-dropdown-item>
+                <el-dropdown-item command="4">select all</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <el-dropdown>
-        <span class="el-dropdown-link">
-            View
-        </span>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>scrollbars</el-dropdown-item>
-                <el-dropdown-item>grid</el-dropdown-item>
-                <el-dropdown-item>guides</el-dropdown-item>
-                <el-dropdown-item disabled>tags</el-dropdown-item>
-                <el-dropdown-item divided>view</el-dropdown-item>
-            </el-dropdown-menu>
-        </el-dropdown>
+<!--        <el-dropdown>-->
+<!--        <span class="el-dropdown-link">-->
+<!--            View-->
+<!--        </span>-->
+<!--            <el-dropdown-menu slot="dropdown">-->
+<!--                <el-dropdown-item>grid</el-dropdown-item>-->
+<!--                <el-dropdown-item>guides</el-dropdown-item>-->
+<!--                <el-dropdown-item>connect_points</el-dropdown-item>-->
+<!--                <el-dropdown-item>shadow</el-dropdown-item>-->
+<!--            </el-dropdown-menu>-->
+<!--        </el-dropdown>-->
         <el-dropdown>
         <span class="el-dropdown-link">
             Arrange
@@ -52,9 +51,8 @@
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>toFront</el-dropdown-item>
                 <el-dropdown-item>toBack</el-dropdown-item>
-                <el-dropdown-item>insert</el-dropdown-item>
-                <el-dropdown-item disabled>layout</el-dropdown-item>
-                <el-dropdown-item divided>Group</el-dropdown-item>
+                <el-dropdown-item>Front</el-dropdown-item>
+                <el-dropdown-item>Back</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown>
@@ -77,9 +75,13 @@
 </template>
 
 <script>
-    import {P} from "@/js/action/actionQueue";
+    import {backAction, forwardAction, P} from "@/js/action/actionQueue";
     import {getMyDefs, getShapeMapId} from "@/js/util/getCanvasIdOperation";
     import {addLinearGradient} from "@/js/util/LinearGradientCreator";
+    import {ctrlC, ctrlV} from "@/js/keymap/keyModel";
+    import {selectAll} from "@/js/element/module/module_queue";
+    import {getCanvasState} from "@/js/canvas/base_canvas";
+    import {OffGrid} from "@/js/canvas/operation/canvas_diagram_operation";
 
     export default {
         name: "dropdownMenu",
@@ -106,6 +108,44 @@
                     input.click();
                 }
             },
+            handleEdit(command){
+                if(command==='0'){//copy
+                    ctrlC();
+                }else if(command==='1'){//paste
+                    ctrlV();
+                }else if(command==='2'){//undo
+                    backAction();
+                }else if(command==='3'){//redo
+                    forwardAction();
+                }else if(command==='4'){//select all
+                    selectAll();
+                }
+            },
+            handleArrange(command){
+                if(command==='0'){//to front
+                    P("forward",{})
+                }else if(command==='1'){//to back
+                    P("backward",{})
+                }else if(command==='2'){//front
+                    P("front",{})
+                }else if(command==='3'){//back
+                    P("back",{})
+                }
+            },
+            // handleView(command){
+            //     if(command==='0'){//grid
+            //         let state=getCanvasState('grid');
+            //         if(state){
+            //             OffGrid();
+            //         }
+            //     }else if(command==='1'){//guides
+            //
+            //     }else if(command==='2'){//connect points
+            //
+            //     }else if(command==='3'){//shadow
+            //
+            //     }
+            // },
             handleChange(file,fileList){
               console.log(file);
                 this.fileList=[];

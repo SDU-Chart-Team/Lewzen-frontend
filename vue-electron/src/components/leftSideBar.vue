@@ -48,6 +48,7 @@
 </script>
 <style scoped>
 .item{
+    user-select: none;
     padding-left: 10px;
     text-align: left;
 }

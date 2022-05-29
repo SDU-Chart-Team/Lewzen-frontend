@@ -59,6 +59,9 @@ export class Connect_point {
         node.onmouseenter=function(e){
             signal_arrow(that.g_id,that.a_id,{type:"auto",x:rp[0],y:rp[1]})
         }
+        node.onmouseleave=function(e){
+
+        }
         // alert(theta)
         map.appendChild(node);
         this.live=true;
@@ -76,4 +79,5 @@ export class Connect_point {
     get_point(){
         return {x:this.x,y:this.y}
     }
+
 }

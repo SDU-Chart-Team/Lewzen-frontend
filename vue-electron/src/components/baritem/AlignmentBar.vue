@@ -10,8 +10,9 @@
                 </div>
                 <div class="card-right">
                     <el-select
+
                             v-model="horizontal_value"
-                            style="height: 20px;width: 150px"
+                            style="height: 20px;width: 150px;user-select: none"
                             size="mini"
                             placeholder="请选择"
                             @change="handleH"

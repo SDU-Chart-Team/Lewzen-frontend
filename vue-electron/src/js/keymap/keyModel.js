@@ -52,11 +52,11 @@ export function initKey(){
 
 
 let ctrlCList=[];
-function ctrlC(){
+export function ctrlC(){
     let coreList=getCoreList();
     ctrlCList=coreList;
 }
-function ctrlV(){
+export function ctrlV(){
     if(ctrlCList===[])return;
     let svg=document.getElementById(getShapeMapId());
     let children=svg.childNodes;

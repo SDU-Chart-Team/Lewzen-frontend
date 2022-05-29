@@ -20,6 +20,7 @@ export class GetHtmlAction extends Base_action{
     }
 
     after(){
+        // alert(1);
         set_html_bar(this.msg['html'])
     }
 

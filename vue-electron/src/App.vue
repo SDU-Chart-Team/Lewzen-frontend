@@ -168,6 +168,7 @@
             <el-input
                     placeholder="请输入内容"
                     prefix-icon="el-icon-search"
+                    style="user-select: none"
                     v-model="icon_search">
             </el-input>
           </div>
@@ -193,6 +194,7 @@
                   <g id="shape_map"></g>
                   <g id="hover_map"></g>
                   <g id="key_map"></g>
+                  <g id="node_map"></g>
 
                   <!--                  <g>-->
                   <!--                      <foreignObject width="100%" height="100%" style="display: inline-block">-->
@@ -241,8 +243,9 @@
 <!--        </el-scrollbar>-->
       </el-main>
 <!--rightsider-->
-      <el-aside width="300px" class="aside-div left" style="background-color:#FBFBFB">
-        <right-side-bar></right-side-bar>
+      <el-aside width="300px" class="aside-div left Tab" style="background-color:#FBFBFB">
+        <right-side-bar
+        ></right-side-bar>
       </el-aside>
 
     </el-container>
@@ -693,6 +696,7 @@
   .el-header{
     /*background-color: #B3C0D1;*/
     color: #333;
+    user-select: none;
   }
   .el-footer{
     background-color: #B3C0D1;
@@ -769,7 +773,20 @@
       overflow-y: scroll;
       overflow-x: scroll;
   }
-
+  .el-main::-webkit-scrollbar{
+      width: 8px;
+      height: 8px;
+  }
+  .el-main::-webkit-scrollbar-thumb{
+      border-radius: 5px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.11);
+      background: #DFE0E1;
+  }
+  .el-main::-webkit-scrollbar-track{
+      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+      border-radius: 0;
+      background: #F8F9FA;
+  }
   #myCanvas{
       /*display: block;*/
       /*text-align: left;*/
@@ -799,7 +816,20 @@
   .is-horizontal {
       display: block;
   }
-
+  .Tab::-webkit-scrollbar{
+      width: 8px;
+      height: 8px;
+  }
+  .Tab::-webkit-scrollbar-thumb{
+      border-radius: 5px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.11);
+      background: #DFE0E1;
+  }
+  .Tab::-webkit-scrollbar-track{
+      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+      border-radius: 0;
+      background: #F8F9FA;
+  }
 
 </style>
 
