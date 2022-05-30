@@ -149,7 +149,7 @@
                 this.gradientOn=msg["gradientOn"];
                 if(this.gradientOn){
                     this.value_gradient=msg["value_gradient"];
-                    this.value_gradient=msg["color_gradient"];
+                    this.color_gradient=msg["color_gradient"];
                 }
             },
 

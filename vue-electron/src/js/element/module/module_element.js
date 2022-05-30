@@ -24,6 +24,8 @@ import {canvas_update, guideSet} from "@/js/canvas/base_canvas";
 import {updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
 import {get_rect_move_flag} from "@/js/element/last/last_map_operation";
 import {initMovePState} from "../../action/ComponentBasics/movePAction";
+import {from_point_remove} from "../anchor/arrow_operation";
+import {getActionCounter} from "../../action/actionQueue";
 
 export class Module_element {
     constructor(msg,flag) {
@@ -132,6 +134,8 @@ export class Module_element {
 
     setElementMouseClick(){
         let that=this;
+        from_point_remove();
+
         let element=document.getElementById(this.g_id);
         for(let i=0;i<element.childNodes.length;i++){
             let node=element.childNodes[i];

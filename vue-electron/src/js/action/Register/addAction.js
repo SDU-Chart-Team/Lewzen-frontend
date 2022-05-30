@@ -19,7 +19,7 @@ export class AddAction extends Base_action{
         // console.log(cmd);
         // console.log(msg);
         this.command=msg["command"];//命令
-        this.id=msg['id'];//组件g_id
+        this.id=msg['ids'];//组件g_id
         this.type=msg['type'];//组件类型
         this.status=msg['status'];//状态码
     }
@@ -31,37 +31,44 @@ export class AddAction extends Base_action{
     after(){
         this.msg['show']=this.cmd['show'];
         if(!this.cmd['show']){
-            let node=document.getElementById(this.id);
-            let parser=new cssParser();
-            parser.parseStyle(node.getAttribute("style"))
-            parser.updateStyle({display:"none"})
-            parser.updateStyle({'stroke-width':0})
-            node.setAttribute("style",parser.get());
-            createModule(this.msg,false);
-            addModuleToTree(this.id,this.type);
-            let coreList=getCoreList();
-            for (var i=0;i<coreList.length;i++){
-                linkByGroup(coreList[i],this.id);
+            for(let i=0;i<this.id.length;i++){
+                let node=document.getElementById(this.id[i]);
+                let parser=new cssParser();
+                parser.parseStyle(node.getAttribute("style"))
+                parser.updateStyle({display:"none"})
+                parser.updateStyle({'stroke-width':0})
+                node.setAttribute("style",parser.get());
+                this.msg['id']=this.id[i];
+                createModule(this.msg,false);
+                addModuleToTree(this.id[i],this.type);
+                let coreList=getCoreList();
+                for (var j=0;j<coreList.length;j++){
+                    linkByGroup(coreList[j],this.id);
+                }
+                P("cursors",{ids:this.msg['ids']})
+                P("cover_children",{})
+                // P("enable_scale_bind",{})
+                P("cursors",{ids:this.msg['ids']})
             }
-            P("cursors",{ids:[this.msg['id']]})
-            P("cover_children",{})
-            // P("enable_scale_bind",{})
-            P("cursors",{ids:[this.msg['id']]})
             return;
         }
-        if(this.type==="line"){
-            createLine(this.msg);
-        }else{
-            createModule(this.msg);//需要修改
+        for(let i=0;i<this.id.length;i++){
+            if(this.type==="line"){
+                this.msg['id']=this.id[i];
+                createLine(this.msg);
+            }else{
+                this.msg['id']=this.id[i];
+                createModule(this.msg);//需要修改
+            }
+            addModuleToTree(this.id[i],this.type);
+            P("cursors",{ids:[this.msg['id']]})
+            let move=set_move_center();
+            let bbox=document.getElementById(this.id[i]).getBBox();
+            initMoveState({start_x:bbox.x,start_y:bbox.y})
+            let msg={g_id:getCoreList()[0],move_x:move['x']-bbox.width/2,move_y:move['y']-bbox.height/2}
+            P("move",msg,false)
+            P("cursors",{ids:this.msg['ids']})
         }
-        addModuleToTree(this.id,this.type);
-        P("cursors",{ids:[this.msg['id']]})
-        let move=set_move_center();
-        let bbox=document.getElementById(this.id).getBBox();
-        initMoveState({start_x:bbox.x,start_y:bbox.y})
-        let msg={g_id:getCoreList()[0],move_x:move['x']-bbox.width/2,move_y:move['y']-bbox.height/2}
-        P("move",msg,false)
-        P("cursors",{ids:[this.msg['id']]})
 
         // anchor_add(this.id);
     }

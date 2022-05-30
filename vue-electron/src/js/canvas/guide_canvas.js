@@ -75,4 +75,8 @@ export class Guide_canvas {
         trans=getPositionAfterGuide(msg);
         return trans;
     }
+
+    clear(){
+        this.deleteGuide();
+    }
 }

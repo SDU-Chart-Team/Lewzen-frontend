@@ -11,12 +11,12 @@ export class CopyAction extends Base_action{
         super(type);
         this.cmd=cmd;
         this.msg=msg;
-        this.id=msg['ids'];
-        // console.log(cmd);
-        // console.log(msg);
+        this.id=msg['tops'];
+        console.log(cmd);
+        console.log(msg);
         this.list=[];
     }
-
+//rectangle_2;link;rectangle_1
     before(){
 
     }
@@ -44,7 +44,7 @@ export class CopyAction extends Base_action{
 
             addModuleToTree(this.id[i],type)
             P("cursors",{ids:[this.id[i]]})
-            updateState({node_id:node_id,fid:this.id[i]})
+            updateState({node_id:node_id,fid:this.id[i],list:this.msg['ids']})
             console.log(getState())
             P("get_children",{})
         }
