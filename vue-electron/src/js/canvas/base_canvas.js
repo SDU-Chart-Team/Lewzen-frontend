@@ -49,6 +49,11 @@ class Base_canvas {
     get_connect_point_list(msg){
         return this.canvasList['connect'].get_connect_point_list(msg);
     }
+
+    clear(){
+        this.canvasList['guide'].clear();
+        this.canvasList['connect'].clear();
+    }
 }
 
 let base_canvas=new Base_canvas();
@@ -83,4 +88,8 @@ export function canvas_update(sort,g_id,msg){
 
 export function get_connect_point_list(msg){
     return base_canvas.get_connect_point_list(msg);
+}
+
+export function clearState(){
+    base_canvas.clear();
 }

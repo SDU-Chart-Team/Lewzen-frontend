@@ -13,6 +13,7 @@ class Module_tree {
         this.head=[]
         this.aliasList={}
         this.nameList={}
+        this.typeList={}
         this.nodeList={}//id not alias
     }
 
@@ -21,6 +22,7 @@ class Module_tree {
         let counter=++aliasCounter[type];
         this.aliasList[type+"_"+counter]=id;
         this.nameList[id]=type+"_"+counter;
+        this.typeList[id]=type;
         // console.log(this.aliasList);
         // console.log(this.nameList);
         let item={};
@@ -196,7 +198,38 @@ class Module_tree {
                 // let element=getModuleByGid(nod);
             }
         }
+        let list_order=[];
+        let map={};
+        for(let i=0;i<list.length;i++){
+            map[list[i]]=1;
+        }
+        let children=document.getElementById(getShapeMapId()).childNodes;
+        for(let i=0;i<children.length;i++){
+            if(map[children[i].getAttribute("id")]!==undefined){
+                list_order.push(children[i].getAttribute("id"));
+            }
+        }
 
+        return list_order;
+    }
+    getChildrenOneList(id){
+        let list=[]
+        let now=this.nodeList[id];
+        let queue=[];
+        queue.push(now);
+        while(queue.length!==0){
+            let node=queue[0];
+            // list.push(node);
+            queue.splice(0,1);
+            let children=this.head[node]['children'];
+            for(let i=0;i<children.length;i++){
+                // queue.push(children[i]);
+                let nod=this.aliasList[this.head[children[i]]['id']];
+                list.push(nod);
+                // console.log(nod);
+                // let element=getModuleByGid(nod);
+            }
+        }
         let list_order=[];
         let map={};
         for(let i=0;i<list.length;i++){
@@ -305,9 +338,7 @@ class Module_tree {
         let father=this.head[now]['father']
         if(father!==now){
             father=this.head[father];
-            for(let i=0;i<this.head[now]['children'].length;i++){
-                father['children'].push(this.head[now]['children'][i])
-            }
+
             for(let i=0;i<this.head[now]['children'].length;i++){
                 if(father['children'][i]===this.head[now]['tid']){
                     father['children'].splice(i,1);
@@ -318,7 +349,7 @@ class Module_tree {
         for(let i=0;i<children.length;i++){
             let child=this.head[children[i]]['tid'];
             child=this.head[child];
-            child['father']=father===now?child['tid']:father['tid'];
+            child['father']=child['tid'];
         }
         this.head[now]["father"]=this.head[now]['tid']
         this.head[now]["children"]=[]
@@ -345,9 +376,24 @@ class Module_tree {
     getAlias(id){
         return this.nameList[id];
     }
+
+    getTypeById(id){
+        return this.typeList[id];
+    }
+
+    clear(){
+        this.head=[]
+        this.aliasList={}
+        this.nameList={}
+        this.typeList={}
+        this.nodeList={}//id not alias
+    }
 }
 
 
+export function clearTree(){
+    module_tree.clear();
+}
 
 let module_tree=new Module_tree();
 
@@ -412,9 +458,17 @@ export function getChildren(id) {
     return module_tree.getChildren(id);
 }
 
+export function getChildrenOneList(id) {
+    return module_tree.getChildrenOneList(id);
+}
+
+
 export function setAlias(alias){
     module_tree.setAlias(alias);
 }
 export function getAlias(id){
     return module_tree.getAlias(id);
+}
+export function getTypeById(id){
+    return module_tree.getTypeById(id);
 }

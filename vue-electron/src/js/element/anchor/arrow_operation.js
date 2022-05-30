@@ -83,10 +83,11 @@ class Arrow_operation {
 
             }
             svg.onmouseup=function(e){
+                // console.log(start_x,end_x,start_y,end_y);
                 if(start_y===end_y&&
                     start_x===end_x
                 ){
-                    add_arrow_from(undefined,undefined,getCoreList()[0]);
+                    add_arrow_from(undefined,undefined,id);
                     let time= getActionCounter();
                     P("remove",{time:time})
                     // map.removeChild(line);
@@ -114,45 +115,46 @@ class Arrow_operation {
                 that.from_point_remove();
             }
         }
+
         node.onmouseleave=function (e) {
             that.from_point_remove();
         }
     }
 
     to_point_create(g_id,a_id,msg){
-        if(this.to_point)return;
-        this.to_point=true;
-        let that=this;
-        let node=createElementByTag("circle",this.to_id);
-        let map_id=getKeyMapId();
-        this.to_point_a_id=a_id;
-        this.to_point_g_id=g_id;
-        let map=document.getElementById("node_map");
-        node.setAttribute("cx",msg['x']);
-        node.setAttribute("cy",msg['y']);
-        node.setAttribute("r",7);
-        node.setAttribute("fill","yellow")
-        map.appendChild(node);
-        this.now_in_point={g_id:g_id,a_id:a_id}
-        node.onmouseleave=function (e) {
-            that.to_point_remove();
-        }
-        node.onclick=function(e){
-            that.flag=false;
-            let from=document.getElementById("from_point");
-            let to=document.getElementById("to_point");
-            let from_x=from.getAttribute("cx");
-            let from_y=from.getAttribute("cy");
-            let to_x=to.getAttribute("cx");
-            let to_y=to.getAttribute("cy");
-            P("create",{id:7})
-            P("set_start",{x:parseInt(from_x),y:parseInt(from_y)})
-            P("set_end",{x:parseInt(to_x),y:parseInt(to_y)})
-            P("get_p",{})
-            let coreList=getCoreList();
-            add_arrow(coreList[0],that.from_point_g_id,that.from_point_a_id,that.to_point_g_id,that.to_point_a_id);
-            that.clear();
-        }
+        // if(this.to_point)return;
+        // this.to_point=true;
+        // let that=this;
+        // let node=createElementByTag("circle",this.to_id);
+        // let map_id=getKeyMapId();
+        // this.to_point_a_id=a_id;
+        // this.to_point_g_id=g_id;
+        // let map=document.getElementById("node_map");
+        // node.setAttribute("cx",msg['x']);
+        // node.setAttribute("cy",msg['y']);
+        // node.setAttribute("r",7);
+        // node.setAttribute("fill","yellow")
+        // map.appendChild(node);
+        // this.now_in_point={g_id:g_id,a_id:a_id}
+        // node.onmouseleave=function (e) {
+        //     that.to_point_remove();
+        // }
+        // node.onclick=function(e){
+        //     that.flag=false;
+        //     let from=document.getElementById("from_point");
+        //     let to=document.getElementById("to_point");
+        //     let from_x=from.getAttribute("cx");
+        //     let from_y=from.getAttribute("cy");
+        //     let to_x=to.getAttribute("cx");
+        //     let to_y=to.getAttribute("cy");
+        //     P("create",{id:7})
+        //     P("set_start",{x:parseInt(from_x),y:parseInt(from_y)})
+        //     P("set_end",{x:parseInt(to_x),y:parseInt(to_y)})
+        //     P("get_p",{})
+        //     let coreList=getCoreList();
+        //     add_arrow(coreList[0],that.from_point_g_id,that.from_point_a_id,that.to_point_g_id,that.to_point_a_id);
+        //     that.clear();
+        // }
     }
 
     from_point_remove(){
@@ -189,3 +191,7 @@ export function clear_arrow_point(){
     arrower.clear();
 }
 
+
+export function from_point_remove(){
+    arrower.from_point_remove();
+}

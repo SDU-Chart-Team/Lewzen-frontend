@@ -21,7 +21,7 @@
                 <el-dropdown-item disabled>close</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <el-dropdown>
+        <el-dropdown @command="handleEdit">
         <span class="el-dropdown-link">
             Edit
         </span>
@@ -44,7 +44,7 @@
 <!--                <el-dropdown-item>shadow</el-dropdown-item>-->
 <!--            </el-dropdown-menu>-->
 <!--        </el-dropdown>-->
-        <el-dropdown>
+        <el-dropdown @command="handleArrange">
         <span class="el-dropdown-link">
             Arrange
         </span>
@@ -82,6 +82,7 @@
     import {selectAll} from "@/js/element/module/module_queue";
     import {getCanvasState} from "@/js/canvas/base_canvas";
     import {OffGrid} from "@/js/canvas/operation/canvas_diagram_operation";
+    import {initCanvasState} from "@/js/util/init";
 
     export default {
         name: "dropdownMenu",
@@ -180,6 +181,7 @@
                           addLinearGradient(list[i]);
                       }
                   }
+                  // initCanvasState();
                   P("load",{json:json['json']})
               }
             },

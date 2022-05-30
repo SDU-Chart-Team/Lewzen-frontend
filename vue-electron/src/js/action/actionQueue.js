@@ -354,3 +354,8 @@ export function updateState(state){
 export function getState(){
     return actionState;
 }
+
+export function initActionQueue(){
+    actionQueue.actionQueue=[];
+    actionQueue.backQueue=[];
+}

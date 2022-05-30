@@ -77,8 +77,8 @@ export function updateStyle(id){
             console.log(fill.substring(14,fill.length-1));
             let fillColor=getGradient(fill.substring(14,fill.length-1));
             msg['value_gradient']=fillColor['direction'];
-            msg['color_gradient']=fillColor['start_color'];
-            msg['color_fill']=fillColor['end_color'];
+            msg['color_gradient']=fillColor['end_color'];
+            msg['color_fill']=fillColor['start_color'];
         }else{
             msg['gradientOn']=false;
             msg['value_gradient']="south"

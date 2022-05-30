@@ -3,6 +3,7 @@ import el from "element-ui/src/locale/lang/el";
 import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {canvas_update} from "@/js/canvas/base_canvas";
 import {pushElementInQueue} from "../core/core_queue";
+import {getActionCounter, P} from "../../action/actionQueue";
 
 class Module_queue {
     constructor() {
@@ -136,13 +137,13 @@ class Module_queue {
             let flag=false;
             for(let j=0;j<children.length;j++) {
                 let element = children[j];
-                console.log(element);
+                // console.log(element);
                 if(element===undefined)continue;
-                if (element.isPointInFill(point)) {
+                if (element.isPointInFill(point)||element.isPointInStroke(point)) {
                     flag = true;
                 }
             }
-            console.log(flag)
+            // console.log(flag)
             if(flag){
                 canvas_update("connect",g_id,{type:"create"})
             }else{
@@ -156,10 +157,23 @@ class Module_queue {
         for(let i=0;i<this.moduleQueue.length;i++){
             list.push(this.moduleQueue[i].g_id);
         }
+        console.log(list);
         pushElementInQueue(list);
     }
+
+    deleteAll(){
+        selectAll();
+        let time= getActionCounter();
+        P("remove",{time:time})
+        P("discard",{time:time});
+        this.moduleQueue=[];
+    }
+
 }
 
+export function deleteAllModules(){
+    moduleQueue.deleteAll();
+}
 
 let moduleQueue=new Module_queue();
 

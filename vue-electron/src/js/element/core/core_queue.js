@@ -241,11 +241,16 @@ class Core_queue {
     //     }
     // }
 
+    clear(){
+        P("uncursor",{})
 
-
-
+        this.coreQueue=[];
+        this.coreMap={};
+    }
 }
-
+export function clearCore(){
+    core_queue.clear();
+}
 let core_queue=new Core_queue();
 
 export function offCoreAll(){

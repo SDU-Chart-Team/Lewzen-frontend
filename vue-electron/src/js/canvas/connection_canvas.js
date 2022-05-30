@@ -4,6 +4,7 @@ import {getGuideBySvgId, getPositionAfterGuide} from "@/js/element/guide/guide_q
 import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
 import {getHoverPosition} from "@/svgParser/hoverProcessor";
 import {Connect_point} from "@/js/element/anchor/connect_point";
+import {from_point_remove} from "../element/anchor/arrow_operation";
 let counter=0;
 export class Connection_canvas {
     constructor() {
@@ -24,6 +25,7 @@ export class Connection_canvas {
 
     update_connect_point(g_id){
         if(!this.flag)return;
+        from_point_remove();
         let mat=window.getComputedStyle(document.getElementById(g_id), null).getPropertyValue("transform");
         let rotation=[1,0,0,1]
         let translate=[0,0];
@@ -66,6 +68,7 @@ export class Connection_canvas {
         console.log(this.connect_map)
         this.show_connect_point(g_id)
     }
+
     show_connect_point(g_id){
         for(let i=0;i<this.connect_map[g_id]['len'];i++){
             let index=this.connect_map[g_id]['start']+i;
@@ -86,6 +89,7 @@ export class Connection_canvas {
     }
 
     delete_connect_point(g_id){
+        from_point_remove();
         for(let key in this.connect_map){
             let id=key;
             for(let i=0;i<this.connect_map[id]['len'];i++) {
@@ -118,5 +122,13 @@ export class Connection_canvas {
             }
         }
         return list;
+    }
+
+
+    clear(){
+        this.connect_map={};
+        this.connect_list=[];
+        this.delete_connect_point("");
+        from_point_remove();
     }
 }
