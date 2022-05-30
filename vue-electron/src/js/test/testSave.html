@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div">
+
+    <svg xmlns="http://www.w3.org/2000/svg" id="svg" width="1629" height="2209" class="svg"><defs id="myDefs"></defs><g id="last_map"><rect id="last" height="2209" width="1629" style="fill-opacity: 0;"></rect></g><g id="text_map"></g><g id="shape_map"><g id="05cebbc1-4807-4182-822b-1bf9c2765648" style="stroke: black; fill: white; stroke-width: 1px;"><rect x="149.000000" y="220.000000" width="200.000000" height="100.000000"></rect></g></g><g id="hover_map"></g><g id="key_map"></g><g id="node_map"></g></svg>
+</div>
+
+<button onclick="saveAsImage()">click</button>
+<script>
+function saveAsImage(){
+        let node=document.getElementById("svg")
+
+        let div=document.createElement("div");
+        div.append(node);
+        var string=div.innerHTML;
+        div.removeChild(node);
+        // document.append(node);
+        string='data:image/svg+xml;base64,'+window.btoa(unescape(encodeURIComponent(string)));
+        var image=new Image();
+        image.src=string;
+        document.getElementById("div").appendChild(image);
+
+    var canvas = document.createElement('canvas');  //准备空画布
+    canvas.width = 1000
+    canvas.height =1000;
+
+    var context = canvas.getContext('2d');  //取得画布的2d绘图上下文
+    context.drawImage(image, 100, 100);
+    document.getElementById('div').appendChild(canvas)
+
+        var url = image.src
+        var a = document.createElement('a')
+        a.download = "iii"
+        a.href =canvas.toDataURL('image/png')
+        a.click()
+
+
+        // div.setAttribute("style","background-image:url('data:image/svg+xml,"+string+"');")
+    }
+
+</script>
+</body>
+</html>

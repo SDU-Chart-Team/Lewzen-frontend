@@ -12,6 +12,10 @@
 
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
+import {getMySvg} from "./getCanvasIdOperation";
+import {P} from "../action/actionQueue";
+import {canvas_update} from "../canvas/base_canvas";
+
 var saveAs = saveAs
     // IE 10+ (native saveAs)
     || (typeof navigator !== "undefined" &&
@@ -246,3 +250,53 @@ export function saveFile(json){
     saveAs(blob, name+".json");
 }
 
+
+export function saveAsHTML(){
+    let node=document.getElementById(getMySvg());
+    P("uncursor",{})
+    canvas_update("connect","",{type:"delete"})
+
+    let div=document.createElement("div");
+    div.append(node);
+    var string=div.innerHTML;
+    div.removeChild(node);
+    document.getElementById("myCanvas").append(node);
+    let name=get_file_name();
+    var blob = new Blob([string], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, name+".html");
+    // image/svg+xml
+    // div.setAttribute("style","background-image:url('data:image/svg+xml,"+string+"');")
+}
+export function saveAsImage(){
+    let node=document.getElementById(getMySvg());
+    P("uncursor",{})
+    canvas_update("connect","",{type:"delete"})
+    let div=document.createElement("div");
+    div.append(node);
+    var string=div.innerHTML;
+    div.removeChild(node);
+    document.getElementById("myCanvas").append(node);
+    string='data:image/svg+xml;base64,'+window.btoa(unescape(encodeURIComponent(string)));
+
+
+    // let name=get_file_name();
+    // var blob = new Blob([string], {type: "image/svg+xml"});
+    // saveAs(blob, name+".png");
+
+    var image=new Image();
+    image.src=string;
+    var canvas=document.createElement('canvas');
+    canvas.width=parseInt(node.getAttribute("width"))
+    canvas.height=parseInt(node.getAttribute("height"))
+    console.log(canvas.width)
+    console.log(canvas.height)
+    var context=canvas.getContext('2d');
+    context.drawImage(image,0,0);
+    var a=document.createElement('a');
+    a.href=canvas.toDataURL('image/png');
+    a.download=get_file_name();
+    a.click();
+
+
+    // div.setAttribute("style","background-image:url('data:image/svg+xml,"+string+"');")
+}

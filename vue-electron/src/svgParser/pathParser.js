@@ -12,7 +12,7 @@ export class PathParser{
         // console.log(node.getTotalLength())
         d=d.split(' ')
         let cnt=0;
-        console.log(d)
+        // console.log(d)
         for(var i=0;i<d.length;i++){
             let point={}
             if(d[i]==='M'){

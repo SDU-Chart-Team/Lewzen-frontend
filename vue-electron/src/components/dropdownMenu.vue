@@ -17,6 +17,8 @@
                     open
                 </el-dropdown-item>
                 <el-dropdown-item command=2>save</el-dropdown-item>
+                <el-dropdown-item command=3>save as html</el-dropdown-item>
+                <el-dropdown-item command=4>save as image</el-dropdown-item>
                 <el-dropdown-item>rename</el-dropdown-item>
                 <el-dropdown-item disabled>close</el-dropdown-item>
             </el-dropdown-menu>
@@ -83,6 +85,7 @@
     import {getCanvasState} from "@/js/canvas/base_canvas";
     import {OffGrid} from "@/js/canvas/operation/canvas_diagram_operation";
     import {initCanvasState} from "@/js/util/init";
+    import {saveAsHTML, saveAsImage} from "@/js/util/fileOperation";
 
     export default {
         name: "dropdownMenu",
@@ -107,6 +110,10 @@
                 }else if(command==="1"){
                     const input=document.getElementById("filePath")
                     input.click();
+                }else if(command==='3'){
+                    saveAsHTML();
+                }else if(command==="4"){
+                    saveAsImage();
                 }
             },
             handleEdit(command){

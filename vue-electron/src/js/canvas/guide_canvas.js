@@ -2,6 +2,7 @@ import {DomOperator} from "@/js/util/domOperation";
 import {createElementByTag} from "@/js/util/createSvgOperation";
 import {getGuideBySvgId, getPositionAfterGuide} from "@/js/element/guide/guide_queue";
 import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
+import {getModuleByGid} from "../element/module/module_queue";
 let counter=0;
 export class Guide_canvas {
     constructor() {
@@ -21,7 +22,11 @@ export class Guide_canvas {
         this.deleteGuide();
         if(!this.isOpen)return;
         let position=getGuideBySvgId(g_id);
-        console.log(position)
+        // console.log(position)
+        let element=getModuleByGid(g_id);
+        if(element.isLine){
+            return;
+        }
         let X=position['X'];
         let Y=position['Y'];
         let domOperator=new DomOperator();
@@ -33,7 +38,7 @@ export class Guide_canvas {
             let style_normal="stroke:blue;stroke-width:1"
             let attrs_need=['height','width']
             let attrs=domOperator.getAttrById(canvas,attrs_need);
-            console.log(attrs)
+            // console.log(attrs)
             domOperator.setAttrByDom(line,{x1:X[i],x2:X[i],y1:0,y2:attrs['height'],style:style_normal})
             domOperator.appendChildById(canvas,line);
             this.guideXList.push(line_id);
@@ -75,6 +80,13 @@ export class Guide_canvas {
         trans=getPositionAfterGuide(msg);
         return trans;
     }
+
+    updatePPosition(msg){
+        let trans={x:0,y:0};
+        trans=getPositionAfterGuide(msg);
+        return trans;
+    }
+
 
     clear(){
         this.deleteGuide();

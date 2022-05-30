@@ -9,8 +9,9 @@ import {cssParser} from "@/js/util/cssParser";
 import {getCoreList} from "@/js/element/core/core_queue";
 import {anchor_add} from "@/js/element/anchor/anchor_queue";
 import {set_move_center} from "@/js/util/canvas_operation";
-import {initMoveState} from "../ComponentBasics/moveAction";
+import {clearMoveState, initMoveState} from "../ComponentBasics/moveAction";
 import {getAllModules} from "../../element/module/module_queue";
+import {guideSet} from "../../canvas/base_canvas";
 
 export class AddAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -63,12 +64,16 @@ export class AddAction extends Base_action{
             }
             addModuleToTree(this.id[i],this.type);
             P("cursors",{ids:[this.msg['id']]})
+            clearMoveState();
+
             let move=set_move_center();
             let bbox=document.getElementById(this.id[i]).getBBox();
+
             initMoveState({start_x:bbox.x,start_y:bbox.y})
             let msg={g_id:getCoreList()[0],move_x:move['x']-bbox.width/2,move_y:move['y']-bbox.height/2}
             P("move",msg,false)
             P("cursors",{ids:this.msg['ids']})
+            guideSet(this.id[i],false);
         }
 
         // anchor_add(this.id);
@@ -102,7 +107,18 @@ export class AddAction extends Base_action{
 }
 let create_List={
     0:'rectangle',
-    7:'line'
+    1:'isometric_cube',
+    2:'trapezoid',
+    3:'parallelogram',
+    4:'hexagon',
+    5:'arrow_right',
+    6:'',
+    7:'line',
+    8:'arrow_left',
+    9:'arrow_up',
+    10:'arrow_down',
+    11:'chevron',
+    12:'notched'
 }
 export function createAddAction(msg,flag){//type,x,y
     let val={}

@@ -74,7 +74,7 @@ export function updateStyle(id){
         if(Trim(fill).substr(0,1)==="u"){
             msg['gradientOn']=true;
             fill=Trim(fill);
-            console.log(fill.substring(14,fill.length-1));
+            // console.log(fill.substring(14,fill.length-1));
             let fillColor=getGradient(fill.substring(14,fill.length-1));
             msg['value_gradient']=fillColor['direction'];
             msg['color_gradient']=fillColor['end_color'];
@@ -103,35 +103,35 @@ export function updateStyle(id){
 }
 
 export function OnFill(){
-    console.log("On Fill!!!")
+    // console.log("On Fill!!!")
     initFillColor();
 
 }
 
 export function OffFill(){
-    console.log("Off Fill!!!");
+    // console.log("Off Fill!!!");
     unInitFillColor();
 }
 
 export function FillColorChange(e){
-    console.log("Fill change")
+    // console.log("Fill change")
     setCoreFillColor(e)
 }
 
 
 
 export function OnGradient(){
-    console.log("On Gradient!!!")
+    // console.log("On Gradient!!!")
 }
 
 export function GradientChange(e){
     console.log(e);
-    console.log("Gradient change!!!")
+    // console.log("Gradient change!!!")
     let id='url(#'+addLinearGradient(e)+')';
     setCoreFillColor(id);
 }
 export function OffGradient(){
-    console.log("Off Gradient!!!")
+    // console.log("Off Gradient!!!")
 
 }
 
@@ -206,24 +206,24 @@ function unInitStroke() {
 }
 
 export function OnStrokeModel(){
-    console.log("On stroke!!!")
+    // console.log("On stroke!!!")
 }
 export function OffStrokeModel(){
-    console.log("Off stroke!!!")
+    // console.log("Off stroke!!!")
     unInitStroke();
 }
 
 export function SetCoreStrokeColor(msg){
-    console.log("SetCoreStrokeColor!!!")
+    // console.log("SetCoreStrokeColor!!!")
     setCoreStrokeC(msg);
 }
 
 export function SetCoreStrokeWidth(msg){
-    console.log("SetCoreStrokeWidth!!!")
+    // console.log("SetCoreStrokeWidth!!!")
     setCoreStrokeW(msg);
 }
 export function SetCoreStrokeStyle(msg){
-    console.log("SetCoreStrokeStyle!!!")
+    // console.log("SetCoreStrokeStyle!!!")
     setCoreStrokeS(msg);
 }
 
@@ -258,7 +258,7 @@ export function setShadow(){
         parser.clear();
         parser.parseStyle(node.getAttribute("style"))
         let filter=parser.returnStyle("filter")
-        console.log(filter);
+        // console.log(filter);
         if(filter!==undefined&&Trim(filter)!==""){
             parser.updateStyle({filter: ""})
             node.setAttribute("style",parser.get());

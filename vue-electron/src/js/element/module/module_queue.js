@@ -4,6 +4,7 @@ import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {canvas_update} from "@/js/canvas/base_canvas";
 import {pushElementInQueue} from "../core/core_queue";
 import {getActionCounter, P} from "../../action/actionQueue";
+import {removeLineFromQueue} from "../anchor/arrow_Queue";
 
 class Module_queue {
     constructor() {
@@ -118,6 +119,9 @@ class Module_queue {
     removeElementByGid(g_id){
         for(let i=0;i<this.moduleQueue.length;i++){
             if(this.moduleQueue[i].g_id===g_id){
+                if(this.moduleQueue[i].isLine){
+                    removeLineFromQueue(this.moduleQueue[i].g_id);
+                }
                 this.moduleQueue.splice(i,1);
                 return;
             }
@@ -143,6 +147,7 @@ class Module_queue {
                     flag = true;
                 }
             }
+            list.push(this.moduleQueue[i].g_id);
             // console.log(flag)
             if(flag){
                 canvas_update("connect",g_id,{type:"create"})
@@ -150,6 +155,7 @@ class Module_queue {
                 canvas_update("connect",g_id,{type:"delete"})
             }
         }
+        // console.log(list)
         // return list;
     }
     selectAll(){
@@ -157,7 +163,7 @@ class Module_queue {
         for(let i=0;i<this.moduleQueue.length;i++){
             list.push(this.moduleQueue[i].g_id);
         }
-        console.log(list);
+        // console.log(list);
         pushElementInQueue(list);
     }
 

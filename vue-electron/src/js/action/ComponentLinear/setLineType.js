@@ -1,6 +1,7 @@
 import {Base_action} from "@/js/action/base_action";
 import {sendSocket} from "@/js/socket/socket";
 import {getActionCounter} from "@/js/action/actionQueue";
+import {P} from "../actionQueue";
 
 export class SetLineType extends Base_action{
     constructor(type,cmd,msg) {
@@ -16,7 +17,7 @@ export class SetLineType extends Base_action{
     }
 
     after(){
-
+        P("get_p",{})
     }
 
     forward(){

@@ -38,8 +38,8 @@ class Arrow_Queue {
             for(let i=0;i<this.arrowList.length;i++){
                 if(id===this.arrowList[i]['id']){
                     let from_id=this.arrowList[i]['from_id']
-                    this.arrowList['from_id']=undefined;
-                    this.arrowList['from_a_id']=undefined;
+                    this.arrowList[i]['from_id']=undefined;
+                    this.arrowList[i]['from_a_id']=undefined;
                     // console.log(this.arrowList);
                     // console.log(this.fromarrowList[from_id])
                     // console.log(from_id)
@@ -80,8 +80,8 @@ class Arrow_Queue {
                     // console.log(111);
 
                     let to_id=this.arrowList[i]['to_id'];
-                    this.arrowList['to_id']=undefined;
-                    this.arrowList['to_a_id']=undefined;
+                    this.arrowList[i]['to_id']=undefined;
+                    this.arrowList[i]['to_a_id']=undefined;
                     if(this.toarrowList[to_id]===undefined){
                         return;
                     }
@@ -97,8 +97,8 @@ class Arrow_Queue {
 
         for(let i=0;i<this.arrowList.length;i++){
             if(line_id===this.arrowList[i]['id']){
-                this.arrowList['to_id']=to_id;
-                this.arrowList['to_a_id']=a_id;
+                this.arrowList[i]['to_id']=to_id;
+                this.arrowList[i]['to_a_id']=a_id;
                 if(this.toarrowList[to_id]===undefined){
                     this.toarrowList[to_id]=[];
                 }
@@ -277,6 +277,63 @@ class Arrow_Queue {
         this.fromarrowList={};
         this.toarrowList={};
     }
+
+
+    removeLineFromQueue(g_id){
+        for(let i=0;i<this.arrowList.length;i++){
+            if(this.arrowList[i]['id']===g_id){
+                let from_id=this.arrowList[i]['from_id'];
+                let to_id=this.arrowList[i]['to_id'];
+                if(from_id!==undefined){
+                    let fromList=this.fromarrowList[from_id];
+                    if(fromList!==undefined){
+                        for(let j=0;j<fromList.length;j++){
+                            if(fromList[j]['id']===g_id){
+                                this.fromarrowList[from_id].splice(j,1);
+                            }
+                        }
+                    }
+                }
+                if(to_id!==undefined){
+                    let toList=this.toarrowList[to_id];
+                    // console.log(toList);
+                    if(toList!==undefined){
+                        for(let j=0;j<toList.length;j++){
+                            if(toList[j]['id']===g_id){
+                                this.toarrowList[to_id].splice(j,1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // console.log(this.arrowList);
+        // console.log(this.toarrowList);
+        // console.log(this.fromarrowList);
+    }
+
+    reAddLine(g_id){
+        for(let i=0;i<this.arrowList.length;i++){
+            if(this.arrowList[i]['id']===g_id){
+                let from_id=this.arrowList[i]['from_id'];
+                let to_id=this.arrowList[i]['to_id'];
+                if(from_id!==undefined){
+                    let fromList=this.fromarrowList[from_id];
+                    if(fromList!==undefined){
+                        this.fromarrowList[from_id]=[];
+                    }
+                    this.fromarrowList[from_id].push({a_id:this.arrowList[i]['from_a_id'],id:g_id})
+                }
+                if(to_id!==undefined){
+                    let toList=this.toarrowList[to_id];
+                    if(toList!==undefined){
+                        this.toarrowList[to_id]=[];
+                    }
+                    this.toarrowList[to_id].push({a_id:this.arrowList[i]['to_a_id'],id:g_id})
+                }
+            }
+        }
+    }
 }
 
 export function clearArrow(){
@@ -305,4 +362,11 @@ function Trim(str)
 {
     if(str===undefined)return;
     return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+export function removeLineFromQueue(g_id){
+    arrowQueue.removeLineFromQueue(g_id);
+}
+export function reAddLine(g_id){
+    arrowQueue.reAddLine(g_id);
 }

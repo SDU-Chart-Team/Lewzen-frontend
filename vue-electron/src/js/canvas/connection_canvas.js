@@ -33,7 +33,7 @@ export class Connection_canvas {
             mat=mat.match(/\(([^)]+)\)/)[1].split(',').map(v=>Number(v));
             rotation=mat.splice(0,4);
             translate=mat.splice(0,2);
-            console.log(rotation, translate)
+            // console.log(rotation, translate)
         }
         if(this.connect_map[g_id]===undefined){
             let position=getHoverPosition(g_id);
@@ -45,9 +45,9 @@ export class Connection_canvas {
             this.connect_map[g_id]=item;
             // this.connect_map[g_id]['start']=this.connect_list.length;
             // this.connect_map[g_id]['len']=position.length;
-            console.log(this.connect_map[g_id]);
-            console.log(g_id);
-            console.log(this.connect_map)
+            // console.log(this.connect_map[g_id]);
+            // console.log(g_id);
+            // console.log(this.connect_map)
             for(let i=0;i<position.length;i++){
                 let connect_point=new Connect_point({rotation:rotation,translate:translate,g_id:g_id,a_id:i,x:position[i]['cx'],y:position[i]['cy']})
                 this.connect_list.push(connect_point);
@@ -65,7 +65,7 @@ export class Connection_canvas {
                 this.connect_list.push(connect_point);
             }
         }
-        console.log(this.connect_map)
+        // console.log(this.connect_map)
         this.show_connect_point(g_id)
     }
 

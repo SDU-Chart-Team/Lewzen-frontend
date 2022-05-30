@@ -5,6 +5,7 @@ import {createModule} from "@/js/element/module/module_queue";
 import {addModuleToTree} from "@/js/element/module/module_tree";
 import {getTypeById} from "../../element/module/module_tree";
 import {createLine} from "../../element/module/module_queue";
+import {reAddLine} from "../../element/anchor/arrow_Queue";
 
 export class ReAddAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -12,9 +13,9 @@ export class ReAddAction extends Base_action{
         this.cmd=cmd;
         this.msg=msg;
         this.ids=msg['ids'];
-        console.log(msg);
-        console.log(cmd);
-        console.log(this.ids);
+        // console.log(msg);
+        // console.log(cmd);
+        // console.log(this.ids);
     }
 
     before(){
@@ -37,6 +38,7 @@ export class ReAddAction extends Base_action{
 
             if(msg['type']==="line"){
                 createLine(msg)
+                reAddLine(this.ids[i]);
             }else{
                 createModule(msg);
             }

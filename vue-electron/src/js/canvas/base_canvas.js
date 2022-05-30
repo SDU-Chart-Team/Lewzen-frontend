@@ -40,6 +40,17 @@ class Base_canvas {
         }
         return trans;
     }
+
+    updatePPosition(msg){
+        let trans={x:0,y:0}
+        if(this.getState("grid")){
+            trans=this.canvasList['grid'].updatePPosition(msg);
+        }else if(this.getState("guide")){
+            trans=this.canvasList['guide'].updatePPosition(msg);
+        }
+        return trans;
+    }
+
     update(sort,g_id,msg){
         if(sort==="connect"){
             this.canvasList['connect'].update(g_id,msg);
@@ -81,6 +92,11 @@ export function guideCancel(msg){
 export function updatePosition(msg) {
     return base_canvas.updatePosition(msg);
 }
+
+export function updatePPosition(msg){
+    return base_canvas.updatePPosition(msg);
+}
+
 export function canvas_update(sort,g_id,msg){
     base_canvas.update(sort,g_id,msg);
 }

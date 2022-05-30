@@ -118,7 +118,7 @@ class ActionQueue {
     pushAction(action){
         action.after();
         V();
-        console.log(action)
+        // console.log(action)
         if(this.filter(action)) {
             if(this.actionQueue.length>0){
                 if(action.merge(this.actionQueue[this.actionQueue.length-1])){
