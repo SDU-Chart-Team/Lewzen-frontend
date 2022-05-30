@@ -91,15 +91,15 @@
         },
         methods:{
             handleFile(command){
-                console.log(command)
+                // console.log(command)
                 if(command==='2'){
                     let svg=document.getElementById(getShapeMapId());
                     let children=svg.childNodes;
                     for(let i=0;i<children.length;i++){
                         let style=children[i].getAttribute("style");
-                        console.log(style);
+                        // console.log(style);
                         let id=children[i].getAttribute("id");
-                        console.log(id);
+                        // console.log(id);
                         P("cursors",{ids:[id]})
                         P("set_style",{style:style})
                     }
@@ -148,7 +148,7 @@
             //     }
             // },
             handleChange(file,fileList){
-              console.log(file);
+              // console.log(file);
                 this.fileList=[];
             },
             saveFile(json){
@@ -174,7 +174,7 @@
               reader.readAsText(fileobj)
               reader.onload=function () {
                   let json=JSON.parse(this.result)
-                  console.log(json);
+                  // console.log(json);
                   let list=json['color']
                   if(list!==undefined){
                       for(let i=0;i<list.length;i++){

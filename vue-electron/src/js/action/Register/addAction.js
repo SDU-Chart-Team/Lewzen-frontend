@@ -10,6 +10,7 @@ import {getCoreList} from "@/js/element/core/core_queue";
 import {anchor_add} from "@/js/element/anchor/anchor_queue";
 import {set_move_center} from "@/js/util/canvas_operation";
 import {initMoveState} from "../ComponentBasics/moveAction";
+import {getAllModules} from "../../element/module/module_queue";
 
 export class AddAction extends Base_action{
     constructor(type,cmd,msg) {

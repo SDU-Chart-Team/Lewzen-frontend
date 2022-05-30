@@ -7,6 +7,7 @@ import {getChildren, getTree, setTreeSonTheta} from "@/js/element/module/module_
 import {updateGuide} from "@/js/element/guide/guide_queue";
 import {guideSet} from "@/js/canvas/base_canvas";
 import {update_position_by_gid} from "@/js/element/anchor/arrow_Queue";
+import {updateStyleAfterChange} from "../../element/anchor/arrow_Queue";
 
 export class SetThetaAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -50,12 +51,16 @@ export class SetThetaAction extends Base_action{
     forward(){
         P("cursors",{ids:this.core},false);
         P("set_theta",{theta:this.msg['theta']},false)
+        P("cursors",{ids:this.core},false)
+        updateStyleAfterChange()
 
     }
 
     backward(){
         P("cursors",{ids:this.core},false);
         P("set_theta",{theta:this.state['theta']},false)
+        P("cursors",{ids:this.core},false)
+        updateStyleAfterChange()
     }
 
     merge(action){

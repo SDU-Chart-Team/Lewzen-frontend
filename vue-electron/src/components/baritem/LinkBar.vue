@@ -1,3 +1,4 @@
+P("cursors",{ids:[this.id]},false)
 <template>
     <div>
         <div class="card">
@@ -110,7 +111,7 @@
                         }
                     }
                 }
-                console.log(item);
+                // console.log(item);
                 // 指定图表的配置项和数据
                 var option = {
                     series: [

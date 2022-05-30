@@ -246,7 +246,6 @@ export class Module_element {
                     document.onmouseup=function (e) {
                         updateCoreMap();
                         // console.log(111);
-                        updateStyleAfterChange()
                         // console.log(111);
                         // anchor_update(that.g_id,"block")
                         guideSet(that.g_id,false)
@@ -261,6 +260,7 @@ export class Module_element {
                             }
                         }
                         P("cursors",{ids:coreList})
+                        updateStyleAfterChange()
                         document.onmousemove=null;
                         document.onmouseup=null;
                     }

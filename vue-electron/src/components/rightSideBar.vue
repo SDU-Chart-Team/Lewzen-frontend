@@ -317,7 +317,7 @@
                 this.relationShow=true;
             },
             handleClick(tab, event) {
-                console.log(tab, event);
+                // console.log(tab, event);
             },
             graph_change_set(value){
                 if(!value){
@@ -421,7 +421,7 @@
         //    下面是关于style的选项
 
             setStyle(msg){
-                console.log(msg);
+                // console.log(msg);
                 this.value_gradient=msg['value_gradient'];
                 this.color_fill=msg['color_fill'];
                 this.color_gradient=msg['color_gradient'];

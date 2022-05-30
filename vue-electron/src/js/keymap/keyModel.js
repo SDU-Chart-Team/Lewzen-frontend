@@ -10,7 +10,7 @@ let ctrlOn=false;
 export function initKey(){
     document.onkeydown=function (e) {
         key_code_map[e.keyCode]=true;
-        console.log(e.keyCode)
+        // console.log(e.keyCode)
         if(e.ctrlKey){
             updateCtrlOnTrue();
             ctrlOn=true;

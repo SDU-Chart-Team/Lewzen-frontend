@@ -2,6 +2,7 @@ import {Base_action} from "@/js/action/base_action";
 import {sendSocket} from "@/js/socket/socket";
 import {getActionCounter, P} from "@/js/action/actionQueue";
 import {linkInTree, unlinkInTree} from "@/js/element/module/module_tree";
+import {updateLink} from "../../canvas/operation/canvas_link_operation";
 
 export class UnlinkAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -20,6 +21,7 @@ export class UnlinkAction extends Base_action{
 
     after(){
         unlinkInTree(this.id1,this.id2);
+        updateLink()
     }
 
     forward(){
@@ -40,9 +42,12 @@ export class UnlinkAction extends Base_action{
     }
 }
 
-export function createUnlinkAction(msg){//id
+export function createUnlinkAction(msg,flag){//id
     let val={}
     val['command']="unlink";
+    val['id1']=msg['id1'];
+    val['id2']=msg['id2'];
+    val['flag']=flag;
     let cmd=JSON.stringify(val);
     sendSocket({cmd:cmd})
 }

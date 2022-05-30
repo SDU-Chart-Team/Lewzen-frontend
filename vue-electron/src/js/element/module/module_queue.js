@@ -169,8 +169,17 @@ class Module_queue {
         this.moduleQueue=[];
     }
 
+    getAllModules(){
+        let list=[];
+        for(let i=0;i<this.moduleQueue.length;i++){
+            list.push(this.moduleQueue[i].g_id);
+        }
+        return list;
+    }
 }
-
+export function getAllModules(){
+    return moduleQueue.getAllModules();
+}
 export function deleteAllModules(){
     moduleQueue.deleteAll();
 }
