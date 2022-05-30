@@ -5,7 +5,9 @@
     >
 
 <!--  diagram的设置  -->
-        <el-tabs v-model="activeName" id="diagramBar" :stretch="card" style="display: block" @tab-click="handleClick">
+        <el-tabs
+
+                v-model="activeName" id="diagramBar" :stretch="card" style="display: block" @tab-click="handleClick">
 
             <!--  Diagram栏的设置      -->
             <el-tab-pane
@@ -16,7 +18,7 @@
 
                 <option-bar></option-bar>
 
-                <paper-bar></paper-bar>
+<!--                <paper-bar></paper-bar>-->
             </el-tab-pane>
 
             <!--  style-Diagram栏的设置      -->
@@ -115,13 +117,13 @@
                 <set-dotted-line-bar></set-dotted-line-bar>
             </el-tab-pane>
 
-            <el-tab-pane
-                    class="Tab"
-                    label="Text" name="Text">
-                <alignment-bar></alignment-bar>
-                <spacing-bar></spacing-bar>
-                <integrated-editor></integrated-editor>
-            </el-tab-pane>
+<!--            <el-tab-pane-->
+<!--                    class="Tab"-->
+<!--                    label="Text" name="Text">-->
+<!--                <alignment-bar></alignment-bar>-->
+<!--                <spacing-bar></spacing-bar>-->
+<!--                <integrated-editor></integrated-editor>-->
+<!--            </el-tab-pane>-->
 
         </el-tabs>
 

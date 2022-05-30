@@ -5,7 +5,17 @@ import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
 
 let aliasCounter={
     rectangle:0,
-    line:0
+    line:0,
+    isometric_cube:0,
+    trapezoid:0,
+    parallelogram:0,
+    hexagon:0,
+    arrow_right:0,
+    arrow_left:0,
+    arrow_up:0,
+    arrow_down:0,
+    chevron:0,
+    notched:0
 }
 //rectangle_1;link;rectangle_2
 class Module_tree {

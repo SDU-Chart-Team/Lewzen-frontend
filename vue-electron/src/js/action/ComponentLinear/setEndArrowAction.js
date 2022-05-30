@@ -34,7 +34,7 @@ export class SetEndArrowAction extends Base_action{
 
 export function createSetEndArrowAction(msg,flag){//cursor dx dy
     let val={}
-    val["command"]="set_end";
+    val["command"]="set_end_arrow";
     val["end_arrow"]=msg["end_arrow"];
     val['flag']=flag;
     // console.log(flag)

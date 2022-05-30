@@ -89,11 +89,12 @@ class Guide_queue {
     }
     getPositionAfterGuide(msg){
       let g_id=msg['g_id'];
+      let trans={x:0,y:0};
       let element=getModuleByGid(g_id);
+      if(element.isLine)return trans;
       let xGuide=this.getXGuide(g_id);
       let yGuide=this.getYGuide(g_id);
 
-      let trans={x:0,y:0};
       let xFlag=false;
       let yFlag=false;
       let xLength=xGuide.length;
@@ -188,6 +189,10 @@ class Guide_queue {
 let guide_queue=new Guide_queue();
 
 export function updateGuide(g_id){
+    let element=getModuleByGid(g_id);
+    if(element.isLine){
+        return;
+    }
     guide_queue.updateXGuide(g_id);
     guide_queue.updateYGuide(g_id);
 }

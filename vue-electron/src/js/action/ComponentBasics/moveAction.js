@@ -47,6 +47,10 @@ export class MoveAction extends Base_action{
         P("move",{g_id:this.ids,move_x:this.dx,move_y:this.dy},false)
         P("cursors",{ids:this.ids},false)
         updateStyleAfterChange()
+        for(let i=0;i<this.ids.length;i++){
+            guideSet(this.ids[i],false);
+        }
+
     }
 
     backward(){
@@ -54,6 +58,9 @@ export class MoveAction extends Base_action{
         P("move",{g_id:this.ids,move_x:-this.dx,move_y:-this.dy},false)
         P("cursors",{ids:this.ids},false)
         updateStyleAfterChange()
+        for(let i=0;i<this.ids.length;i++){
+            guideSet(this.ids[i],false);
+        }
     }
 
     merge(action){

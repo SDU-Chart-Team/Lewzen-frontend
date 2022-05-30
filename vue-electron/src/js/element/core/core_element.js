@@ -13,8 +13,9 @@ import {cssParser} from "@/js/util/cssParser";
 import {canvas_update, get_connect_point_list} from "@/js/canvas/base_canvas";
 import {add_arrow, add_arrow_from, add_arrow_to, updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
 import {initMovePState} from "../../action/ComponentBasics/movePAction";
+import {guideSet} from "../../canvas/base_canvas";
 let style_core="fill:#29B6F2"
-
+let style_core_v="fill:#FCA000"
 export class Core_element {
     constructor(points) {
         this.points=points;
@@ -35,15 +36,23 @@ export class Core_element {
         let canvas_id=getKeyMapId();
 
         let canvas=document.getElementById(canvas_id);
+        // console.log(points);
         for(let i=0;i<points.length;i++){
             let core_id=points[i].comp_id+"_"+points[i].id;
             let x=points[i].x;
             let that=this;
             let y=points[i].y;
             let node=createElementByTag("circle",core_id);
-            domOperator.setAttrByDom(node,{
-                cx:x,cy:y,r:5,style:style_core
-            })
+            if(points[i].color===""){
+                domOperator.setAttrByDom(node,{
+                    cx:x,cy:y,r:5,style:style_core
+                })
+            }else{
+                domOperator.setAttrByDom(node,{
+                    cx:x,cy:y,r:5,style:style_core_v
+                })
+            }
+
             domOperator.appendChildByDom(canvas,node);
 
             if(points[i].id==="RT"){
@@ -175,7 +184,7 @@ export class Core_element {
                 initMovePState({start_x:bbox.x,start_y:bbox.y}); let svg=document.getElementById(getMySvg())
                 document.onmousemove=function (e) {
                     // console.log(id);
-                    if(id==="end"){
+                    if(id==="end"||id==="start"){
                         getListInFill(e.offsetX,e.offsetY);
                     }
                     that.movePUpdateStyle(core_id);
@@ -233,6 +242,7 @@ export class Core_element {
                             add_arrow_from(undefined,undefined,that.g_id);
                         }
                     }
+                    guideSet(that.g_id,false);
                     updateStyleAfterChange();
                     document.onmousemove=null;
                     document.onmouseup=null;

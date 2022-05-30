@@ -115,6 +115,10 @@
                     {
                         value:  'start_arrow_tri',
                         label:  'start_arrow_tri'
+                    },
+                    {
+                        value:   'null',
+                        label:   'null',
                     }
                 ],
                 end_value:"end_arrow",
@@ -150,6 +154,10 @@
                     {
                         value:  'end_arrow_tri',
                         label:  'end_arrow_tri'
+                    },
+                    {
+                        value:   'null',
+                        label:   'null',
                     }
                 ],
             }

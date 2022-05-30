@@ -92,9 +92,9 @@ class Arrow_operation {
                     P("remove",{time:time})
                     // map.removeChild(line);
                 }else{
-                    console.log(id+"_end")
+                    // console.log(id+"_end")
                     let node=document.getElementById(id+"_"+"end");
-                    console.log(node);
+                    // console.log(node);
                     let x=node.getAttribute('cx')
                     let y=node.getAttribute('cy')
                     let list=get_connect_point_list({x:x,y:y});

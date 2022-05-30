@@ -244,8 +244,8 @@
       </el-main>
 <!--rightsider-->
       <el-aside width="350px" class="aside-div left Tab" style="background-color:#FBFBFB">
-        <right-side-bar
-        ></right-side-bar>
+        <right-side-bar></right-side-bar>
+
       </el-aside>
 
     </el-container>

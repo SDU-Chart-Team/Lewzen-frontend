@@ -33,7 +33,7 @@ export function inElementStyleModel(){
         inElementLineModel();
         return;
     }
-    console.log(coreList.length);
+    // console.log(coreList.length);
 
     if(coreList.length>1){
         offText();

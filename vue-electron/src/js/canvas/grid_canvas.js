@@ -10,7 +10,6 @@ import {
     getXGuide,
     getYGuide
 } from "@/js/element/guide/guide_queue";
-import fa from "element-ui/src/locale/lang/fa";
 import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {cssParser} from "@/js/util/cssParser";
 import {get_canvas_scale, setSvgScaleNum, updateMapWithoutGrid} from "@/js/util/canvas_operation";
@@ -162,6 +161,55 @@ export class Grid_canvas {
         return trans;
     }
 
+    updatePWithoutGuide(msg){
+        let trans={x:0,y:0}
+        let x=msg['start_x'];
+        let y=msg['start_y'];
+        let end_x=x+msg['all_move_x'];
+        let end_y=y+msg['all_move_y'];
+
+        let width=end_x%this.grid_size;
+        let height=end_y%this.grid_size;
+        if(height<this.grid_size-height){
+            height=-height;
+        }else{
+            height=this.grid_size-height;
+        }
+        if(width<this.grid_size-width){
+            width=-width;
+        }else{
+            width=this.grid_size-width;
+        }
+        // console.log(end_x,end_y)
+        trans['x']=width;
+        trans['y']=height;
+
+        end_x=end_x+trans['x'];
+        end_y=end_y+trans['y'];
+
+        // let element=getModuleByGid(msg['g_id'])
+        // let node=document.getElementById(element.svg_id);
+        // let now_x=parseInt(node.getAttribute("x"));
+        // let now_y=parseInt(node.getAttribute("y"));
+        // let element=document.getElementById(msg['g_id'])
+        // let bbox=element.getBBox();
+        // let node=document.getElementById(msg['g_id']+"_"+msg['a_id'])
+        let now_x=msg['now_x'];
+        let now_y=msg['now_y'];
+        // console.log(end_x,end_y);
+        // console.log(msg['move_x'],msg['move_y'])
+        // console.log(now_x,now_y);
+        trans['x']=end_x-(now_x+msg['move_x'])
+        trans['y']=end_y-(now_y+msg['move_y'])
+        // console.log(end_x,end_y);
+        // console.log(now_x,now_y)
+        // console.log(trans)
+
+        // trans['x']=end_x;
+        // trans['x']=end_y;
+        return trans;
+    }
+
     updateWithGuide(msg) {
         let trans = this.updateWithoutGuide(msg);
         let x = msg['start_x'];
@@ -224,12 +272,89 @@ export class Grid_canvas {
         trans['y']=y_index-now_y-msg["move_y"];
         return trans;
     }
+
+    updatePWithGuide(msg){
+        let trans = this.updateWithoutGuide(msg);
+        let x = msg['start_x'];
+        let y = msg['start_y'];
+        let end_x = x + msg['all_move_x'];
+        let end_y = y + msg['all_move_y'];
+        let element=document.getElementById(msg['g_id'])
+        let bbox=element.getBBox();
+        let now_x=msg['now_x'];
+        let now_y=msg['now_y'];
+
+        let xGuide=[now_x]
+        let yGuide=[now_y]
+
+        for(var i=0;i<xGuide.length;i++){
+            xGuide[i]+=end_x-now_x;
+            yGuide[i]+=end_y-now_y;
+        }
+        var min_x=100000;
+        var min_y=100000;
+        var x_index=-1;
+        var y_index=-1;
+
+        for(var k=0;k<xGuide.length;k++){
+            let start_x=xGuide[k]-xGuide[k]%this.grid_size;
+            let end_x=start_x+this.grid_size;
+
+            let array_x=[];
+            array_x=getPositionAfterXGuideInGrid(start_x,end_x);
+            // console.log(array_x);
+            if(k===0){
+                array_x.push(end_x);
+                array_x.push(start_x);
+            }
+            for(var i=0;i<array_x.length;i++){
+                if(min_x>abs(xGuide[k]-array_x[i])){
+                    min_x=abs(xGuide[k]-array_x[i]);
+                    x_index=array_x[i]-xGuide[k]+xGuide[0];
+                }
+            }
+        }
+        for(var k=0;k<yGuide.length;k++){
+            let start_y=yGuide[k]-yGuide[k]%this.grid_size;
+            let end_y=start_y+this.grid_size;
+
+            let array_y=[];
+            array_y=getPositionAfterYGuideInGrid(start_y,end_y);
+            if(k===0){
+                array_y.push(end_y);
+                array_y.push(start_y);
+            }
+            for(var i=0;i<array_y.length;i++){
+                if(min_y>abs(yGuide[k]-array_y[i])){
+                    min_y=abs(yGuide[k]-array_y[i]);
+                    y_index=array_y[i]-yGuide[k]+yGuide[0];
+                }
+            }
+        }
+        trans['x']=x_index-now_x-msg["move_x"];
+        trans['y']=y_index-now_y-msg["move_y"];
+        return trans;
+    }
+
     updatePosition(msg){
         if(!getCanvasState("guide")){
             return this.updateWithoutGuide(msg);
         }else{
             // console.log(111);
             return this.updateWithGuide(msg);
+        }
+    }
+
+    updatePPosition(msg){
+        let g_id=msg['g_id'];
+        let module=getModuleByGid(g_id);
+        if(module.isLine){
+            return {x:0,y:0};
+        }
+        if(getCanvasState("guide")){
+            return this.updatePWithGuide(msg);
+        }else{
+            return this.updatePWithoutGuide(msg);
         }
     }
 }

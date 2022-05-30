@@ -45,7 +45,7 @@
                 // this.line_type=value;
             },
             HandleL(e){
-                P("line_type",{line_type:this.line_value})
+                P("set_line_type",{line_type:this.line_value})
                 // console.log(this.horizontal_value);
             }
         },

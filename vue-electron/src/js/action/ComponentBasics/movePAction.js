@@ -8,7 +8,7 @@ import {guideSet} from "@/js/canvas/base_canvas";
 import {update_position_by_gid} from "@/js/element/anchor/arrow_Queue";
 import {getChildren} from "@/js/element/module/module_tree";
 import {getMoveState} from "./moveAction";
-import {updatePosition} from "../../canvas/base_canvas";
+import {updatePosition, updatePPosition} from "../../canvas/base_canvas";
 import {updateStyleAfterChange} from "../../element/anchor/arrow_Queue";
 
 export class MovePAction extends Base_action{
@@ -91,15 +91,28 @@ export function createMovePAction(msg,flag){//id
     let move_x=msg["move_x"]
     let move_y=msg["move_y"]
     updateScaleState(core_id,g_id,move_x,move_y);
-    // let msgTo={g_id:g_id,move_x:move_x,move_y:move_y,all_move_x:getScaleState()['move_x'],all_move_y:getScaleState()['move_y'],start_x:getScaleState()['start_x'],start_y:getScaleState()['start_y']};
-    // let trans=updatePosition(msgTo);
-    // console.log(trans);
+    let msgTo={
+        a_id:msg['core_id'],
+        g_id:g_id,
+        move_x:move_x,
+        move_y:move_y,
+        all_move_x:getScaleState()['move_x'],
+        all_move_y:getScaleState()['move_y'],
+        start_x:getScaleState()['start_x'],
+        start_y:getScaleState()['start_y'],
+        now_x:getScaleState()['now_x'],
+        now_y:getScaleState()['now_y'],
+    };
+    let trans=updatePPosition(msgTo);
+    console.log(trans);
     let val={}
     val['command']="move_point";
     val['id']=msg["g_id"];
     val['pid']=msg["core_id"];
-    val['dx']=move_x;
-    val['dy']=move_y;
+    val['dx']=move_x+trans['x'];
+    val['dy']=move_y+trans['y'];
+
+    updateNowPPosition(val['dx'],val['dy'])
     val['flag']=flag;
 
     let cmd=JSON.stringify(val)
@@ -108,6 +121,11 @@ export function createMovePAction(msg,flag){//id
 
 }
 
+
+export function updateNowPPosition(x,y){
+    scaleStateRecorder['now_x']+=x;
+    scaleStateRecorder['now_y']+=y;
+}
 let scaleStateRecorder={
     core_id:"",
     g_id:"",
@@ -129,6 +147,8 @@ export function updateTransPState(trans) {
 export function initMovePState(msg){
     scaleStateRecorder['start_x']=msg['start_x'];
     scaleStateRecorder['start_y']=msg['start_y'];
+    scaleStateRecorder['now_x']=msg['start_x'];
+    scaleStateRecorder['now_y']=msg['start_y'];
 }
 
 export function getScaleState(){
@@ -138,7 +158,9 @@ export function getScaleState(){
         move_x:scaleStateRecorder["move_x"],
         move_y:scaleStateRecorder["move_y"],
         start_x:scaleStateRecorder['start_x'],
-        start_y:scaleStateRecorder['start_y']
+        start_y:scaleStateRecorder['start_y'],
+        now_x:scaleStateRecorder['now_x'],
+        now_y:scaleStateRecorder['now_y']
     }
 }
 export function clearScaleState(){
