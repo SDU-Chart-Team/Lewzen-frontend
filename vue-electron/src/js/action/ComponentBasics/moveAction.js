@@ -7,6 +7,7 @@ import {anchor_update, update_arrow} from "@/js/element/anchor/anchor_queue";
 import {updateGuide} from "@/js/element/guide/guide_queue";
 import {update_position_by_gid} from "@/js/element/anchor/arrow_Queue";
 import {getChildren} from "@/js/element/module/module_tree";
+import {updateStyleAfterChange} from "../../element/anchor/arrow_Queue";
 
 export class MoveAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -44,11 +45,15 @@ export class MoveAction extends Base_action{
     forward(){
         P("cursors",{ids:this.ids},false)
         P("move",{g_id:this.ids,move_x:this.dx,move_y:this.dy},false)
+        P("cursors",{ids:this.ids},false)
+        updateStyleAfterChange()
     }
 
     backward(){
         P("cursors",{ids:this.ids},false)
         P("move",{g_id:this.ids,move_x:-this.dx,move_y:-this.dy},false)
+        P("cursors",{ids:this.ids},false)
+        updateStyleAfterChange()
     }
 
     merge(action){
@@ -94,7 +99,7 @@ export function clearMoveState(){
     moveStateRecorder={x:0,y:0,g_id:""}
 }
 export function initMoveState(msg){
-    console.log(msg);
+    // console.log(msg);
     moveStateRecorder['start_x']=msg['start_x'];
     moveStateRecorder['start_y']=msg['start_y'];
 }
@@ -113,7 +118,7 @@ export function createMoveAction(msgTo,flag=true){
     let msg={g_id:g_id,move_x:move_x,move_y:move_y,all_move_x:getMoveState()['x'],all_move_y:getMoveState()['y'],start_x:getMoveState()['start_x'],start_y:getMoveState()['start_y']};
     let trans=updatePosition(msg);
     updateTransState(trans);
-    console.log(trans);
+    // console.log(trans);
     move_x+=trans['x'];
     move_y+=trans['y'];
     // console.log(move_x,move_y);
@@ -125,7 +130,7 @@ export function createMoveAction(msgTo,flag=true){
     val['flag']=flag;
     // console.log(val);
     let cmd=JSON.stringify(val);
-    console.log(cmd);
+    // console.log(cmd);
     // updateCMD(cmd);
     sendSocket({cmd:cmd})
 }

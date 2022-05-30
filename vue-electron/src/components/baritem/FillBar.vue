@@ -139,7 +139,7 @@
 
             //设置选项
             setFillStyle(msg){
-                console.log(msg);
+                // console.log(msg);
                 this.fillOn=msg['fillOn'];
                 if(!this.fillOn){
                     return;

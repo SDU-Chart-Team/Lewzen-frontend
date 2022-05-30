@@ -33,23 +33,23 @@ class Arrow_Queue {
         this.toarrowList[to_id].push({a_id:to_a_id,id:id})
     }
     add_arrow_from(from_id,a_id,id){
-        console.log(from_id,a_id,id)
+        // console.log(from_id,a_id,id)
         if(from_id===undefined){
             for(let i=0;i<this.arrowList.length;i++){
                 if(id===this.arrowList[i]['id']){
                     let from_id=this.arrowList[i]['from_id']
                     this.arrowList['from_id']=undefined;
                     this.arrowList['from_a_id']=undefined;
-                    console.log(this.arrowList);
-                    console.log(this.fromarrowList[from_id])
-                    console.log(from_id)
+                    // console.log(this.arrowList);
+                    // console.log(this.fromarrowList[from_id])
+                    // console.log(from_id)
                     if(this.fromarrowList[from_id]===undefined){
                         return;
                     }
                     for(let j=0;j<this.fromarrowList[from_id].length;j++){
                         if(this.fromarrowList[from_id][j]['id']===id){
                             this.fromarrowList[from_id].splice(j,1);
-                            console.log(this.fromarrowList[from_id])
+                            // console.log(this.fromarrowList[from_id])
                             return;
                         }
                     }
@@ -163,8 +163,8 @@ class Arrow_Queue {
             position[i]['cx']=rp[0];
             position[i]['cy']=rp[1];
         }
-        console.log(toList);
-        console.log(fromList);
+        // console.log(toList);
+        // console.log(fromList);
         if(toList!==undefined){
             for(let i=0;i<toList.length;i++){
                 let line_id=toList[i]['id']
@@ -232,8 +232,8 @@ class Arrow_Queue {
         //     P("cursors",[this.updateStartList[i]['id']])
         //     P("set_start",{x:this.updateStartList[i]['x'],y:this.updateStartList[i]['y']})
         // }
-        console.log(this.updateStartList);
-        console.log(this.updateEndList);
+        // console.log(this.updateStartList);
+        // console.log(this.updateEndList);
         for(let key in this.updateStartList){
             let line=document.getElementById(key);
             // console.log(line);
@@ -261,7 +261,7 @@ class Arrow_Queue {
             // console.log(node.getTotalLength())
             d=d.split(' ')
             P("cursors",{ids:[key]})
-            console.log(key)
+            // console.log(key)
             P("set_end",{x:parseInt(d[d.length-2]),y:parseInt(d[d.length-1])})
         }
         // console.log(coreList);

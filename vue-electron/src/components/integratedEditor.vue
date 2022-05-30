@@ -155,10 +155,11 @@
         this.$emit("editorBlur");
       },
       setValueHtml(value){
-        setTimeout(()=>{        console.log("value"+value);
-          console.log("valueHTML1"+this.valueHtml);
+        setTimeout(()=>{
+          // console.log("value"+value);
+        //   console.log("valueHTML1"+this.valueHtml);
           this.setContent(value)
-          console.log("valueHTML2"+this.valueHtml);
+          // console.log("valueHTML2"+this.valueHtml);
           this.valueHtml_last=value;},1500)
       }
     },

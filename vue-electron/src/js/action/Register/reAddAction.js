@@ -26,19 +26,21 @@ export class ReAddAction extends Base_action{
             let msg={}
             msg['id']=this.ids[i];
             let node=document.getElementById(msg['id']);
-            msg['type']=getTypeById(id);
+            msg['type']=getTypeById(msg['id']);
             let display=node.style.display;
             // console.log(display);
             let show=true;
-            if(display==="none"){show=false;}
+            if(display!==undefined){
+                if(display==="none"){show=false;}
+            }
             msg['show']=show;
 
-            if(type==="line"){
+            if(msg['type']==="line"){
                 createLine(msg)
             }else{
                 createModule(msg);
             }
-            addModuleToTree(this.ids[i],type);
+            addModuleToTree(this.ids[i],msg['type']);
         }
         P("cursors",{ids:this.ids})
     }

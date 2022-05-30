@@ -93,7 +93,7 @@ class Module_tree {
                 module2=this.head[i];
                 for(let i=0;i<module2['children'].length;i++){
                     if(module2['children'][i]===this.head[module1]['tid']){
-                        module2['children'][i].splice(i,1);
+                        module2['children'].splice(i,1);
                         break;
                     }
                 }

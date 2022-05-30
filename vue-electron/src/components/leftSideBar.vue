@@ -34,7 +34,7 @@
         },
         methods: {
             createShapeInForm2(){
-                console.log("createShapeInForm2");
+                // console.log("createShapeInForm2");
                 this.$emit('createShapeInForm2',0);
             },
             handlemousedown(i){

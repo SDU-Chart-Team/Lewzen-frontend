@@ -243,7 +243,7 @@
 <!--        </el-scrollbar>-->
       </el-main>
 <!--rightsider-->
-      <el-aside width="300px" class="aside-div left Tab" style="background-color:#FBFBFB">
+      <el-aside width="350px" class="aside-div left Tab" style="background-color:#FBFBFB">
         <right-side-bar
         ></right-side-bar>
       </el-aside>

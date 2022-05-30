@@ -91,10 +91,10 @@
 
             },
             handleOpen(key, keyPath) {
-                console.log(key, keyPath);
+                // console.log(key, keyPath);
             },
             handleClose(key, keyPath) {
-                console.log(key, keyPath);
+                // console.log(key, keyPath);
             },
             handleDelete(){
                 let time= getActionCounter();

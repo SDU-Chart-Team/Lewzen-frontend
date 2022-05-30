@@ -88,7 +88,7 @@ export class Core_element {
                         let theta2=that.getTheta(end_x,end_y,center_x,center_y);
                         let theta=element.theta+theta2-theta1;
                         let len=Math.sqrt((center_x-x)*(center_x-x)+(center_y-y)*(center_y-y));
-                        console.log(len)
+                        // console.log(len)
                         // console.log(theta2);
                         updateState({theta:theta})
                         P("set_theta",{theta:theta})
@@ -174,7 +174,7 @@ export class Core_element {
                 let bbox=document.getElementById(that.g_id).getBBox();
                 initMovePState({start_x:bbox.x,start_y:bbox.y}); let svg=document.getElementById(getMySvg())
                 document.onmousemove=function (e) {
-                    console.log(id);
+                    // console.log(id);
                     if(id==="end"){
                         getListInFill(e.offsetX,e.offsetY);
                     }
@@ -191,7 +191,6 @@ export class Core_element {
                     // anchor_update(that.g_id,"none")
                 }
                 document.onmouseup=function (e) {
-                    updateStyleAfterChange();
                     updateCoreMap();
                     // anchor_update(that.g_id,"block")
                     let coreList=getCoreList();
@@ -234,6 +233,7 @@ export class Core_element {
                             add_arrow_from(undefined,undefined,that.g_id);
                         }
                     }
+                    updateStyleAfterChange();
                     document.onmousemove=null;
                     document.onmouseup=null;
                 }
@@ -283,7 +283,7 @@ export class Core_element {
         }
         let node=document.getElementById(this.g_id+"rotate")
         if(node!==null) {
-            console.log(node)
+            // console.log(node)
             node.setAttribute("style","display:none")
         }
         this.setMoveLinear();

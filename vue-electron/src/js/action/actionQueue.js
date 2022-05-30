@@ -77,7 +77,7 @@ class ActionQueue {
         // console.log(action.cmd)
         // console.log(action)
         if(!action.cmd['flag'])return false;
-
+        if(action.msg['status']!==undefined&&action.msg['status']!=="!succeed")return false;
         return action.filter()
         // let type=action.type;
         // //箭头模块
@@ -118,6 +118,7 @@ class ActionQueue {
     pushAction(action){
         action.after();
         V();
+        console.log(action)
         if(this.filter(action)) {
             if(this.actionQueue.length>0){
                 if(action.merge(this.actionQueue[this.actionQueue.length-1])){

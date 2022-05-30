@@ -52,7 +52,7 @@
                 let option=this.graph_style;
                 let node=document.getElementById(this.graph_id);
                 let divElement=node.getElementsByClassName("foreignObject");
-                console.log(divElement);
+                // console.log(divElement);
                 let myChart = echarts.init(divElement);
                 // console.log(eval('('+option+')'));
                 myChart.setOption(eval('('+option+')'));

@@ -9,6 +9,7 @@ import {update_position_by_gid} from "@/js/element/anchor/arrow_Queue";
 import {getChildren} from "@/js/element/module/module_tree";
 import {getMoveState} from "./moveAction";
 import {updatePosition} from "../../canvas/base_canvas";
+import {updateStyleAfterChange} from "../../element/anchor/arrow_Queue";
 
 export class MovePAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -47,15 +48,24 @@ export class MovePAction extends Base_action{
     }
 
     forward(){
-        P("cursors",{ids:this.ids},false)
+        P("cursors",{ids:[this.id]},false)
         // let msg={core_id:id,g_id:that.g_id,move_x:transX,move_y:transY}
         P("move_point",{core_id:this.pid,g_id:this.id,move_x:this.dx,move_y:this.dy},false)
+        P("cursors",{ids:[this.id]},false)
+
+        updateStyleAfterChange()
+
+
     }
 
     backward(){
-        P("cursors",{ids:this.ids},false)
+        P("cursors",{ids:[this.id]},false)
+
         // let msg={core_id:id,g_id:that.g_id,move_x:transX,move_y:transY}
         P("move_point",{core_id:this.pid,g_id:this.id,move_x:-this.dx,move_y:-this.dy},false)
+        P("cursors",{ids:[this.id]},false)
+
+        updateStyleAfterChange()
     }
 
     merge(action){
