@@ -14,6 +14,11 @@ import {canvas_update, get_connect_point_list} from "@/js/canvas/base_canvas";
 import {add_arrow, add_arrow_from, add_arrow_to, updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
 import {initMovePState} from "../../action/ComponentBasics/movePAction";
 import {guideSet} from "../../canvas/base_canvas";
+import {createArrowFromNullAction} from "../../action/ComponentLinear/setArrowFromNullAction";
+import {createArrowToAction} from "../../action/ComponentLinear/setArrowToAction";
+import {getArrow} from "../anchor/arrow_Queue";
+import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNullAction";
+import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAction";
 let style_core="fill:#29B6F2"
 let style_core_v="fill:#FCA000"
 export class Core_element {
@@ -117,7 +122,7 @@ export class Core_element {
                         for(let i=0;i<ancestorList.length;i++) {
                             let el = getModuleByGid(ancestorList[i])
                             if(!el.show){
-                                P("cursors",{ids:[el.g_id]})
+                                P("cursor",{ids:[el.g_id]})
                                 P("cover_children",{})
                             }
                         }
@@ -125,8 +130,8 @@ export class Core_element {
 
 
                         canvas_update("connect",that.g_id,{type:"flag",flag:true})
-                        P("cursors",{ids:getCoreList()});
-                        P("get_center",{})
+                        // P("cursors",{ids:getCoreList()});
+                        // P("get_center",{})
                         updateStyleAfterChange()
                         svg.onmousemove=null;
                         svg.onmouseup=null;
@@ -181,7 +186,8 @@ export class Core_element {
                 let nowY=e.offsetY;
                 clearScaleState();
                 let bbox=document.getElementById(that.g_id).getBBox();
-                initMovePState({start_x:bbox.x,start_y:bbox.y}); let svg=document.getElementById(getMySvg())
+                initMovePState({start_x:bbox.x,start_y:bbox.y});
+                let svg=document.getElementById(getMySvg())
                 document.onmousemove=function (e) {
                     // console.log(id);
                     if(id==="end"||id==="start"){
@@ -208,7 +214,7 @@ export class Core_element {
                     for(let i=0;i<ancestorList.length;i++) {
                         let el = getModuleByGid(ancestorList[i])
                         if(!el.show){
-                            P("cursors",{ids:[el.g_id]})
+                            P("cursor",{ids:[el.g_id]})
                             P("cover_children",{})
                         }
                     }
@@ -222,11 +228,26 @@ export class Core_element {
                         if(list.length>=1){
                             let to_aid=list[0].a_id;
                             let to_gid=list[0].g_id;
-                            add_arrow_to(to_gid,to_aid,that.g_id);
+                            let val={
+                                command:"arrow_to",
+                                flag:true
+                            };
+                            let msg={g_id:to_gid,line_id:that.g_id,a_id:to_aid}
+                            createArrowToAction(val,msg);
                         }else if(list.length===0){
-
-                            add_arrow_to(undefined,undefined,that.g_id);
+                            let arrow=getArrow(that.g_id);
+                            if(arrow!==undefined&&arrow['to_a_id']!==undefined){
+                                let to_aid=arrow['to_a_id'];
+                                let to_gid=arrow['to_g_id'];
+                                let val={
+                                    command:"arrow_to_null",
+                                    flag:true
+                                };
+                                let msg={g_id:to_gid,line_id:that.g_id,a_id:to_aid}
+                                createArrowToNullAction(val,msg);
+                            }
                         }
+                        canvas_update("connect","",{type:"delete"})
                     }else if(id==="start"){
                         let x=node.getAttribute('cx')
                         let y=node.getAttribute('cy')
@@ -236,11 +257,26 @@ export class Core_element {
                         if(list.length>=1){
                             let from_aid=list[0].a_id;
                             let from_gid=list[0].g_id;
-                            add_arrow_from(from_gid,from_aid,that.g_id);
+                            let val={
+                                command:"arrow_from",
+                                flag:true
+                            };
+                            let msg={g_id:from_gid,line_id:that.g_id,a_id:from_aid}
+                            createArrowFromAction(val,msg);
                         }else if(list.length===0){
-
-                            add_arrow_from(undefined,undefined,that.g_id);
+                            let arrow=getArrow(that.g_id);
+                            if(arrow!==undefined&&arrow['from_a_id']!==undefined){
+                                let from_aid=arrow['from_a_id'];
+                                let from_gid=arrow['from_g_id'];
+                                let val={
+                                    command:"arrow_from_null",
+                                    flag:true
+                                };
+                                let msg={g_id:from_gid,line_id:that.g_id,a_id:from_aid}
+                                createArrowFromNullAction(val,msg);
+                            }
                         }
+                        canvas_update("connect","",{type:"delete"})
                     }
                     guideSet(that.g_id,false);
                     updateStyleAfterChange();

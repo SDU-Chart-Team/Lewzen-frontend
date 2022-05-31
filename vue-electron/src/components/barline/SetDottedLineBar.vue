@@ -5,11 +5,12 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     dot
                 </div>
                 <div class="card-right">
                     <el-select
+                            :disabled="flag"
                             v-model="line_value"
                             style="height: 20px;width: 150px"
                             size="mini"
@@ -40,8 +41,12 @@
         name: "SetDottedLineBar",
         mounted() {
           window.set_dotted_lise_bar=this.set_dotted_lise_bar;
+          window.set_dotted_line_flag=this.set_dotted_line_flag;
         },
         methods:{
+            set_dotted_line_flag(flag){
+              this.flag=flag;
+            },
             set_dotted_lise_bar(){
                 let id=getCoreList();
               // this.line_value=window.getComputedStyle(document.getElementById(id)).;
@@ -49,7 +54,8 @@
             handleL(e){
                 P("set_dotted_line",{dot_type:this.line_value})
                 // console.log(this.horizontal_value);
-            }
+            },
+
         },
         data(){
             return{
@@ -68,6 +74,7 @@
                         label: 'solid'
                     },
                 ],
+                flag:true
             }
         }
     }
@@ -81,7 +88,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -101,14 +108,17 @@
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 70%;
+        width: 30%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 30%;
+        width: 60%;
         height: 30px;
         font-size: 14px;
         color: gray;

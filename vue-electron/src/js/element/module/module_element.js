@@ -39,7 +39,7 @@ export class Module_element {
         this.move=false;
         this.type=msg['type']
         this.isLine=msg['is_line']
-        console.log(this.isLine);
+        // console.log(this.isLine);
         this.rotate_x=0;
         this.rotate_y=0;
         this.center_x=0;
@@ -50,7 +50,7 @@ export class Module_element {
             this.setElementMouseClick();
             this.setElementMouseDown();
             this.setElementHover();
-            this.setText();
+            // this.setText();
         }
         // this.create(msg);
         this.theta=0;
@@ -134,7 +134,7 @@ export class Module_element {
 
     setElementMouseClick(){
         let that=this;
-        from_point_remove();
+        // from_point_remove();
 
         let element=document.getElementById(this.g_id);
         for(let i=0;i<element.childNodes.length;i++){
@@ -202,7 +202,7 @@ export class Module_element {
 
                 for(let j=0;j<ancestorList.length;j++){
                     let el=getModuleByGid(ancestorList[j]);
-                    if(el.isCore){
+                    if(el.isCore&&!el.show){
                         flag=true;
                     }
                 }
@@ -255,12 +255,12 @@ export class Module_element {
                         for(let i=0;i<ancestorList.length;i++) {
                             let el = getModuleByGid(ancestorList[i])
                             if(!el.show){
-                                P("cursors",{ids:[el.g_id]})
+                                P("cursor",{ids:[el.g_id]})
                                 P("cover_children",{})
                             }
                         }
-                        P("cursors",{ids:coreList})
                         updateStyleAfterChange()
+                        P("cursors",{ids:coreList})
                         document.onmousemove=null;
                         document.onmouseup=null;
                     }

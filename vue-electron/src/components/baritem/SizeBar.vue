@@ -3,7 +3,7 @@
         <div class="card-header">size</div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     width
                 </div>
                 <div class="card-right">
@@ -18,7 +18,7 @@
             </div>
 
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     height
                 </div>
                 <div class="card-right">
@@ -47,6 +47,14 @@
                 // console.log(msg)
                 if(!msg['flag']){
                     this.isArrange=true;
+                    this.element_top='';
+                    this.element_left='';
+                    this.element_left_last='';
+                    this.element_top_last='';
+                    this.element_width_last='';
+                    this.element_width='';
+                    this.element_height_last='';
+                    this.element_height='';
                 }else{
                     this.isArrange=false;
                     this.element_left=msg['x'];
@@ -81,7 +89,7 @@
             return{
                 element_left:"",
                 element_top:"",
-                isArrange:false,
+                isArrange:true,
                 element_height:"",
                 element_width:"",
                 element_left_last:"",
@@ -93,7 +101,6 @@
 
     }
 </script>
-
 <style scoped>
     .card{
         padding: 10px;
@@ -102,7 +109,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -122,8 +129,11 @@
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 70%;
+        width: 40%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;

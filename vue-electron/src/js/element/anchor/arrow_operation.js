@@ -6,7 +6,11 @@ import {P} from "@/js/action/actionQueue";
 import {getCoreList} from "@/js/element/core/core_queue";
 import {getListInFill} from "@/js/element/module/module_queue";
 import {getActionCounter} from "../../action/actionQueue";
-import {get_connect_point_list} from "../../canvas/base_canvas";
+import {canvas_update, get_connect_point_list} from "../../canvas/base_canvas";
+import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAction";
+import {createArrowToAction} from "../../action/ComponentLinear/setArrowToAction";
+import {getArrow} from "./arrow_Queue";
+import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNullAction";
 
 let counter=0;
 class Arrow_operation {
@@ -48,6 +52,7 @@ class Arrow_operation {
         node.setAttribute("r",7);
         node.setAttribute("fill","green")
         map.appendChild(node);
+        // console.log(msg);
         node.onmousedown=function(e){
             // let line_id="line"+counter
             // let line=createElementByTag("line",line_id)
@@ -65,7 +70,12 @@ class Arrow_operation {
             P("set_end",{x:msg['x'],y:msg['y']})
             P("get_p",{})
             let id=getCoreList()[0];
-            add_arrow_from(g_id,a_id,getCoreList()[0]);
+            let val={
+                command:"arrow_from",
+                flag:true
+            };
+            let msgTo={g_id:g_id,line_id:id,a_id:a_id}
+            createArrowFromAction(val,msgTo);
             let svg=document.getElementById(getMySvg());
             let start_x=e.offsetX;
             let end_x=e.offsetX;
@@ -87,7 +97,6 @@ class Arrow_operation {
                 if(start_y===end_y&&
                     start_x===end_x
                 ){
-                    add_arrow_from(undefined,undefined,id);
                     let time= getActionCounter();
                     P("remove",{time:time})
                     // map.removeChild(line);
@@ -103,12 +112,27 @@ class Arrow_operation {
                     if(list.length>=1){
                         let to_aid=list[0].a_id;
                         let to_gid=list[0].g_id;
-                        add_arrow_to(to_gid,to_aid,that.g_id);
+                        let val={
+                            command:"arrow_to",
+                            flag:true
+                        };
+                        let msgTo={g_id:to_gid,line_id:id,a_id:to_aid}
+                        createArrowToAction(val,msgTo);
                     }else if(list.length===0){
-
-                        add_arrow_to(undefined,undefined,that.g_id);
+                        let arrow=getArrow(that.g_id);
+                        if(arrow!==undefined&&arrow['to_a_id']!==undefined){
+                            let to_aid=arrow['to_a_id'];
+                            let to_gid=arrow['to_g_id'];
+                            let val={
+                                command:"arrow_to_null",
+                                flag:true
+                            };
+                            let msgTo={g_id:to_gid,line_id:id,a_id:to_aid}
+                            createArrowToNullAction(val,msgTo);
+                        }
                     }
                 }
+                canvas_update("connect","",{type:"delete"})
 
                 svg.onmousemove=null;
                 svg.onmouseup=null;
@@ -116,7 +140,7 @@ class Arrow_operation {
             }
         }
 
-        node.onmouseleave=function (e) {
+        node.onmouseout=function (e) {
             that.from_point_remove();
         }
     }

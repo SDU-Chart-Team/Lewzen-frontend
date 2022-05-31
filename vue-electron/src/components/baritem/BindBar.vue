@@ -4,16 +4,24 @@
         <div class="card-item">
             <el-checkbox-group @change="handleChange" v-model="list">
                 <div class="bottom-item">
-                    <el-checkbox label="move_bind"></el-checkbox>
+                    <el-checkbox
+                            :disabled="flag"
+                            label="move_bind"></el-checkbox>
                 </div>
                 <div class="bottom-item">
-                    <el-checkbox label="flip_bind"></el-checkbox>
+                    <el-checkbox
+                            :disabled="flag"
+                            label="flip_bind"></el-checkbox>
                 </div>
                 <div class="bottom-item">
-                    <el-checkbox label="scale_bind"></el-checkbox>
+                    <el-checkbox
+                            :disabled="flag"
+                            label="scale_bind"></el-checkbox>
                 </div>
                 <div class="bottom-item">
-                    <el-checkbox label="rotate_bind"></el-checkbox>
+                    <el-checkbox
+                            :disabled="flag"
+                            label="rotate_bind"></el-checkbox>
                 </div>
             </el-checkbox-group>
         </div>
@@ -32,8 +40,12 @@
             window.set_flip_bind=this.set_flip_bind;
             window.set_scale_bind=this.set_scale_bind;
             window.set_rotate_bind=this.set_rotate_bind;
+            window.setBindFlag=this.setBindFlag;
         },
         methods:{
+            setBindFlag(flag){
+              this.flag=flag;
+            },
             set_flip_bind(flag){
                 for(let i=0;i<this.list.length;i++){
                     if(this.list[i]==="flip_bind"){
@@ -133,6 +145,7 @@
         data(){
             return{
                 list: [],
+                flag:true,
             }
         }
     }
@@ -146,7 +159,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;

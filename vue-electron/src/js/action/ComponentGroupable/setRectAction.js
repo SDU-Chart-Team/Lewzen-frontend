@@ -10,8 +10,8 @@ export class SetRectAction extends Base_action{
         this.msg=msg;
         console.log(cmd);
         console.log(msg);
-        this.core=[];
-        this.state=[];
+        this.core=getCoreList();
+        this.state=getState();
     }
 
     before(){
@@ -19,8 +19,7 @@ export class SetRectAction extends Base_action{
     }
 
     after(){
-        this.core=getCoreList();
-        this.state=getState();
+
         P("get_p",{})
     }
 

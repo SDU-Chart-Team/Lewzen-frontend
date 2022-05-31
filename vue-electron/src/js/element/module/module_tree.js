@@ -43,22 +43,22 @@ class Module_tree {
         item['theta']=0;
         this.nodeList[id]=this.head.length;
         this.head.push(item);
-        console.log(this.head);
+        // console.log(this.head);
     }
 
 
 
 
     //别名link
-    linkByAlias(id1,id2){
+    linkByAlias(id1,id2,flag=true){
         // console.log(this.head);
-        P("link",{id1:this.aliasList[id1],id2:this.aliasList[id2]})
+        P("link",{id1:this.aliasList[id1],id2:this.aliasList[id2]},flag)
     }
     //id link
-    linkById(id1,id2){
+    linkById(id1,id2,flag=true){
         id1=this.nameList[id1];
         id2=this.nameList[id2];
-        this.linkByAlias(id1,id2);
+        this.linkByAlias(id1,id2,flag);
     }
 
     linkInTree(id1,id2){
@@ -119,7 +119,7 @@ class Module_tree {
     getRelationById(id){
         let now=this.nodeList[id];
         // console.log(now);
-        console.log(this.head);
+        // console.log(this.head);
         while(true){
             if(this.head[now]['tid']!==this.head[now]['father']){
                 now=this.head[now]['father'];
@@ -363,7 +363,7 @@ class Module_tree {
         }
         this.head[now]["father"]=this.head[now]['tid']
         this.head[now]["children"]=[]
-        console.log(this.head)
+        // console.log(this.head)
     }
 
     setAlias(alias){
@@ -428,7 +428,7 @@ export function linkByUser(link_text) {
 }
 
 export function linkByGroup(id1,id2){
-    module_tree.linkById(id1,id2);
+    module_tree.linkById(id1,id2,false);
 }
 
 export function addModuleToTree(id,type) {

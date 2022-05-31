@@ -2,20 +2,26 @@
     <div class="card">
         <div class="card-header">
             Line
-            <button
+            <el-button
+                    size="mini"
+                    round
                     style="float: right"
                     @click="quickFillOn"
                     v-if="!quick"
+                    :disabled="flag"
             >
                 quick on
-            </button>
-            <button
+            </el-button>
+            <el-button
+                    size="mini"
+                    round
+                    :disabled="flag"
                     style="float: right"
                     @click="quickFillOff"
                     v-if="quick"
             >
                 quick off
-            </button>
+            </el-button>
         </div>
         <div class="card-item">
 <!--            <div class="clear">-->
@@ -24,12 +30,13 @@
 <!--                </div>-->
 <!--            </div>-->
             <div class="clear" >
-                <div class="card-left-item">
+                <div class="card-left">
                     color
                 </div>
                 <div class="card-right">
                     <el-color-picker
                             size="mini"
+                            :disabled="flag"
                             v-model="color_line"
                             show-alpha
                             @change="handleStrokeColor"
@@ -38,8 +45,9 @@
                 </div>
             </div>
             <div class="clear" >
-                <div class="card-left-item">
+                <div class="card-left">
                     <el-select
+                            :disabled="flag"
                             v-model="value_line"
                             style="height: 20px;width: 150px"
                             size="mini"
@@ -56,6 +64,7 @@
                 </div>
                 <div class="card-right">
                     <el-input
+                            :disabled="flag"
                             size="mini"
                             placeholder=""
                             v-model="line_style_px"
@@ -70,6 +79,7 @@
                     placeholder="[width]; [color] ;[dasharray]"
                     size="mini"
                     v-model="quick_line"
+                    :disabled="flag"
             >
                 <el-button
                         slot="append"
@@ -94,8 +104,12 @@
         name: "LineBar",
         mounted() {
             window.setStrokeStyle=this.setStrokeStyle;
+            window.setStrokeFlag=this.setStrokeFlag;
         },
         methods:{
+            setStrokeFlag(flag){
+                this.flag=flag;
+            },
             Trim(str) {
                 if(str===undefined)return;
                 return str.replace(/(^\s*)|(\s*$)/g, "");
@@ -171,6 +185,7 @@
         },
         data(){
             return{
+                flag:true,
                 strokeOn:true,//stroke on
                 color_line:"",//stroke
                 value_line:"solid",//stroke dasharray
@@ -213,7 +228,9 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
+        height: 28px;
+        line-height: 28px;
     }
     .card-item{
         padding-top: 7px;
@@ -235,6 +252,9 @@
         line-height: 30px;
         width: 70%;
         height: 30px;
+        font-size: 14px;
+        color: #606266;
+        font-weight: 500;
     }
     .card-left-item{
         float: left;

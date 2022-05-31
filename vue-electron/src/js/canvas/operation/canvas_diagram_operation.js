@@ -11,12 +11,12 @@ export function OffGuides(){
 }
 
 export function OnGrid(){
-    // console.log("On Grid!!!")
+    console.log("On Grid!!!")
     setCanvasState("grid",true)
 }
 
 export function OffGrid(){
-    // console.log("Off Grid!!!")
+    console.log("Off Grid!!!")
     setCanvasState("grid",false)
 }
 

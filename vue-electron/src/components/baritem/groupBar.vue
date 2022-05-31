@@ -5,20 +5,24 @@
         </div>
         <div class="card-item">
             <div v-if="group_on">
-                <button
+                <el-button
+                        :disabled="flag"
+                        size="mini"
                         id="group_button"
                         @click="group"
                         style="width: 100%">
                     Group
-                </button>
+                </el-button>
             </div>
             <div v-if="!group_on">
-                <button
+                <el-button
+                        :disabled="flag"
+                        size="mini"
                         id="ungroup_button"
                         @click="ungroup"
                         style="width: 100%">
                     Ungroup
-                </button>
+                </el-button>
             </div>
         </div>
     </div>
@@ -32,8 +36,12 @@
         name: "groupBar",
         mounted() {
             window.setGroupType=this.setGroupType
+            window.groupFlag=this.groupFlag
         },
         methods:{
+            groupFlag(flag){
+                this.flag=flag;
+            },
             group(){
                 P("create",{id:0,show:false})
 
@@ -49,7 +57,8 @@
         data(){
             return{
                 text:"",
-                group_on:true
+                group_on:true,
+                flag:true
             }
         }
     }
@@ -63,7 +72,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;

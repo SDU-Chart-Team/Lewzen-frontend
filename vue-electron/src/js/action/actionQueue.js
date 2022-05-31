@@ -64,6 +64,16 @@ import {createGetScaleBindAction} from "@/js/action/ComponentBindable/getScaleBi
 import {createGetFlipBindAction} from "@/js/action/ComponentBindable/getFlipBindAction";
 import {createGetRotateBindAction} from "@/js/action/ComponentBindable/getRotateBindAction";
 import {createGetMoveBindAction} from "@/js/action/ComponentBindable/getMoveBindAction";
+
+
+let userAction={
+    'group':true,
+    'arrow_from':true,
+    'arrow_to':true,
+    'arrow_from_null':true,
+    'arrow_to_null':true
+}
+
 class ActionQueue {
     constructor() {
         this.actionQueue=[];
@@ -116,9 +126,7 @@ class ActionQueue {
         // return true;
     }
     pushAction(action){
-        action.after();
         V();
-        // console.log(action)
         if(this.filter(action)) {
             if(this.actionQueue.length>0){
                 if(action.merge(this.actionQueue[this.actionQueue.length-1])){
@@ -133,17 +141,24 @@ class ActionQueue {
             }
             this.backQueue=[];
         }
+        action.after();
+        // console.log(action)
         this.updateMapAction()
     }
 
     backAction(){
         console.log(this.actionQueue);
-        if(this.actionQueue.length>0){
+        while(this.actionQueue.length>0){
             // console.log(this.actionQueue);
             // console.log(this.backQueue);
+            let action=this.actionQueue[this.actionQueue.length-1];
             this.actionQueue[this.actionQueue.length-1].backward();
+
             this.backQueue.push(this.actionQueue[this.actionQueue.length-1]);
             this.actionQueue.pop();
+            if(userAction[action.type]===undefined){
+             break;
+            }
             // console.log(this.actionQueue);
             // console.log(this.backQueue);
         }
@@ -156,11 +171,22 @@ class ActionQueue {
         if(this.backQueue.length>0){
             // console.log(this.actionQueue);
             // console.log(this.backQueue);
+            let action=this.backQueue[this.backQueue.length-1];
             this.backQueue[this.backQueue.length-1].forward();
             this.actionQueue.push(this.backQueue[this.backQueue.length-1]);
             this.backQueue.pop();
+
             // console.log(this.actionQueue);
             // console.log(this.backQueue);
+        }
+        while(this.backQueue.length>0){
+            let action=this.backQueue[this.backQueue.length-1];
+            if(userAction[action.type]===undefined){
+                break;
+            }
+            this.backQueue[this.backQueue.length-1].forward();
+            this.actionQueue.push(this.backQueue[this.backQueue.length-1]);
+            this.backQueue.pop();
         }
         this.updateMapAction();
     }

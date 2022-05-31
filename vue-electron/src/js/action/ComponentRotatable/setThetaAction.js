@@ -8,16 +8,18 @@ import {updateGuide} from "@/js/element/guide/guide_queue";
 import {guideSet} from "@/js/canvas/base_canvas";
 import {update_position_by_gid} from "@/js/element/anchor/arrow_Queue";
 import {updateStyleAfterChange} from "../../element/anchor/arrow_Queue";
+import {getAncestorAll} from "../../element/module/module_tree";
 
 export class SetThetaAction extends Base_action{
     constructor(type,cmd,msg) {
         super(type)
         this.cmd=cmd;
         this.msg=msg;
-        console.log(cmd);
-        console.log(msg);
-        this.core=[];
-        this.state={};
+        // console.log(cmd);
+        // console.log(msg);
+        this.core=getCoreList();
+        this.state=getState();
+
     }
 
     before(){
@@ -25,9 +27,7 @@ export class SetThetaAction extends Base_action{
 
 
     after(){
-        let coreList=getCoreList();
-        this.core=coreList;
-        this.state=getState();
+        let coreList=this.core;
         for(let i=0;i<coreList.length;i++){
             let module=getModuleByGid(coreList[i]);
             module.theta=this.msg['theta'];
@@ -49,30 +49,55 @@ export class SetThetaAction extends Base_action{
     }
 
     forward(){
-        P("cursors",{ids:this.core},false);
+        P("cursor",{ids:this.core},false);
         P("set_theta",{theta:this.msg['theta']},false)
+
+        for(let i=0;i<this.core.length;i++){
+            let ancestorList=getAncestorAll(this.core[i]);
+            ancestorList.reverse();for(let i=0;i<ancestorList.length;i++) {
+                let el = getModuleByGid(ancestorList[i])
+                if(!el.show){
+                    P("cursor",{ids:[el.g_id]})
+                    P("cover_children",{})
+                }
+            }
+        }
         P("cursors",{ids:this.core},false)
         updateStyleAfterChange()
 
     }
 
     backward(){
-        P("cursors",{ids:this.core},false);
+        P("cursor",{ids:this.core},false);
         P("set_theta",{theta:this.state['theta']},false)
+        for(let i=0;i<this.core.length;i++){
+            let ancestorList=getAncestorAll(this.core[i]);
+            ancestorList.reverse();for(let i=0;i<ancestorList.length;i++) {
+                let el = getModuleByGid(ancestorList[i])
+                if(!el.show){
+                    P("cursor",{ids:[el.g_id]})
+                    P("cover_children",{})
+                }
+            }
+        }
         P("cursors",{ids:this.core},false)
         updateStyleAfterChange()
     }
 
     merge(action){
+        console.log(action);
         if(action.type!=="set_theta")return false;
         let map={}
+        console.log(this.core);
         for(let i=0;i<this.core.length;i++){
             map[this.core[i]]=1;
         }
         for(let i=0;i<action.core.length;i++){
+            console.log(map[action.core[i]])
             if(map[action.core[i]]===undefined)return false;
         }
         this.state=action.state;
+        console.log(action);
         return true;
     }
 

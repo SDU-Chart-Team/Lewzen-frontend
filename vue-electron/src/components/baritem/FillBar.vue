@@ -1,21 +1,32 @@
 <template>
     <div class="card">
-        <div class="card-header">
+        <div class="card-header clear">
             Fill
-            <button
+            <el-button
+                    size="mini"
                     style="float: right"
                     @click="quickFillOn"
                     v-if="!quick"
-            >
-                quick on
-            </button>
-            <button
+                    :disabled="flag"
+                    round
+            >quick on</el-button>
+<!--            <button-->
+<!--                    style="float: right"-->
+<!--                    @click="quickFillOn"-->
+<!--                    v-if="!quick"-->
+<!--            >-->
+<!--                quick on-->
+<!--            </button>-->
+            <el-button
+                    size="mini"
+                    round
                     style="float: right"
                     @click="quickFillOff"
+                    :disabled="flag"
                     v-if="quick"
             >
                 quick off
-            </button>
+            </el-button>
         </div>
         <div class="card-item">
             <div class="clear">
@@ -24,12 +35,15 @@
                             label="Fill"
                             v-model="fillOn"
                             @change="handleFill"
+                            :disabled="flag"
                     ></el-checkbox>
                 </div>
                 <div class="card-right">
                     <el-color-picker
+                            style="align-items: center;"
                             size="mini"
                             @change="fillColorChange"
+                            :disabled="flag"
                             v-if="fillOn"
                             v-model="color_fill"
                             show-alpha
@@ -41,16 +55,20 @@
                 <div class="card-left-left">
                     <el-checkbox
                             label="Gradient"
+                            :disabled="flag"
                             v-model="gradientOn"
                             @change="OnGradientModel"
                     >
                     </el-checkbox>
                 </div>
-                <div class="card-midden" v-if="gradientOn">
+            </div>
+            <div class="clear" v-if="gradientOn">
+                <div class="card-midden">
                     <el-select v-model="value_gradient"
                                @change="handleGradientDirection"
-                               style="width: 100px;height: 20px"
+                               style="width: 150px;height: 20px"
                                size="mini"
+                               :disabled="flag"
                                placeholder="请选择">
                         <el-option
                                 v-for="item in options_gradient"
@@ -68,6 +86,7 @@
                             v-model="color_gradient"
                             @change="GradientColorChange"
                             show-alpha
+                            :disabled="flag"
                             :predefine="predefineColors">
                     </el-color-picker>
                 </div>
@@ -77,9 +96,11 @@
             <el-input
                     placeholder="color;[direct];[color]"
                     size="mini"
+                    :disabled="flag"
                     v-model="quick_color"
             >
                 <el-button
+                        :disabled="flag"
                         slot="append"
                         icon="el-icon-check"
                         @click="quick_color_set"
@@ -103,9 +124,14 @@
         name: "FillBar",
         mounted() {
             window.setFillStyle=this.setFillStyle;
+            window.setFillFlag=this.setFillFlag;
         },
 
         methods:{
+            setFillFlag(flag){
+                this.flag=flag;
+            },
+
             //快速模式
             quickFillOn(){
                 this.quick=true;
@@ -251,6 +277,7 @@
                 }, ],
                 color_gradient:"",//渐变颜色
                 quick_color:"",//快速颜色设置
+                flag:true
             }
         }
     }
@@ -264,7 +291,9 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
+        height: 28px;
+        line-height: 28px;
     }
     .card-item{
         padding-top: 7px;
@@ -309,7 +338,7 @@
         float: left;
         /*background-color: #9a6e3a;*/
         line-height: 30px;
-        width: 40%;
+        width: 50%;
         height: 30px;
     }
     .card-right{

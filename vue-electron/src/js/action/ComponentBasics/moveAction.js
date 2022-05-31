@@ -8,6 +8,8 @@ import {updateGuide} from "@/js/element/guide/guide_queue";
 import {update_position_by_gid} from "@/js/element/anchor/arrow_Queue";
 import {getChildren} from "@/js/element/module/module_tree";
 import {updateStyleAfterChange} from "../../element/anchor/arrow_Queue";
+import {getAncestorAll} from "../../element/module/module_tree";
+import {getModuleByGid} from "../../element/module/module_queue";
 
 export class MoveAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -43,24 +45,55 @@ export class MoveAction extends Base_action{
     }
 
     forward(){
-        P("cursors",{ids:this.ids},false)
-        P("move",{g_id:this.ids,move_x:this.dx,move_y:this.dy},false)
+        P("cursor",{ids:this.ids},false)
+
+        //直接进行移动，无需通过设置。
+        P("move",{g_id:this.ids,move_x:this.dx,move_y:this.dy,quick:true},false)
+
+
         P("cursors",{ids:this.ids},false)
         updateStyleAfterChange()
         for(let i=0;i<this.ids.length;i++){
             guideSet(this.ids[i],false);
         }
+
+        let coreList=getCoreList();
+        for(let i=0;i<this.ids.length;i++){
+            let ancestorList=getAncestorAll(this.ids[i]);
+            ancestorList.reverse();for(let i=0;i<ancestorList.length;i++) {
+                let el = getModuleByGid(ancestorList[i])
+                if(!el.show){
+                    P("cursor",{ids:[el.g_id]})
+                    P("cover_children",{})
+                }
+            }
+        }
+        P("cursors",{ids:coreList})
 
     }
 
     backward(){
-        P("cursors",{ids:this.ids},false)
-        P("move",{g_id:this.ids,move_x:-this.dx,move_y:-this.dy},false)
+        P("cursor",{ids:this.ids},false)
+        P("move",{g_id:this.ids,move_x:-this.dx,move_y:-this.dy,quick:true},false)
         P("cursors",{ids:this.ids},false)
         updateStyleAfterChange()
         for(let i=0;i<this.ids.length;i++){
             guideSet(this.ids[i],false);
         }
+
+        let coreList=getCoreList();
+        for(let i=0;i<this.ids.length;i++){
+            let ancestorList=getAncestorAll(this.ids[i]);
+            ancestorList.reverse();for(let i=0;i<ancestorList.length;i++) {
+                let el = getModuleByGid(ancestorList[i])
+                if(!el.show){
+                    P("cursor",{ids:[el.g_id]})
+                    P("cover_children",{})
+                }
+            }
+        }
+        P("cursors",{ids:coreList})
+
     }
 
     merge(action){
@@ -116,6 +149,23 @@ export function updateTransState(trans){
 }
 
 export function createMoveAction(msgTo,flag=true){
+
+    //设置quick
+    if(msgTo["quick"]!==undefined&&msgTo['quick']===true){
+        let val={}
+        val['command']="move";
+        val['dx']=msgTo["move_x"];
+        val['dy']=msgTo["move_y"];
+        val['flag']=flag;
+        // console.log(val);
+        let cmd=JSON.stringify(val);
+        // console.log(cmd);
+        // updateCMD(cmd);
+        sendSocket({cmd:cmd})
+        return;
+    }
+
+
     // console.log(msgTo);
     let g_id=msgTo["g_id"];
     let move_x=msgTo["move_x"];
@@ -141,3 +191,6 @@ export function createMoveAction(msgTo,flag=true){
     // updateCMD(cmd);
     sendSocket({cmd:cmd})
 }
+
+
+

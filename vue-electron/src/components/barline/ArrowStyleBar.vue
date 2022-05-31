@@ -5,7 +5,7 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     start
                 </div>
                 <div class="card-right">
@@ -15,6 +15,7 @@
                             size="mini"
                             placeholder="请选择"
                             @change="handleS"
+                            :disabled="flag"
                     >
                         <el-option
                                 v-for="item in start"
@@ -30,7 +31,7 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     end
                 </div>
                 <div class="card-right">
@@ -40,6 +41,7 @@
                             size="mini"
                             placeholder="请选择"
                             @change="handleE"
+                            :disabled="flag"
                     >
                         <el-option
                                 v-for="item in end"
@@ -64,8 +66,12 @@
         mounted() {
             window.set_start_arrow_bar=this.set_start_arrow_bar;
             window.set_end_arrow_bar=this.set_end_arrow_bar;
+            window.setArrowFlag=this.setArrowFlag;
         },
         methods:{
+            setArrowFlag(flag){
+                this.flag=flag;
+            },
             set_start_arrow_bar(){
                 // this.start_value=value
             },
@@ -82,6 +88,7 @@
         },
         data(){
             return{
+                flag:true,
                 start_value:'start_arrow',
                 start:[
                     {
@@ -173,7 +180,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -193,14 +200,17 @@
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 70%;
+        width: 30%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 30%;
+        width: 60%;
         height: 30px;
         font-size: 14px;
         color: gray;

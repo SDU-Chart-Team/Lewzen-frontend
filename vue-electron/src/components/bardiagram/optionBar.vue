@@ -66,7 +66,8 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
+
     }
     .card-item{
         padding-top: 7px;

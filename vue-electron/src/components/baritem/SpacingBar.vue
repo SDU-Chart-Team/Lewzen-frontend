@@ -5,12 +5,14 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     left
                 </div>
                 <div class="card-right">
                     <el-input
+                            :disabled="flag"
                             size="mini"
+                            style="width: 150px"
                             @change="handle"
                             v-model="left"
                     ></el-input>
@@ -19,11 +21,12 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     right
                 </div>
                 <div class="card-right">
                     <el-input
+                            :disabled="flag"
                             size="mini"
                             @change="handle"
                             v-model="right"
@@ -33,11 +36,12 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     top
                 </div>
                 <div class="card-right">
                     <el-input
+                            :disabled="flag"
                             size="mini"
                             @change="handle"
                             v-model="top"
@@ -47,11 +51,12 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     bottom
                 </div>
                 <div class="card-right">
                     <el-input
+                            :disabled="flag"
                             size="mini"
                             @change="handle"
                             v-model="bottom"
@@ -61,11 +66,12 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     global
                 </div>
                 <div class="card-right">
                     <el-input
+                            :disabled="flag"
                             size="mini"
                             @change="handle"
                             v-model="global"
@@ -83,8 +89,12 @@
         name: "SpacingBar",
         mounted() {
           window.set_spacing_bar=this.set_spacing_bar;
+          window.set_spacing_flag=this.set_spacing_flag;
         },
         methods:{
+            set_spacing_flag(flag){
+                this.flag=flag;
+            },
             set_spacing_bar(msg){
                 this.left=msg['left'];
                 this.right=msg['right'];
@@ -131,12 +141,12 @@
                 right_last:0,
                 top_last:0,
                 bottom_last:0,
-                global_last:0
+                global_last:0,
+                flag:true,
             }
         }
     }
 </script>
-
 <style scoped>
     .card{
         padding: 10px;
@@ -145,7 +155,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -165,8 +175,11 @@
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 70%;
+        width: 30%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;
@@ -198,7 +211,7 @@
         align-items: center;
         /*background-color: #795da3;*/
         /*padding-left: 20px;*/
-        width:30%;
+        width:60%;
         height: 30px;
     }
 </style>

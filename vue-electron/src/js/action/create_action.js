@@ -9,8 +9,8 @@ export class Create_action extends Base_action{
         super(type);
         this.cmd=cmd;
         this.msg=msg;
-        console.log(cmd);
-        console.log(msg);
+        // console.log(cmd);
+        // console.log(msg);
     }
 
     before(){

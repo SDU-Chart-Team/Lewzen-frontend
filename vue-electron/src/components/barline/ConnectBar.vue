@@ -51,7 +51,6 @@
         }
     }
 </script>
-
 <style scoped>
     .card{
         padding: 10px;
@@ -60,7 +59,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -80,8 +79,11 @@
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 70%;
+        width: 30%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;
@@ -113,7 +115,7 @@
         align-items: center;
         /*background-color: #795da3;*/
         /*padding-left: 20px;*/
-        width:30%;
+        width:60%;
         height: 30px;
     }
 </style>

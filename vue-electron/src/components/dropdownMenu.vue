@@ -77,7 +77,7 @@
 </template>
 
 <script>
-    import {backAction, forwardAction, P} from "@/js/action/actionQueue";
+    import {backAction, forwardAction, P, updateState} from "@/js/action/actionQueue";
     import {getMyDefs, getShapeMapId} from "@/js/util/getCanvasIdOperation";
     import {addLinearGradient} from "@/js/util/LinearGradientCreator";
     import {ctrlC, ctrlV} from "@/js/keymap/keyModel";
@@ -189,6 +189,8 @@
                       }
                   }
                   // initCanvasState();
+                  // console.log(json)
+                  updateState({json:json})
                   P("load",{json:json['json']})
               }
             },
