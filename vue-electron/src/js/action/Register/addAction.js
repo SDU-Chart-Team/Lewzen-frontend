@@ -12,6 +12,7 @@ import {set_move_center} from "@/js/util/canvas_operation";
 import {clearMoveState, initMoveState} from "../ComponentBasics/moveAction";
 import {getAllModules} from "../../element/module/module_queue";
 import {guideSet} from "../../canvas/base_canvas";
+import {createGroupAction} from "./groupAction";
 
 export class AddAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -40,17 +41,26 @@ export class AddAction extends Base_action{
                 parser.updateStyle({display:"none"})
                 parser.updateStyle({'stroke-width':0})
                 node.setAttribute("style",parser.get());
+                P("cursor",{ids:[this.id[i]]})
+                P("set_style",{style:parser.get()})
                 this.msg['id']=this.id[i];
                 createModule(this.msg,false);
                 addModuleToTree(this.id[i],this.type);
-                let coreList=getCoreList();
-                for (var j=0;j<coreList.length;j++){
-                    linkByGroup(coreList[j],this.id);
+
+                let val={
+                    command:"group",
+                    flag:true,
                 }
-                P("cursors",{ids:this.msg['ids']})
-                P("cover_children",{})
-                // P("enable_scale_bind",{})
-                P("cursors",{ids:this.msg['ids']})
+                let coreList=getCoreList();
+                let groupMsg={group_id:this.id[i],son:coreList}
+                createGroupAction(val,groupMsg);
+                // for (var j=0;j<coreList.length;j++){
+                //     linkByGroup(coreList[j],this.id[i]);
+                // }
+                // P("cursor",{ids:this.msg['ids']})
+                // P("cover_children",{})
+                // // P("enable_scale_bind",{})
+                // P("cursors",{ids:this.msg['ids']})
             }
             return;
         }
@@ -63,7 +73,7 @@ export class AddAction extends Base_action{
                 createModule(this.msg);//需要修改
             }
             addModuleToTree(this.id[i],this.type);
-            P("cursors",{ids:[this.msg['id']]})
+            P("cursor",{ids:[this.msg['id']]})
             clearMoveState();
 
             let move=set_move_center();
@@ -82,12 +92,13 @@ export class AddAction extends Base_action{
     forward(){
         let msg=[];
         msg['time']=this.time;
+        console.log(this.time);
         P("readd",msg,false);
     }
 
     backward(){
         let coreList=getCoreList();
-        P("cursors",{ids:this.id},false);
+        P("cursor",{ids:this.id},false);
         let msg=[];
         // msg['id']=this.id;
         let time=getActionCounter();
@@ -126,7 +137,7 @@ export function createAddAction(msg,flag){//type,x,y
     // val['x']=msg['x']===undefined?'0':msg['x'];
     // val['y']=msg['y']===undefined?'0':msg['y'];
     // console.log(msg);
-    val['cmd']="add rectangle";
+    // val['cmd']="add rectangle";
     let cmd={
         command: "add",
         type: create_List[parseInt(msg['id'])],

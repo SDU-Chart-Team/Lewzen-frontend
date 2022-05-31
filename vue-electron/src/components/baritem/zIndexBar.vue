@@ -3,24 +3,32 @@
         <div class="card-header">z-index</div>
         <div class="card-item">
             <div>
-                <button
-                        style="width: 50%"
+                <el-button
+                        style="width: 48%"
+                        size="mini"
+                        :disabled="flag"
                         @click="zIndexToFront"
-                >To Front</button>
-                <button
-                        style="width: 50%"
+                >To Front</el-button>
+                <el-button
+                        size="mini"
+                        style="width: 48%"
+                        :disabled="flag"
                         @click="zIndexToBack"
-                >To Back</button>
+                >To Back</el-button>
             </div>
             <div>
-                <button
-                        style="width: 50%"
+                <el-button
+                        size="mini"
+                        :disabled="flag"
+                        style="width: 48%"
                         @click="zIndexFront"
-                >Front</button>
-                <button
-                        style="width: 50%"
+                >Front</el-button>
+                <el-button
+                        size="mini"
+                        style="width: 48%"
+                        :disabled="flag"
                         @click="zIndexBack"
-                >Back</button>
+                >Back</el-button>
             </div>
         </div>
     </div>
@@ -31,7 +39,13 @@
 
     export default {
         name: "zIndexBar",
+        mounted() {
+          window.zindexFlag=this.zindexFlag;
+        },
         methods:{
+            zindexFlag(flag){
+                this.flag=flag;
+            },
             zIndexToFront(){
                 P("forward",{})
             },
@@ -48,6 +62,11 @@
                 P("back",{})
             }
 
+        },
+        data(){
+            return{
+                flag:true
+            }
         }
     }
 </script>
@@ -60,7 +79,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;

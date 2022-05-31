@@ -5,10 +5,12 @@
         </div>
         <div class="card-item">
             <div>
-                <button
+                <el-button
+                        :disabled="flag"
+                        size="mini"
                         style="width: 100%"
                         @click="onOffset"
-                >OnOffset</button>
+                >OnOffset</el-button>
             </div>
         </div>
     </div>
@@ -19,9 +21,20 @@
 
     export default {
         name: "OnOffsetBar",
+        mounted() {
+            window.offsetFlag=this.offsetFlag;
+        },
         methods:{
+            offsetFlag(flag){
+                this.flag=flag;
+            },
             onOffset(){
                 P("on_offset",{})
+            }
+        },
+        data(){
+            return{
+                flag:true,
             }
         }
     }
@@ -35,7 +48,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -55,14 +68,17 @@
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 70%;
+        width: 30%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 30%;
+        width: 60%;
         height: 30px;
         font-size: 14px;
         color: gray;

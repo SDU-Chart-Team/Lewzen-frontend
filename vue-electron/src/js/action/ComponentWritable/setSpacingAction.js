@@ -14,8 +14,8 @@ export class SetSpacingAction extends Base_action{
         // console.log(this.msg);
         this.command=cmd['command'];
         this.status=cmd['status'];
-        this.core=[];
-        this.state={};
+        this.core=getCoreList();
+        this.state=getState();
     }
 
     before(){
@@ -23,8 +23,7 @@ export class SetSpacingAction extends Base_action{
     }
 
     after(){
-        this.core=getCoreList();
-        this.state=getState();
+
     }
     forward(){
         P("cursors",{ids:this.core},false);

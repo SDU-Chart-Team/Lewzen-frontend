@@ -10,6 +10,8 @@ import {getChildren} from "@/js/element/module/module_tree";
 import {getMoveState} from "./moveAction";
 import {updatePosition, updatePPosition} from "../../canvas/base_canvas";
 import {updateStyleAfterChange} from "../../element/anchor/arrow_Queue";
+import {getAncestorAll} from "../../element/module/module_tree";
+import {getModuleByGid} from "../../element/module/module_queue";
 
 export class MovePAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -48,24 +50,45 @@ export class MovePAction extends Base_action{
     }
 
     forward(){
-        P("cursors",{ids:[this.id]},false)
+        P("cursor",{ids:[this.id]},false)
         // let msg={core_id:id,g_id:that.g_id,move_x:transX,move_y:transY}
-        P("move_point",{core_id:this.pid,g_id:this.id,move_x:this.dx,move_y:this.dy},false)
+        P("move_point",{core_id:this.pid,g_id:this.id,move_x:this.dx,move_y:this.dy,flag:true},false)
         P("cursors",{ids:[this.id]},false)
-
+        let coreList=getCoreList();
+        let ancestorList=getAncestorAll(this.id);
+        ancestorList.reverse();
+        for(let i=0;i<ancestorList.length;i++) {
+            let el = getModuleByGid(ancestorList[i])
+            if(!el.show){
+                P("cursor",{ids:[el.g_id]})
+                P("cover_children",{})
+            }
+        }
+        P("cursors",{ids:coreList})
         updateStyleAfterChange()
-
 
     }
 
     backward(){
-        P("cursors",{ids:[this.id]},false)
+        P("cursor",{ids:[this.id]},false)
 
         // let msg={core_id:id,g_id:that.g_id,move_x:transX,move_y:transY}
-        P("move_point",{core_id:this.pid,g_id:this.id,move_x:-this.dx,move_y:-this.dy},false)
+        P("move_point",{core_id:this.pid,g_id:this.id,move_x:-this.dx,move_y:-this.dy,flag:true},false)
         P("cursors",{ids:[this.id]},false)
 
+        let coreList=getCoreList();
+        let ancestorList=getAncestorAll(this.id);
+        ancestorList.reverse();
+        for(let i=0;i<ancestorList.length;i++) {
+            let el = getModuleByGid(ancestorList[i])
+            if(!el.show){
+                P("cursor",{ids:[el.g_id]})
+                P("cover_children",{})
+            }
+        }
+        P("cursors",{ids:coreList})
         updateStyleAfterChange()
+
     }
 
     merge(action){
@@ -86,6 +109,24 @@ export class MovePAction extends Base_action{
 }
 
 export function createMovePAction(msg,flag){//id
+
+    if(msg['quick']!==undefined&&msg['quick']===true){
+        let val={}
+        val['command']="move_point";
+        val['id']=msg["g_id"];
+        val['pid']=msg["core_id"];
+        val['dx']=msg['move_x'];
+        val['dy']=msg['move_y']
+
+        val['flag']=flag;
+
+        let cmd=JSON.stringify(val)
+        // console.log(cmd);
+        sendSocket({cmd:cmd})
+        return;
+    }
+
+
     let core_id=msg["core_id"]
     let g_id=msg["g_id"]
     let move_x=msg["move_x"]
@@ -104,7 +145,7 @@ export function createMovePAction(msg,flag){//id
         now_y:getScaleState()['now_y'],
     };
     let trans=updatePPosition(msgTo);
-    console.log(trans);
+    // console.log(trans);
     let val={}
     val['command']="move_point";
     val['id']=msg["g_id"];

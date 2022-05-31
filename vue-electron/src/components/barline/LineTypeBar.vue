@@ -5,11 +5,12 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     line
                 </div>
                 <div class="card-right">
                     <el-select
+                            :disabled="flag"
                             v-model="line_value"
                             style="height: 20px;width: 150px"
                             size="mini"
@@ -39,8 +40,12 @@
         name: "LineTypeBar",
         mounted() {
             window.set_line_type_bar=this.set_line_type_bar;
+            window.setLineTypeFlag=this.setLineTypeFlag;
         },
         methods:{
+            setLineTypeFlag(flag){
+                this.flag=flag;
+            },
             set_line_type_bar(){
                 // this.line_type=value;
             },
@@ -51,6 +56,7 @@
         },
         data(){
             return{
+                flag:true,
                 line_value:'straight_line',
                 line_type:[
                     {
@@ -95,7 +101,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -115,14 +121,17 @@
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 70%;
+        width: 30%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 30%;
+        width: 60%;
         height: 30px;
         font-size: 14px;
         color: gray;

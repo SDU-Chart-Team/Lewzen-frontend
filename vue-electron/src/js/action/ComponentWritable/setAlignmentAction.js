@@ -14,7 +14,8 @@ export class SetAlignmentAction extends Base_action{
         // console.log(this.msg);
         this.command=cmd['command'];
         this.status=cmd['status'];
-        this.core=[];
+        this.core=getCoreList();
+        this.state=getState();
     }
 
     before(){
@@ -22,8 +23,7 @@ export class SetAlignmentAction extends Base_action{
     }
 
     after(){
-        this.core=getCoreList();
-        this.state=getState();
+
     }
 
     forward(){

@@ -24,14 +24,17 @@
                 let gridFlag=false;
                 let shadowFlag=false;
                 for(var item in e){
-                    if(e[item]==="Grid"&&this.grid===false){
+                    if(e[item]==="Grid"){
                         // createGrid(16);
-
-                        OnGrid();
+                        if(this.grid===false){
+                            OnGrid();
+                        }
                         gridFlag=true;
                         this.grid=true;
-                    }else if (e[item]==='Shadow'&&this.shadow===false){
-                        setShadowAll()
+                    }else if (e[item]==='Shadow'){
+                        if(this.shadow===false){
+                            setShadowAll();
+                        }
 
                         shadowFlag=true;
                         this.shadow=true;
@@ -65,7 +68,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;

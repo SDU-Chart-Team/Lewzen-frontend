@@ -5,14 +5,18 @@
         </div>
         <div class="card-item">
             <div>
-                <button
-                        style="width: 50%"
+                <el-button
+                        :disabled="flag"
+                        size="mini"
+                        style="width: 48%"
                         @click="Hflip"
-                >Horizontal</button>
-                <button
-                        style="width: 50%"
+                >Horizontal</el-button>
+                <el-button
+                        :disabled="flag"
+                        size="mini"
+                        style="width: 48%"
                         @click="Vflip"
-                >Vertical</button>
+                >Vertical</el-button>
             </div>
         </div>
     </div>
@@ -24,7 +28,13 @@
 
     export default {
         name: "FilpBar",
+        mounted() {
+            window.FlipFlag=this.FlipFlag;
+        },
         methods:{
+            FlipFlag(flag){
+                this.flag=flag;
+            },
             Hflip(){
                 let coreList=getCoreList();
                 let mean=0;
@@ -42,11 +52,11 @@
         },
         data(){
             return{
+                flag:true,
             }
         }
     }
 </script>
-
 <style scoped>
     .card{
         padding: 10px;
@@ -55,7 +65,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -77,6 +87,9 @@
         line-height: 30px;
         width: 70%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;

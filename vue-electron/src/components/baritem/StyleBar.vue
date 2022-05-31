@@ -2,23 +2,35 @@
     <div class="card">
         <div class="card-header">style setting</div>
         <div class="card-item">
-            <button style="width: 100%" @click="style_change_set(true)">Edit Style</button>
+            <el-button
+                    size="mini"
+                    :disabled="flag"
+                    style="width: 100%" @click="style_change_set(true)">Edit Style</el-button>
         </div>
         <div class="card-item">
-            <button
-                    style="width: 50%"
+            <el-button
+                    size="mini"
+                    :disabled="flag"
+
+                    style="width: 48%"
                     @click="copy_style()"
-            >Copy Style</button>
-            <button
-                    style="width: 50%"
+            >Copy Style</el-button>
+            <el-button
+                    size="mini"
+                    :disabled="flag"
+
+                    style="width: 48%"
                     @click="paste()"
-            >Paste Style</button>
+            >Paste Style</el-button>
         </div>
         <div class="card-item">
-            <button
+            <el-button
+                    :disabled="flag"
+
+                    size="mini"
                     style="width: 100%"
                     @click="setDefault()"
-            >Set as Default</button>
+            >Set as Default</el-button>
         </div>
 
 
@@ -26,6 +38,8 @@
             <el-form v-if="style_change">
                 <el-form-item>
                     <el-input
+                            :disabled="flag"
+
                             type="textarea"
                             v-model="element_style"
                             :autosize="{ minRows: 2, maxRows: 10}"
@@ -33,8 +47,13 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="SubmitStyle">update</el-button>
-                    <el-button @click="style_change_set(false)">cancel</el-button>
+                    <el-button
+                            :disabled="flag"
+                            size="mini" type="primary" @click="SubmitStyle">update</el-button>
+                    <el-button
+                            :disabled="flag"
+
+                            size="mini" @click="style_change_set(false)">cancel</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -47,9 +66,12 @@
     export default {
         name: "StyleBar",
         mounted() {
-
+            window.setStyleFlag=this.setStyleFlag;
         },
         methods:{
+            setStyleFlag(flag){
+                this.flag=flag;
+            },
             SubmitStyle(){
                 let style=this.element_style;
                 setStyleInCore(style);
@@ -76,6 +98,7 @@
             return{
                 style_change:false,
                 element_style:"",
+                flag:true
             }
         }
     }
@@ -89,7 +112,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;

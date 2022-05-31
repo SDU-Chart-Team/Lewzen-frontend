@@ -5,6 +5,7 @@ P("cursors",{ids:[this.id]},false)
             <div class="card-header">link/unlink</div>
             <div class="card-item">
                 <el-input
+                        :disabled="flag"
                         placeholder="id1;link/unlink;id2"
                         size="mini"
                         v-model="link_text"
@@ -45,9 +46,13 @@ P("cursors",{ids:[this.id]},false)
         name: "LinkBar",
         mounted() {
           window.DrawRelation=this.DrawRelation
+          window.setRelationFlag=this.setRelationFlag
           this.myChart = echarts.init(document.getElementById('relation_chart'));
         },
         methods:{
+            setRelationFlag(flag){
+                this.flag=flag;
+            },
             link_set(){
                 let link_text=this.link_text;
                 linkByUser(link_text)
@@ -128,6 +133,7 @@ P("cursors",{ids:[this.id]},false)
             return{
                 link_text:"",
                 myChart:{},
+                flag:true,
             }
         }
     }
@@ -141,7 +147,7 @@ P("cursors",{ids:[this.id]},false)
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;

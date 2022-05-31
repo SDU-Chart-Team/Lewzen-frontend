@@ -45,7 +45,7 @@ export class CopyAction extends Base_action{
             addModuleToTree(this.id[i],type)
             P("cursors",{ids:[this.id[i]]})
             updateState({node_id:node_id,fid:this.id[i],list:this.msg['ids']})
-            console.log(getState())
+            // console.log(getState())
             P("get_children",{})
         }
         P("cursors",{ids:this.id})

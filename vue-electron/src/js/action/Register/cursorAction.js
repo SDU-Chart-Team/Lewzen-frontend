@@ -21,7 +21,6 @@ export class CursorAction extends Base_action{
     }
 
     after(){
-
     }
 
     forward(){
@@ -42,6 +41,7 @@ export function createCursorAction(msg,flag){//list of id
     val["command"]="cursors";
     val['ids']=msg['ids'];
     val['flag']=flag;
+    val['quick']=true;
 
     let cmd=JSON.stringify(val);
     sendSocket({cmd:cmd})

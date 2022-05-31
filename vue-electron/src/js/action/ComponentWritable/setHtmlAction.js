@@ -14,16 +14,15 @@ export class SetHtmlAction extends Base_action{
         // console.log(this.msg);
         this.command=cmd['command'];
         this.status=cmd['status'];
-        this.core=[];
-        this.state={};
+        this.core=getCoreList();
+        this.state=getState();
     }
 
     before(){
     }
 
     after(){
-        this.core=getCoreList();
-        this.state=getState();
+
         // set_html_bar(this.msg['html'])
     }
 

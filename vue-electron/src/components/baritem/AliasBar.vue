@@ -5,6 +5,7 @@
             <el-input
                     placeholder="change alias"
                     size="mini"
+                    :disabled="flag"
                     v-model="alias_text"
             >
                 <el-button
@@ -29,8 +30,12 @@
         name: "AliasBar",
         mounted() {
             window.alias_update= this.alias_update
+            window.alias_flag=this.alias_flag
         },
         methods:{
+            alias_flag(flag){
+              this.flag=flag;
+            },
             alias_set(){
                 setAlias(this.alias_text);
                 updateLink()
@@ -42,7 +47,7 @@
         data(){
             return{
                 alias_text:"",
-
+                flag:true
             }
         }
     }
@@ -56,7 +61,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;

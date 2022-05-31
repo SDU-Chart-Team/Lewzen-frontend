@@ -5,12 +5,12 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     horizontal
                 </div>
                 <div class="card-right">
                     <el-select
-
+                            :disabled="flag"
                             v-model="horizontal_value"
                             style="height: 20px;width: 150px;user-select: none"
                             size="mini"
@@ -31,11 +31,12 @@
         </div>
         <div class="card-item">
             <div class="clear">
-                <div class="card-left-item">
+                <div class="card-left">
                     vertical
                 </div>
                 <div class="card-right">
                     <el-select
+                            :disabled="flag"
                             v-model="vertical_value"
                             style="height: 20px;width: 150px"
                             size="mini"
@@ -64,8 +65,12 @@
         name: "AlignmentBar",
         mounted() {
             window.set_alignment_bar=this.set_alignment_bar;
+            window.set_alignment_flag=this.set_alignment_flag;
         },
         methods:{
+            set_alignment_flag(flag){
+              this.flag=flag;
+            },
             set_alignment_bar(msg){
                 // console.log(msg);
                 this.vertical_value=""+msg['vertical'];
@@ -89,6 +94,7 @@
         },
         data(){
             return{
+                flag:true,
                 vertical_value:"1",
                 vertical_value_last:"1",
                 vertical:[
@@ -133,7 +139,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -153,14 +159,17 @@
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 70%;
+        width: 30%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #606266;
     }
     .card-left-item{
         float: left;
         /*background-color: #42b983;*/
         line-height: 30px;
-        width: 30%;
+        width: 60%;
         height: 30px;
         font-size: 14px;
         color: gray;
@@ -190,4 +199,3 @@
         height: 30px;
     }
 </style>
-

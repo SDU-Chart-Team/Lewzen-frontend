@@ -6,47 +6,60 @@
 
 <!--  diagram的设置  -->
         <el-tabs
-
-                v-model="activeName" id="diagramBar" :stretch="card" style="display: block" @tab-click="handleClick">
-
-            <!--  Diagram栏的设置      -->
-            <el-tab-pane
-                    class="Tab"
-                    label="Diagram" name="Diagram">
-
-                <view-bar></view-bar>
-
-                <option-bar></option-bar>
-
-<!--                <paper-bar></paper-bar>-->
-            </el-tab-pane>
+                tab-position="left"
+                v-model="activeName"
+                id="diagramBar"
+                :stretch="card"
+                style="display: block;margin-right: 0px"
+                @tab-click="handleClick"
+        >
 
             <!--  style-Diagram栏的设置      -->
 
-            <el-tab-pane
-                    class="Tab"
-
-                    label="Style" name="Style">
-
-                <diagram-style-bar></diagram-style-bar>
+            <el-tab-pane  name="Block">
+                <span slot="label" v-if="BarBlock"><i class="el-icon-arrow-right"></i></span>
+                <span slot="label" v-if="!BarBlock"><i class="el-icon-arrow-left"></i></span>
 
             </el-tab-pane>
 
-        </el-tabs>
-<!--  element svg的设置-->
-        <el-tabs v-model="activeName_element" id="elementStyleBar" style="display: none" :stretch="card_element">
+
+            <el-tab-pane  name="Menu">
+                <span slot="label"><i class="el-icon-menu"></i></span>
+                <div class="menu">
+                    Theme
+                </div>
+                <diagram-style-bar></diagram-style-bar>
+            </el-tab-pane>
+
+
+            <!--  Diagram栏的设置      -->
+            <el-tab-pane  name="Setting">
+                <div class="menu">
+                    Diagram
+                </div>
+                <span slot="label"><i class="el-icon-setting"></i></span>
+                <view-bar></view-bar>
+                <option-bar></option-bar>
+            </el-tab-pane>
+
             <!--  style-element栏的设置      -->
-            <el-tab-pane
-                    class="Tab"
-                    label="Style" name="Style">
+            <el-tab-pane  name="Fill">
+                <div class="menu">
+                    Fill
+                </div>
+                <span slot="label"><i class="el-icon-edit"></i></span>
                 <fill-bar></fill-bar>
                 <line-bar></line-bar>
                 <style-bar></style-bar>
             </el-tab-pane>
+
             <!--  arrange栏的设置      -->
-            <el-tab-pane
-                    class="Tab"
-                    label="Arrange" name="Arrange">
+            <el-tab-pane name="Arrange">
+                <span slot="label"><i class="el-icon-place"></i> </span>
+
+                <div class="menu">
+                    Arrange
+                </div>
                 <z-index-bar></z-index-bar>
 
                 <size-bar></size-bar>
@@ -60,72 +73,96 @@
                 <group-bar></group-bar>
             </el-tab-pane>
             <!--text栏的设置-->
-            <el-tab-pane
-                    class="Tab"
-                    v-if="textShow" label="Text" name="Text">
+            <el-tab-pane name="Text">
+                <span slot="label"><i class="el-icon-edit-outline"></i></span>
+                <div class="menu">
+                    Text
+                </div>
                 <alignment-bar></alignment-bar>
                 <spacing-bar></spacing-bar>
                 <integrated-editor></integrated-editor>
             </el-tab-pane>
 
-            <el-tab-pane
-                    class="Tab"
-                    v-if="relationShow"
-                    id="RelationBar"
-                    label="Relation"
-                    name="Relation">
+            <!--relation栏的设置 -->
+            <el-tab-pane name="Relation">
+                <div class="menu">
+                    Relation
+                </div>
+                <span slot="label"><i class="el-icon-connection"></i></span>
                 <alias-bar></alias-bar>
                 <bind-bar></bind-bar>
                 <link-bar></link-bar>
             </el-tab-pane>
 
-<!--            <el-tab-pane label="Line" name="Line">-->
-<!--                <connect-bar></connect-bar>-->
-<!--                <arrow-style-bar></arrow-style-bar>-->
-<!--                <line-type-bar></line-type-bar>-->
-<!--                <on-offset-bar></on-offset-bar>-->
-<!--                <set-dotted-line-bar></set-dotted-line-bar>-->
-<!--            </el-tab-pane>-->
-        </el-tabs>
 
-<!--  graph 的设置      -->
-        <el-tabs v-model="activeName_graph" id="graphStyleBar" style="display: none" :stretch="card_element">
-            <!--  style-graph栏的设置      -->
-            <el-tab-pane
-                    class="Tab"
-                    label="Arrange" name="Arrange">
-                <graph-size-bar></graph-size-bar>
-
-                <graph-position-bar></graph-position-bar>
-
-                <graph-create-bar></graph-create-bar>
-
-                <graph-change-bar></graph-change-bar>
-            </el-tab-pane>
-
-        </el-tabs>
-
-        <el-tabs v-model="activeName_line" id="lineStyleBar" style="display: none" :stretch="card_element">
             <!--  style-line栏的设置      -->
-            <el-tab-pane
-                    class="Tab"
-                    label="Line" name="Line">
-<!--                <connect-bar></connect-bar>-->
+            <el-tab-pane name="Line">
+                <div class="menu">
+                    Line
+                </div>
+                <span slot="label"><i class="el-icon-right"></i></span>
+
                 <arrow-style-bar></arrow-style-bar>
                 <line-type-bar></line-type-bar>
                 <on-offset-bar></on-offset-bar>
                 <set-dotted-line-bar></set-dotted-line-bar>
             </el-tab-pane>
+        </el-tabs>
 
+
+
+<!--&lt;!&ndash;  element svg的设置&ndash;&gt;-->
+<!--        <el-tabs v-model="activeName_element" id="elementStyleBar" style="display: none" :stretch="card_element">-->
+
+
+
+<!--&lt;!&ndash;            <el-tab-pane label="Line" name="Line">&ndash;&gt;-->
+<!--&lt;!&ndash;                <connect-bar></connect-bar>&ndash;&gt;-->
+<!--&lt;!&ndash;                <arrow-style-bar></arrow-style-bar>&ndash;&gt;-->
+<!--&lt;!&ndash;                <line-type-bar></line-type-bar>&ndash;&gt;-->
+<!--&lt;!&ndash;                <on-offset-bar></on-offset-bar>&ndash;&gt;-->
+<!--&lt;!&ndash;                <set-dotted-line-bar></set-dotted-line-bar>&ndash;&gt;-->
+<!--&lt;!&ndash;            </el-tab-pane>&ndash;&gt;-->
+<!--        </el-tabs>-->
+
+<!--&lt;!&ndash;  graph 的设置      &ndash;&gt;-->
+<!--        <el-tabs v-model="activeName_graph" id="graphStyleBar" style="display: none" :stretch="card_element">-->
+<!--            &lt;!&ndash;  style-graph栏的设置      &ndash;&gt;-->
 <!--            <el-tab-pane-->
 <!--                    class="Tab"-->
-<!--                    label="Text" name="Text">-->
-<!--                <alignment-bar></alignment-bar>-->
-<!--                <spacing-bar></spacing-bar>-->
-<!--                <integrated-editor></integrated-editor>-->
+<!--                    label="Arrange" name="Arrange">-->
+<!--                <graph-size-bar></graph-size-bar>-->
+
+<!--                <graph-position-bar></graph-position-bar>-->
+
+<!--                <graph-create-bar></graph-create-bar>-->
+
+<!--                <graph-change-bar></graph-change-bar>-->
 <!--            </el-tab-pane>-->
 
-        </el-tabs>
+<!--        </el-tabs>-->
+
+<!--        <el-tabs v-model="activeName_line" id="lineStyleBar" style="display: none" :stretch="card_element">-->
+<!--            &lt;!&ndash;  style-line栏的设置      &ndash;&gt;-->
+<!--            <el-tab-pane-->
+<!--                    class="Tab"-->
+<!--                    label="Line" name="Line">-->
+<!--&lt;!&ndash;                <connect-bar></connect-bar>&ndash;&gt;-->
+<!--                <arrow-style-bar></arrow-style-bar>-->
+<!--                <line-type-bar></line-type-bar>-->
+<!--                <on-offset-bar></on-offset-bar>-->
+<!--                <set-dotted-line-bar></set-dotted-line-bar>-->
+<!--            </el-tab-pane>-->
+
+<!--&lt;!&ndash;            <el-tab-pane&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="Tab"&ndash;&gt;-->
+<!--&lt;!&ndash;                    label="Text" name="Text">&ndash;&gt;-->
+<!--&lt;!&ndash;                <alignment-bar></alignment-bar>&ndash;&gt;-->
+<!--&lt;!&ndash;                <spacing-bar></spacing-bar>&ndash;&gt;-->
+<!--&lt;!&ndash;                <integrated-editor></integrated-editor>&ndash;&gt;-->
+<!--&lt;!&ndash;            </el-tab-pane>&ndash;&gt;-->
+
+<!--        </el-tabs>-->
 
 
 
@@ -184,6 +221,12 @@
             window.onText=this.onText;
             window.offRelation=this.offRelation;
             window.onRelation=this.onRelation;
+            let list=document.getElementsByClassName("el-tabs__header is-left");
+            // // console.log(list);
+            list[0].style.marginRight="0px"
+            // list[0].style.paddingTop="35px"
+            // el-tabs__header is-left
+
         },
         components:{
             BindBar,
@@ -209,7 +252,7 @@
             AngleBar, PositionBar, SizeBar, ZIndexBar, StyleBar, LineBar, ColorBar, FillBar, integratedEditor},
         data() {
             return {
-                activeName: 'Diagram',
+                activeName: 'Fill',
                 activeName_element:'Style',
                 activeName_graph:'Arrange',
                 activeName_line:"Line",
@@ -292,6 +335,8 @@
                 isArrange:false,
                 textShow:true,
                 relationShow:true,
+                BarWidth:0,
+                BarBlock:true,
 
             //    关于graph
                 graph_change:false,
@@ -300,26 +345,76 @@
 
         },
         methods: {
+
+            collpaseTab(){
+
+            },
+
             offText(){
-                this.textShow=false;
-                this.activeName_element='Style';
+                // this.textShow=false;
+                // this.activeName_element='Style';
+                set_spacing_flag(true)
+                set_alignment_flag(true)
             },
             onText(){
-                this.textShow=true;
+                set_alignment_flag(false)
+                set_spacing_flag(false)
+
+                // this.textShow=true;
             },
             offRelation(){
+                alias_flag(true);
+                setBindFlag(true);
+                setRelationFlag(true);
                 // let item=document.getElementById("RelationBar");
                 // item.style.display="none";
-                this.relationShow=false;
-                this.activeName_element='Style';
+                // this.relationShow=false;
+                // this.activeName_element='Style';
             },
             onRelation(){
+                alias_flag(false);
+                setBindFlag(false);
+                setRelationFlag(false);
                 // let item=document.getElementById("RelationBar");
                 // item.style.display="block";
-                this.relationShow=true;
+                // this.relationShow=true;
             },
             handleClick(tab, event) {
                 // console.log(tab, event);
+                // console.log(this.activeName)
+                if(this.activeName==="Block"){
+                    if(this.BarBlock){
+                        let node=document.getElementsByClassName("el-tabs__content")[0];
+                        console.log(node);
+                        let width= window.getComputedStyle(node).width;
+                        let bar=document.getElementById("rightBar");
+                        let widthBar=window.getComputedStyle(bar).width;
+                        width=parseInt(width.substr(0,width.length-2))
+                        widthBar=parseInt(widthBar.substr(0,widthBar.length-2))
+                        console.log(width)
+                        console.log(widthBar)
+                        bar.setAttribute("style","width:"+(widthBar-width)+"px;background-color: rgb(251, 251, 251);")
+                        this.BarWidth=width;
+                        node.style.display="none";
+                        this.BarBlock=false;
+                    }else{
+                        let node=document.getElementsByClassName("el-tabs__content")[0];
+                        console.log(node);
+                        // let width= window.getComputedStyle(node).width;
+                        let bar=document.getElementById("rightBar");
+                        let widthBar=window.getComputedStyle(bar).width;
+                        // width=parseInt(width.substr(0,width.length-2))
+                        widthBar=parseInt(widthBar.substr(0,widthBar.length-2))
+                        widthBar+=this.BarWidth
+                        console.log(widthBar)
+                        bar.setAttribute("style","width:"+(widthBar)+"px;background-color: rgb(251, 251, 251);")
+                        node.style.display="block";
+                        this.activeName="Menu"
+                        this.BarBlock=true;
+                    }
+                    // console.log(111);
+
+                }
             },
             graph_change_set(value){
                 if(!value){
@@ -632,6 +727,13 @@
     height: 30px;
 }
 
+.menu{
+    padding: 8px;
+    background-color:#E0E0E0;
+    font-weight: bolder;
+}
 
-
+.el-tabs--left .el-tabs__header.is-left{
+    margin-right: 0px;
+}
 </style>

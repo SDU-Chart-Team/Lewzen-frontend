@@ -5,6 +5,8 @@ import {createReAddAction} from "@/js/action/Register/reAddAction";
 import {removeElementByGid} from "@/js/element/module/module_queue";
 import {offCoreByGid} from "@/js/element/core/core_queue";
 import {deleteTreeNodeById} from "@/js/element/module/module_tree";
+import {getModuleByGid} from "../../element/module/module_queue";
+import {BeforeDeleteElement, BeforeDeleteLine} from "../../element/anchor/arrow_Queue";
 
 export class RemoveAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -22,6 +24,12 @@ export class RemoveAction extends Base_action{
     after(){
         for(let i=0;i<this.msg['ids'].length;i++){
             let id=this.msg['ids'][i];
+            let element=getModuleByGid(id);
+            if(element.isLine){
+                BeforeDeleteLine(id);
+            }else{
+                BeforeDeleteElement(id);
+            }
             offCoreByGid(id,true)
             removeElementByGid(id)
             deleteTreeNodeById(id)
@@ -34,7 +42,7 @@ export class RemoveAction extends Base_action{
 
     backward(){
         let msg=[];
-        msg['time']=this.time;
+        msg['time']=this.cmd['time'];
         P("readd",msg);
     }
 

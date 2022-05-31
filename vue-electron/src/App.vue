@@ -243,7 +243,7 @@
 <!--        </el-scrollbar>-->
       </el-main>
 <!--rightsider-->
-      <el-aside width="350px" class="aside-div left Tab" style="background-color:#FBFBFB">
+      <el-aside id="rightBar" class="aside-div left Tab" style="width:350px;background-color:#FBFBFB">
         <right-side-bar></right-side-bar>
 
       </el-aside>
@@ -600,13 +600,14 @@
         // slider.style.backgroundColor="#FBFBFB"
         document.onmousemove=function(e){
           let endX=e.screenX;
-
+          document.querySelector("body").style.cursor="e-resize"
           that.leftAsideWidth=endX+"px";
           that.leftAsideWidth_1=endX-13+"px";
         }
         document.onmouseup=function(evt){
           // let slider=document.getElementById("slider");
           // slider.style.backgroundColor="#E1E1E1"
+            document.querySelector("body").style.cursor="default"
           document.onmousemove=null;
           document.onmouseup=null;
         }

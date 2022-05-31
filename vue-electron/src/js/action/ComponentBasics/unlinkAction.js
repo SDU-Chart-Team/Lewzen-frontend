@@ -25,11 +25,11 @@ export class UnlinkAction extends Base_action{
     }
 
     forward(){
-        P("unlink",{id1:this.id1,id2:this.id2})
+        P("unlink",{id1:this.id1,id2:this.id2},false)
     }
 
     backward(){
-        P("link",{id1:this.id1,id2:this.id2})
+        P("link",{id1:this.id1,id2:this.id2},false)
 
     }
 

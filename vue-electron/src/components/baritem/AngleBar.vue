@@ -6,6 +6,7 @@
                 <div class="card-right">
                     <el-input
                             size="mini"
+                            :disabled="flag"
                             v-model="element_angle"
                             @change="angle_change"
                     ></el-input>
@@ -14,10 +15,12 @@
         </div>
         <div class="card-item">
             <div>
-                <button
+                <el-button
+                        size="mini"
+                        :disabled="flag"
                         style="width:100%"
                         @click="angle_change_by90"
-                >Rotate shape 90.</button>
+                >Rotate shape 90.</el-button>
             </div>
         </div>
     </div>
@@ -31,8 +34,12 @@
         name: "AngleBar",
         mounted() {
             window.set_theta_bar=this.set_theta_bar;
+            window.setThetaFlag=this.setThetaFlag;
         },
         methods:{
+            setThetaFlag(flag){
+              this.flag=flag;
+            },
             set_theta_bar(msg){
                 this.element_angle=Math.floor(msg*360/(2*Math.PI));
                 this.element_angle_last=this.element_angle;
@@ -57,11 +64,11 @@
             return{
                 element_angle:"",
                 element_angle_last:"",
+                flag:true
             }
         }
     }
 </script>
-
 <style scoped>
     .card{
         padding: 10px;
@@ -70,7 +77,7 @@
     }
     .card-header{
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
     }
     .card-item{
         padding-top: 7px;
@@ -92,6 +99,9 @@
         line-height: 30px;
         width: 70%;
         height: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        /*color: #606266;*/
     }
     .card-left-item{
         float: left;

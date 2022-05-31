@@ -73,7 +73,24 @@ import {createGetMoveBindAction, GetMoveBindAction} from "@/js/action/ComponentB
 
 let socketQueue={}
 
+let userAction={
+    'group':true,
+    'arrow_from':true,
+    'arrow_to':true,
+    'arrow_from_null':true,
+    'arrow_to_null':true
+}
+
+
 export function socketPush(msg){
+
+    if(msg['type']!==undefined){
+        if(userAction[msg['type']]!==undefined){
+            pushAction(msg['action'])
+            return;
+        }
+    }
+
     // console.log(socket_return);
     // msg=msg['ok'];
     // if(msg===undefined){
@@ -209,11 +226,16 @@ function addAction(cmd,msg) {
 }
 
 function cursorAction(cmd,msg){
+    // console.log(122)
     let cursor_action=new CursorAction("cursor",cmd,msg);
     pushAction(cursor_action);
 }
 
 function cursorsAction(cmd,msg){
+    if(cmd['quick']!==undefined&&cmd['quick']===true){
+        cursorAction(cmd,msg);
+        return;
+    }
     let cursors_action=new CursorsAction("cursors",cmd,msg);
     pushAction(cursors_action);
 }
