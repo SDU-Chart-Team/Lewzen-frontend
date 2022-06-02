@@ -129,9 +129,9 @@
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item command=0>Rectangle</el-dropdown-item>
-                        <el-dropdown-item command=1>Ellipase</el-dropdown-item>
-                        <el-dropdown-item command=2>Rhombus</el-dropdown-item>
-                        <el-dropdown-item command=7>Line</el-dropdown-item>
+                        <el-dropdown-item command=1>Ellipse</el-dropdown-item>
+                        <el-dropdown-item command=17>triangle</el-dropdown-item>
+                        <el-dropdown-item command=30>Line</el-dropdown-item>
                     </el-dropdown-menu>
               </el-dropdown>
 <!--              <el-dropdown>-->

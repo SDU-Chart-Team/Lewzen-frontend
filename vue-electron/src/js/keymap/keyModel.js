@@ -18,9 +18,13 @@ export function initKey(){
             ctrlOn=false;
         }
         if(e.keyCode===97){//1
-            canvas_scale_up()
+            if(ctrlOn){
+                canvas_scale_up()
+            }
         }else if(e.keyCode===99){//3
-            canvas_scale_down()
+            if(ctrlOn){
+                canvas_scale_down()
+            }
         }else if(e.keyCode===67){//c
             if(ctrlOn)ctrlC();
         }else if(e.keyCode===86){//v
