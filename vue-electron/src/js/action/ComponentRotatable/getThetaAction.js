@@ -18,6 +18,8 @@ export class GetThetaAction extends Base_action{
     after(){
         if(this.msg['status']==="!succeed"){
             set_theta_bar(this.msg['theta'])
+        }else {
+            set_theta_bar("")
         }
         // console.log(this.msg);
     }

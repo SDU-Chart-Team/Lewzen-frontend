@@ -42,6 +42,7 @@ export function set_shape_create(sort){
             P("create",{id:shape_create})
             move_enter['x']=e.offsetX;
             move_enter['y']=e.offsetY;
+            console.log(e.offsetY,e.offsetX);
             move_flag=true;
             cancel_shape_create()
         }

@@ -38,7 +38,7 @@ class Arrow_Queue {
 
     delete_arrow_from(id){
         // console.log(this.arrowList)
-        console.log(id);
+        // console.log(id);
         let from_id=this.arrowList[id]['from_id']
         this.arrowList[id]['from_id']=undefined;
         this.arrowList[id]['from_a_id']=undefined;
@@ -121,6 +121,7 @@ class Arrow_Queue {
     }
 
     update_position_by_gid(g_id){
+        // console.log(g_id);
         let coreList=getCoreList();
         let mat_mul = (mat, p) => [p[0]*mat[0]+p[1]*mat[2],p[0]*mat[1]+p[1]*mat[3]];
         let mat=window.getComputedStyle(document.getElementById(g_id), null).getPropertyValue("transform");

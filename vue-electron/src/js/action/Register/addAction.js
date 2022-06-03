@@ -80,6 +80,7 @@ export class AddAction extends Base_action{
             let bbox=document.getElementById(this.id[i]).getBBox();
 
             initMoveState({start_x:bbox.x,start_y:bbox.y})
+
             let msg={g_id:getCoreList()[0],move_x:move['x']-bbox.width/2,move_y:move['y']-bbox.height/2}
             P("move",msg,false)
             P("cursors",{ids:this.msg['ids']})
@@ -114,6 +115,25 @@ export class AddAction extends Base_action{
 
     filter() {
         return true;
+    }
+
+    frontFilter(action) {
+        if(action.type==="group"){
+            return true;
+        }
+        if(action.type==="arrow_from"){
+            return true;
+        }
+        if(action.type==="arrow_from_null"){
+            return true;
+        }
+        if(action.type==="arrow_to"){
+            return true;
+        }
+        if(action.type==="arrow_to_null"){
+            return true;
+        }
+        return false;
     }
 }
 let create_List={

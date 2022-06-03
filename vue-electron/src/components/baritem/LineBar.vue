@@ -109,6 +109,9 @@
         methods:{
             setStrokeFlag(flag){
                 this.flag=flag;
+                if(flag===true){
+                    this.clearModel();
+                }
             },
             Trim(str) {
                 if(str===undefined)return;
@@ -181,6 +184,12 @@
 
             handleStrokeWidth(e){
                 SetCoreStrokeWidth(this.line_style_px);
+            },
+            clearModel(){
+                this.strokeOn=false;
+                this.color_line="";
+                this.value_line="";
+                this.line_style_px="";
             }
         },
         data(){

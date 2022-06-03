@@ -130,6 +130,9 @@
         methods:{
             setFillFlag(flag){
                 this.flag=flag;
+                if(this.flag===true){
+                    this.clearModel();
+                }
             },
 
             //快速模式
@@ -238,6 +241,10 @@
                 msg['end_color']=this.color_gradient;
                 GradientChange(msg)
             },
+            clearModel(){
+                this.fillOn=false;
+                this.gradientOn=false;
+            }
         },
         data(){
             return{

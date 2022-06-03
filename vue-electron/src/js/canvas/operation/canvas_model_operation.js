@@ -100,12 +100,26 @@ export function inGraphModel(){
 
 
 export function changeModel(){
-    let coreList=getCoreList();
-    if(coreList.length===0){
-        inDiagramModel();
-    }else{
-        inElementStyleModel();
+    let model=getRightModel();
+    if(model==="Menu"){
+    }else if(model==="Setting"){
+    }else if(model==="Fill"){
+        setFillModel();
+    }else if(model==="Arrange"){
+        setArrangeModel();
+    }else if(model==="Line"){
+        setLineModel();
+    }else if(model==="Text"){
+        setTextModel();
+    }else if(model==="Relation"){
+        setRelationModel();
     }
+    // let coreList=getCoreList();
+    // if(coreList.length===0){
+    //     inDiagramModel();
+    // }else{
+    //     inElementStyleModel();
+    // }
 }
 
 export function inElementLineModel(){
@@ -153,3 +167,103 @@ function updateElementFlag(flag){
     FlipFlag(flag);
     groupFlag(flag);
 }
+
+
+
+
+//*******************************
+
+export function setFillModel(){
+
+    let coreList=getCoreList();
+    if(coreList.length===0){
+        setFillFlag(true);
+        setStrokeFlag(true);
+        setStrokeFlag(true);
+        return;
+    }
+    //设置fill和stroke
+    let element=coreList[0];
+    updateStyle(element);
+    setFillFlag(false);
+    setStrokeFlag(false);
+    setStyleFlag(false);
+
+    //设置stroke
+
+}
+
+export function setArrangeModel(){
+    let coreList=getCoreList();
+    if(coreList.length===0){
+        zindexFlag(true);
+        setThetaFlag(true);
+        set_theta_bar("");
+        FlipFlag(true);
+        setPosition({flag:false})
+        groupFlag(true);
+        return;
+    }
+    if(coreList.length>1){
+        zindexFlag(false);
+        setThetaFlag(false);
+        FlipFlag(false);
+        setPosition({flag:false})
+        groupFlag(false);
+        setGroupType(true);
+    }else{
+        zindexFlag(false);
+        let element=getModuleByGid(coreList[0]);
+        if(!element.show){
+            groupFlag(false);
+            setGroupType(false);
+
+        }else{
+            groupFlag(true);
+            setGroupType(true);
+        }
+        setThetaFlag(false);
+        FlipFlag(false);
+        P("get_rect",{})
+        P("get_theta",{})
+    }
+}
+
+export function setLineModel(){
+    let coreList=getCoreList();
+    for(let i=0;i<coreList.length;i++){
+        let element=getModuleByGid(coreList[i]);
+        if(!element.isLine){
+            setArrowFlag(true);
+            setLineTypeFlag(true);
+            set_dotted_line_flag(true);
+            offsetFlag(true);
+            return;
+        }
+    }
+    setArrowFlag(false);
+    setLineTypeFlag(false);
+    set_dotted_line_flag(false);
+    offsetFlag(false);
+    P("get_offset",{})
+}
+
+export function setTextModel(){
+    updateTextSet();
+}
+
+export function setRelationModel(){
+    let coreList=getCoreList();
+    if(coreList.length!==1){
+        offRelation();
+    }else{
+        onRelation();
+        updateLink();
+
+    }
+}
+
+
+
+
+

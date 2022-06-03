@@ -31,6 +31,8 @@
 <script>
     import {getActionCounter, P} from "@/js/action/actionQueue";
     import {getCoreList} from "@/js/element/core/core_queue";
+    import {getChildrenOneList} from "@/js/element/module/module_tree";
+    import {createUngroupAction} from "@/js/action/Register/ungroupAction";
 
     export default {
         name: "groupBar",
@@ -47,6 +49,13 @@
 
             },
             ungroup(){
+                let coreList=getCoreList();
+                let son=getChildrenOneList(coreList[0])
+                let val={
+                    command:"ungroup",
+                    flag:true
+                }
+                createUngroupAction(val,{group_id:coreList[0],son:son})
                 let time= getActionCounter();
                 P("remove",{time:time})
             },

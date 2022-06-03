@@ -43,6 +43,10 @@ export class SetArrowToNullAction extends Base_action{
         return true;
     }
 
+    backFilter(action) {
+        return true;
+    }
+
 }
 
 export function createArrowToNullAction(cmd,msg){//time

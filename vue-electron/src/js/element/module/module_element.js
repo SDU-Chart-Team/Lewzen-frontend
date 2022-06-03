@@ -24,8 +24,9 @@ import {canvas_update, guideSet} from "@/js/canvas/base_canvas";
 import {updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
 import {get_rect_move_flag} from "@/js/element/last/last_map_operation";
 import {initMovePState} from "../../action/ComponentBasics/movePAction";
-import {from_point_remove} from "../anchor/arrow_operation";
 import {getActionCounter} from "../../action/actionQueue";
+import {get_coordinate_canvas} from "../last/last_map_operation";
+import {link_quick_get, link_quick_id_get, link_quick_set} from "../../canvas/operation/canvas_link_operation";
 
 export class Module_element {
     constructor(msg,flag) {
@@ -136,10 +137,20 @@ export class Module_element {
         let that=this;
         // from_point_remove();
 
+
+
         let element=document.getElementById(this.g_id);
         for(let i=0;i<element.childNodes.length;i++){
             let node=element.childNodes[i];
             node.onclick=function(){
+                if(link_quick_get()){
+                    var body=document.querySelector("body")
+                    let id=link_quick_id_get();
+                    body.style.cursor="default"
+                    link_quick_set(false)
+                    P("link",{id1:id,id2:that.g_id});
+                    return;
+                }
                 if(that.move){
                     that.move=false;
                 }else if(that.isCore===false) {
@@ -220,19 +231,30 @@ export class Module_element {
                     let msg={}
                     let bbox=document.getElementById(that.g_id).getBBox();
                     initMoveState({start_x:bbox.x,start_y:bbox.y});
-                    let startX=e.offsetX;
-                    let startY=e.offsetY;
+                    // let startX=e.offsetX;
+                    // let startY=e.offsetY;
+                    let startX=e.screenX;
+                    let startY=e.screenY;
+                    let coordinate=get_coordinate_canvas();
                     let nowX=startX;
                     let nowY=startY;
                     // let svg=document.getElementById(getMySvg());
                     document.onmousemove=function (e) {
+                        // console.log(e.target)
                         that.move=true;
                         // anchor_update(that.g_id,"none")
                         canvas_update("connect",this.g_id,{type:"delete"})
-
+                        let node=document.getElementById("main_canvas");
                         moveUpdateStyle()
-                        let newX=e.offsetX;
-                        let newY=e.offsetY;
+                        // let newX=e.offsetX;
+                        // let newY=e.offsetY;
+                        let canvas_coordinate=get_coordinate_canvas();
+                        // newX-=canvas_coordinate['x'];
+                        // newY-=canvas_coordinate['y'];
+                        let newX=e.screenX;
+                        let newY=e.screenY;
+                        // console.log(newX,nowX);
+                        // console.log(newY,nowY);
                         let transX=newX-nowX;
                         // console.log(e.offsetX,e.offsetY,e.target);
                         // console.log(e.target.id);
@@ -240,6 +262,7 @@ export class Module_element {
                         nowX=newX;
                         nowY=newY;
                         let msg={g_id:that.g_id,move_x:transX,move_y:transY}
+                        // console.log(msg);
                         P("move",msg)
                         // create_Move_Action(that.g_id,transX,transY);
                     }

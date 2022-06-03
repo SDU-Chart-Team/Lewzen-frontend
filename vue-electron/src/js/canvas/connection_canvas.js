@@ -70,6 +70,7 @@ export class Connection_canvas {
     }
 
     show_connect_point(g_id){
+
         for(let i=0;i<this.connect_map[g_id]['len'];i++){
             let index=this.connect_map[g_id]['start']+i;
             this.connect_list[index].create();
@@ -81,12 +82,23 @@ export class Connection_canvas {
     update(g_id,msg){
         if(msg['type']==='create'){
             this.update_connect_point(g_id);
+            this.show_outline(g_id);
         }else if(msg['type']==="delete"){
             this.delete_connect_point(g_id);
+            this.delete_outline(g_id);
         }else if(msg['type']==="flag"){
             this.flag=msg['flag']
         }
     }
+
+    show_outline(g_id){
+
+    }
+
+    delete_outline(g_id){
+
+    }
+
 
     delete_connect_point(g_id){
         from_point_remove();

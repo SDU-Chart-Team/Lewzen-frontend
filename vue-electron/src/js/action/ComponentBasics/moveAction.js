@@ -45,8 +45,8 @@ export class MoveAction extends Base_action{
     }
 
     forward(){
-        P("cursor",{ids:this.ids},false)
-
+        P("cursors",{ids:this.ids},false)
+        console.log(this.ids);
         //直接进行移动，无需通过设置。
         P("move",{g_id:this.ids,move_x:this.dx,move_y:this.dy,quick:true},false)
 
@@ -73,7 +73,7 @@ export class MoveAction extends Base_action{
     }
 
     backward(){
-        P("cursor",{ids:this.ids},false)
+        P("cursors",{ids:this.ids},false)
         P("move",{g_id:this.ids,move_x:-this.dx,move_y:-this.dy,quick:true},false)
         P("cursors",{ids:this.ids},false)
         updateStyleAfterChange()

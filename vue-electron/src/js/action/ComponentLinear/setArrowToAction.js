@@ -42,6 +42,9 @@ export class SetArrowToAction extends Base_action{
         return true;
     }
 
+    backFilter(action) {
+        return true;
+    }
 }
 
 export function createArrowToAction(cmd,msg){//time

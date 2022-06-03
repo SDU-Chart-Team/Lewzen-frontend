@@ -34,3 +34,22 @@ export function updateLink(){
     let alias=getAlias(id);
     alias_update(alias)
 }
+
+
+let link_quick_click=false;
+let link_quick="";
+export function link_quick_set(flag){
+    link_quick_click=flag;
+}
+
+export function link_quick_get(){
+    return link_quick_click;
+}
+
+export function link_quick_id_set(id){
+    link_quick=id;
+}
+
+export function link_quick_id_get(){
+    return link_quick;
+}

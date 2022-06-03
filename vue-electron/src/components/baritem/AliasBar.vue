@@ -35,6 +35,9 @@
         methods:{
             alias_flag(flag){
               this.flag=flag;
+              if(flag){
+                  this.alias_text="";
+              }
             },
             alias_set(){
                 setAlias(this.alias_text);

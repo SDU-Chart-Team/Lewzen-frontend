@@ -52,10 +52,12 @@ export class Core_element {
                 domOperator.setAttrByDom(node,{
                     cx:x,cy:y,r:5,style:style_core
                 })
+
             }else{
                 domOperator.setAttrByDom(node,{
                     cx:x,cy:y,r:5,style:style_core_v
                 })
+
             }
 
             domOperator.appendChildByDom(canvas,node);
@@ -67,10 +69,11 @@ export class Core_element {
                 node.setAttribute("xmlns","http://www.w3.org/2000/svg")
                 node.setAttribute("width","15")
                 node.setAttribute("height","15")
+
                 let path=createElementByTag("path")
                 path.setAttribute("d","M935.497143 659.017143a36.937143 36.937143 0 0 1-1.755429 18.505143 434.322286 434.322286 0 0 1-370.980571 337.773714C325.632 1045.650286 107.373714 876.251429 77.531429 637.293714a435.712 435.712 0 0 1 378.587428-487.131428c5.778286-1.243429 13.385143-1.901714 19.748572-1.974857-2.633143-24.137143-5.851429-46.518857-7.899429-66.267429-3.291429-25.526857-6.582857-44.617143-6.582857-50.980571-1.974857-7.021714-1.389714-15.36 3.657143-21.065143a21.796571 21.796571 0 0 1 31.305143-4.608l0.585142 1.243428 17.993143 16.530286 126.683429 98.962286 17.92 13.312 15.36 11.410285c5.12 3.803429 7.68 8.850286 8.996571 14.628572a20.260571 20.260571 0 0 1-4.388571 16.603428l-11.410286 15.36-13.312 17.92L555.885714 337.92l-14.555428 18.578286-1.243429 0.658285a23.625143 23.625143 0 0 1-31.890286 3.291429c-5.778286-5.12-9.654857-12.726857-8.411428-19.748571-1.316571-5.705143-3.291429-25.453714-6.582857-50.980572-2.633143-17.846857-5.266286-38.838857-7.899429-59.904-6.436571 0-13.385143 1.974857-19.748571 1.974857-193.828571 24.502857-332.726857 201.801143-308.297143 395.556572 24.502857 193.828571 201.801143 332.726857 395.556571 308.224a353.426286 353.426286 0 0 0 303.616-281.307429 40.082286 40.082286 0 0 1 34.377143-30.134857c22.235429-3.291429 43.373714 13.165714 44.763429 34.889143z")
                 path.setAttribute("fill","#1188EE")
-                node.append(path)
+
                 let canvas=document.getElementById(getHoverMapId());
                 if(element.center_y===undefined){
 
@@ -86,6 +89,15 @@ export class Core_element {
                     let x=points[i].x+10*Math.cos(theta_tmp);
                     let y=points[i].y-10*Math.sin(theta_tmp);
                 }
+                let rect=createElementByTag("rect")
+                rect.setAttribute("x",0)
+                rect.setAttribute("y",0)
+                rect.setAttribute("opacity",0)
+                rect.setAttribute("width",node.getAttribute("width")*(1024/15))
+                rect.setAttribute("height",node.getAttribute("height")*(1024/15))
+                node.appendChild(rect);
+                node.append(path)
+
                 node.setAttribute("r",5);
                 node.onmousedown=function(e){
                     let start_x=e.offsetX;
@@ -180,10 +192,10 @@ export class Core_element {
             let that=this;
             let node=document.getElementById(core_id);
             node.onmousedown=function (e) {
-                let startX=e.offsetX;
-                let startY=e.offsetY;
-                let nowX=e.offsetX;
-                let nowY=e.offsetY;
+                let startX=e.screenX;
+                let startY=e.screenY;
+                let nowX=e.screenX;
+                let nowY=e.screenY;
                 clearScaleState();
                 let bbox=document.getElementById(that.g_id).getBBox();
                 initMovePState({start_x:bbox.x,start_y:bbox.y});
@@ -194,8 +206,8 @@ export class Core_element {
                         getListInFill(e.offsetX,e.offsetY);
                     }
                     that.movePUpdateStyle(core_id);
-                    let newX=e.offsetX;
-                    let newY=e.offsetY;
+                    let newX=e.screenX;
+                    let newY=e.screenY;
                     let transX=newX-nowX;
                     let transY=newY-nowY;
                     nowX=newX;

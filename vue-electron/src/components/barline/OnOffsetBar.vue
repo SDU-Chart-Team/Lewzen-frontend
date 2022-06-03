@@ -10,7 +10,17 @@
                         size="mini"
                         style="width: 100%"
                         @click="onOffset"
+                        v-if="!isOn"
                 >OnOffset</el-button>
+            </div>
+            <div>
+                <el-button
+                        :disabled="flag"
+                        size="mini"
+                        style="width: 100%"
+                        @click="offOffset"
+                        v-if="isOn"
+                >OffOffset</el-button>
             </div>
         </div>
     </div>
@@ -23,18 +33,30 @@
         name: "OnOffsetBar",
         mounted() {
             window.offsetFlag=this.offsetFlag;
+            window.set_offset_bar=this.set_offset_bar;
         },
         methods:{
+            set_offset_bar(str){
+                if(str==='close'){
+                    this.isOn=false
+                }else{
+                    this.isOn=true;
+                }
+            },
             offsetFlag(flag){
                 this.flag=flag;
             },
             onOffset(){
                 P("on_offset",{})
+            },
+            offOffset(){
+                P("close_offset",{})
             }
         },
         data(){
             return{
                 flag:true,
+                isOn:false
             }
         }
     }

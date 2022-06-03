@@ -65,7 +65,7 @@ class Arrow_operation {
             // line.setAttribute("stroke","black");
             // map.appendChild(line);
             // add_arrow(that.from_point_g_id,that.from_point_a_id,line_id)
-            P("create",{id:7})
+            P("create",{id:30})
             P("set_start",{x:msg['x'],y:msg['y']})
             P("set_end",{x:msg['x'],y:msg['y']})
             P("get_p",{})
@@ -219,3 +219,4 @@ export function clear_arrow_point(){
 export function from_point_remove(){
     arrower.from_point_remove();
 }
+

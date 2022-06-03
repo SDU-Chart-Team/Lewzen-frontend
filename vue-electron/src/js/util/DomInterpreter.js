@@ -1,4 +1,5 @@
 import {getMySvg} from "@/js/util/getCanvasIdOperation";
+import {set_coordinate_canvas} from "../element/last/last_map_operation";
 
 export function parserCmd(cmd){
     let domCmd=cmd["domcmd"];
@@ -115,24 +116,37 @@ function interpreter(root, cmds){
                     let msg={}
                     msg['height']=parseInt(tmp[3]);
                     msg['width']=parseInt(tmp[2]);
+                    mapUpdate(msg);
+                    // let node1=document.getElementById("myCanvas");
                     let node=document.getElementById("main_canvas");
-                    console.log(node.scrollHeight)
+                    // console.log(node1.getAttribute("width"))
+                    // node.scrollHeight=node1.getAttribute("height")
+                    // node.scrollWidth=node1.getAttribute("width")
+                    // console.log(node1.getAttribute("height"))
+                    // node.removeChild(node1);
+                    // node.appendChild(node1);
+                    // console.log(node.scrollHeight)
                     let top=parseInt(node.scrollTop)-parseInt(tmp[1]);
                     let left=parseInt(node.scrollLeft)-parseInt(tmp[0]);
-                    console.log(top,left);
+                    // set_coordinate_canvas(left,top);
+
+                    // console.log(node.getAttribute(""))
+
+                    // console.log(top,left);
                     // node.setAttribute("scrollTop",top+"px")
                     // node.setAttribute("scrollLeft",left+"px")
-                    // node.scrollTop=top+parseInt(tmp[1]);
-                    // node.scrollLeft=left+parseInt(tmp[0]);
+                    node.scrollTop=top;
+                    node.scrollLeft=left;
+                    // console.log(node.scrollTop,node.scrollLeft);
+                    // console.log(node.scrollHeight,node.scrollWidth);
                     // let transform="translate("+(parseInt(tmp[0]))+","+(parseInt(tmp[1]))+")";
-                    mapUpdate(msg);
                     // node.scrollTop=top;
                     // node.scrollLeft=left;
                     // console.log(node.scrollTop);
                     // console.log(node.scrollLeft);
-                    let transform="translate("+(parseInt(tmp[0]))+","+(parseInt(tmp[1]))+")";
-                    let canvas=document.getElementById(getMySvg());
-                    canvas.setAttribute("transform",transform);
+                    // let transform="translate("+(parseInt(tmp[0]))+","+(parseInt(tmp[1]))+")";
+                    // let canvas=document.getElementById(getMySvg());
+                    // canvas.setAttribute("transform",transform);
                 }
                 // let tmp=val.split(' ');
                 // console.log(tmp);
@@ -167,3 +181,5 @@ function match(string,val){
     // console.log(val);
     return string.substr(0,val.length)===val;
 }
+
+

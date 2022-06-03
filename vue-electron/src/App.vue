@@ -2,7 +2,7 @@
   <div id="app">
 <!--header-->
     <div>
-      <div style="text-align: left; font-size: 12px;height: 60px ;margin-bottom: 5px" class="el-header">
+      <div style="text-align: left;user-select: none; font-size: 12px;height: 60px ;margin-bottom: 5px" class="el-header">
         <div class="head-top clear">
           <div class="head-top-logo left">
             <el-image :src="require('@/assets/logo.png')" class="logo"></el-image>
@@ -128,7 +128,7 @@
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command=0>Rectangle</el-dropdown-item>
+                        <el-dropdown-item command=2>Rectangle</el-dropdown-item>
                         <el-dropdown-item command=1>Ellipse</el-dropdown-item>
                         <el-dropdown-item command=17>triangle</el-dropdown-item>
                         <el-dropdown-item command=30>Line</el-dropdown-item>
@@ -179,37 +179,36 @@
         </div>
       </el-aside>
 <!--midcanvas-->
-      <el-main style="padding: 0" id="main_canvas" class="el-main">
+      <el-main style="padding: 0" id="main_canvas"  class="el-main">
 <!--        <el-scrollbar style="height:100%">-->
 <!--          <canvas @click="click_canvas" @mouseenter="mouseenter_canvas" @mousemove="mousemove_canvas" @mousedown="mousedown_canvas" @mouseup="mouseup_canvas" id="myCanvas" width="2000" height="1600">-->
 <!--          </canvas>-->
-          <div id="myCanvas" >
-              <right-click-bar></right-click-bar>
-              <svg xmlns="http://www.w3.org/2000/svg" class="svg"  @click="click_canvas" id="mySvg" :width="canvas_width" :height="canvas_height">
-                  <defs id="myDefs"></defs>
-                  <g id="last_map">
-                      <rect id="last" :height="canvas_height" :width="canvas_width" style="fill-opacity: 0"></rect>
-                  </g>
-                  <g id="text_map"></g>
-                  <g id="shape_map"></g>
-                  <g id="hover_map"></g>
-                  <g id="key_map"></g>
-                  <g id="node_map"></g>
+              <div id="myCanvas" >
+                  <right-click-bar></right-click-bar>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="svg"  @click="click_canvas" id="mySvg" :width="canvas_width" :height="canvas_height">
+                      <defs id="myDefs"></defs>
+                      <g id="last_map">
+                          <rect id="last" :height="canvas_height" :width="canvas_width" style="fill-opacity: 0"></rect>
+                      </g>
+                      <g id="text_map"></g>
+                      <g id="shape_map"></g>
+                      <g id="hover_map"></g>
+                      <g id="key_map"></g>
+                      <g id="node_map"></g>
 
-                  <!--                  <g>-->
-                  <!--                      <foreignObject width="100%" height="100%" style="display: inline-block">-->
-                  <!--                          <div-->
-                  <!--                                  xmlns="http://www.w3.org/1999/xhtml"-->
-                  <!--                                  style="display: inline-block"-->
-                  <!--                                  @dblclick="ondblclick"-->
-                  <!--                          >-->
-                  <!--                              <p><em>hel11111</em><em><strong>111</strong></em><u><em><strong>111</strong></em></u><u><em>1lo</em></u></p>-->
-                  <!--                          </div>-->
-                  <!--                      </foreignObject>-->
-                  <!--                  </g>-->
-              </svg>
-          </div>
-
+                      <!--                  <g>-->
+                      <!--                      <foreignObject width="100%" height="100%" style="display: inline-block">-->
+                      <!--                          <div-->
+                      <!--                                  xmlns="http://www.w3.org/1999/xhtml"-->
+                      <!--                                  style="display: inline-block"-->
+                      <!--                                  @dblclick="ondblclick"-->
+                      <!--                          >-->
+                      <!--                              <p><em>hel11111</em><em><strong>111</strong></em><u><em><strong>111</strong></em></u><u><em>1lo</em></u></p>-->
+                      <!--                          </div>-->
+                      <!--                      </foreignObject>-->
+                      <!--                  </g>-->
+                  </svg>
+              </div>
           <el-dialog
                   title="fill style"
                   :visible.sync="fillVisible"
@@ -460,8 +459,9 @@
             }
             let scale=get_canvas_scale();
             this.scaleNum=Math.floor(scale*100)
-            let width=this.canvas_width*scale+"px";
-            let height=this.canvas_height*scale+"px";
+            let width=parseFloat(this.canvas_width*scale);
+            let height=parseFloat(this.canvas_height*scale);
+            console.log(width,height);
             let node=document.getElementById("myCanvas");
             let padding_left=this.canvas_width*(scale-1)/2+"px";
             let padding_top=this.canvas_height*(scale-1)/2+"px";
@@ -470,9 +470,15 @@
             parser.updateStyle({"padding-left":padding_left})
             parser.updateStyle({"padding-right":padding_left})
             parser.updateStyle({"padding-bottom":padding_top})
-            node.setAttribute("height",height);
-            node.setAttribute("width",width);
+
+            parser.updateStyle({"height":height+'px'})
+            parser.updateStyle({"width":width+'px'})
+            // node.setAttribute("height",height);
+            // node.setAttribute("width",width);
             node.setAttribute("style",parser.get());
+            console.log(node.getAttribute("height"),node.getAttribute("width"));
+            let node1=document.getElementById("main_canvas");
+            console.log(node1.scrollHeight,node1.scrollWidth)
             // console.log(node.getAttribute("height"));
             // console.log(node.getAttribute("width"));
             // let width=parseInt(this.canvas_width)+200+"px";
@@ -771,8 +777,7 @@
       font-size: 12px;
   }
   .el-main{
-      overflow-y: scroll;
-      overflow-x: scroll;
+      overflow: auto;
   }
   .el-main::-webkit-scrollbar{
       width: 8px;
@@ -788,6 +793,7 @@
       border-radius: 0;
       background: #F8F9FA;
   }
+
   #myCanvas{
       /*display: block;*/
       /*text-align: left;*/
