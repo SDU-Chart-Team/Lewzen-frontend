@@ -32,10 +32,11 @@ export class MovePAction extends Base_action{
     }
 
     after(){
+        // console.log(1);
         movePUpdateStyle(this.id,this.msg);
         // anchor_update(this.id);
         // update_arrow(this.id);
-
+        // console.log(2);
             // console.log(this.msg);
         updateGuide(this.id)
         guideSet(this.id)
@@ -46,14 +47,14 @@ export class MovePAction extends Base_action{
         for(let j=0;j<list.length;j++){
             update_position_by_gid(list[j])
         }
-
+        // console.log(3);
     }
 
     forward(){
         P("cursor",{ids:[this.id]},false)
         // let msg={core_id:id,g_id:that.g_id,move_x:transX,move_y:transY}
         P("move_point",{core_id:this.pid,g_id:this.id,move_x:this.dx,move_y:this.dy,flag:true},false)
-        P("cursors",{ids:[this.id]},false)
+        P("cursor",{ids:[this.id]},false)
         let coreList=getCoreList();
         let ancestorList=getAncestorAll(this.id);
         ancestorList.reverse();
@@ -74,7 +75,7 @@ export class MovePAction extends Base_action{
 
         // let msg={core_id:id,g_id:that.g_id,move_x:transX,move_y:transY}
         P("move_point",{core_id:this.pid,g_id:this.id,move_x:-this.dx,move_y:-this.dy,flag:true},false)
-        P("cursors",{ids:[this.id]},false)
+        P("cursor",{ids:[this.id]},false)
 
         let coreList=getCoreList();
         let ancestorList=getAncestorAll(this.id);

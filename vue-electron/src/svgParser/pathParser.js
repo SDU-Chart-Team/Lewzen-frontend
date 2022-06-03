@@ -9,18 +9,18 @@ export class PathParser{
         let position=[]
         let d=node.getAttribute("d")
         d=Trim(d)
-        console.log(d);
+        // console.log(d);
         d=d.split(' ')
         let tmp=[];
         var reg=new RegExp("^[a-zA-Z]");
         for(let i=0;i<d.length;i++){
             if(reg.test(d[i])){
                d[i]=d[i].split(',');
-               console.log(d[i])
-               console.log(d[i][0])
+               // console.log(d[i])
+               // console.log(d[i][0])
                tmp.push(d[i][0][0]);
                d[i][0]=d[i][0].substr(1,d[i][0].length-1);
-               console.log(d[i][0])
+               // console.log(d[i][0])
                for(let j=0;j<d[i].length;j++){
                    tmp.push(d[i][j]);
                }
@@ -37,7 +37,7 @@ export class PathParser{
                 d.splice(i,1);
             }
         }
-        console.log(d);
+        // console.log(d);
 
         let cnt=0;
         // console.log(d)

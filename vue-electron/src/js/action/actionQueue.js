@@ -64,10 +64,12 @@ import {createGetScaleBindAction} from "@/js/action/ComponentBindable/getScaleBi
 import {createGetFlipBindAction} from "@/js/action/ComponentBindable/getFlipBindAction";
 import {createGetRotateBindAction} from "@/js/action/ComponentBindable/getRotateBindAction";
 import {createGetMoveBindAction} from "@/js/action/ComponentBindable/getMoveBindAction";
-
+import {createGetOffsetAction} from "@/js/action/ComponentLinear/getOffsetAction";
+import {createCloseOffsetAction} from "./ComponentLinear/closeOffsetAction";
 
 let userAction={
     'group':true,
+    'ungroup':true,
     'arrow_from':true,
     'arrow_to':true,
     'arrow_from_null':true,
@@ -147,48 +149,33 @@ class ActionQueue {
     }
 
     backAction(){
-        console.log(this.actionQueue);
+        console.log(this.actionQueue)
         while(this.actionQueue.length>0){
-            // console.log(this.actionQueue);
-            // console.log(this.backQueue);
             let action=this.actionQueue[this.actionQueue.length-1];
-            this.actionQueue[this.actionQueue.length-1].backward();
-
-            this.backQueue.push(this.actionQueue[this.actionQueue.length-1]);
+            this.backQueue.push(action);
+            action.backward();
             this.actionQueue.pop();
-            if(userAction[action.type]===undefined){
-             break;
+            if(this.actionQueue.length>0&&!action.backFilter(this.actionQueue[this.actionQueue.length-1])){
+                break;
             }
-            // console.log(this.actionQueue);
-            // console.log(this.backQueue);
         }
         this.updateMapAction();
-
+        console.log(this.actionQueue)
     }
 
     forwardAction(){
-        console.log(this.backQueue);
-        if(this.backQueue.length>0){
-            // console.log(this.actionQueue);
-            // console.log(this.backQueue);
-            let action=this.backQueue[this.backQueue.length-1];
-            this.backQueue[this.backQueue.length-1].forward();
-            this.actionQueue.push(this.backQueue[this.backQueue.length-1]);
-            this.backQueue.pop();
-
-            // console.log(this.actionQueue);
-            // console.log(this.backQueue);
-        }
+        console.log(this.backQueue)
         while(this.backQueue.length>0){
             let action=this.backQueue[this.backQueue.length-1];
-            if(userAction[action.type]===undefined){
+            this.actionQueue.push(action);
+            action.forward();
+            this.backQueue.pop();
+            if(this.backQueue.length>0&&!action.frontFilter(this.backQueue[this.backQueue.length-1])){
                 break;
             }
-            this.backQueue[this.backQueue.length-1].forward();
-            this.actionQueue.push(this.backQueue[this.backQueue.length-1]);
-            this.backQueue.pop();
         }
         this.updateMapAction();
+        console.log(this.backQueue)
     }
 
     updateMapAction(){
@@ -317,7 +304,8 @@ let actionList={
     "set_line_type":createSetLineTypeAction,
     "on_offset":createOnOffsetAction,
     "set_dotted_line":createSetDottedLineAction,
-
+    "close_offset":createCloseOffsetAction,
+    "get_offset":createGetOffsetAction,
     //可写模块
     "set_html":createSetHtmlAction,
     "get_html":createGetHtmlAction,
@@ -342,10 +330,14 @@ let actionList={
     "get_flip_bind":createGetFlipBindAction,
     "get_rotate_bind":createGetRotateBindAction,
     "get_move_bind":createGetMoveBindAction,
+
+
 }
 
 
 export function sendAction(sort,msg,flag){
+    // console.log(sort);
+    // console.log(actionList[sort])
     actionList[sort](msg,flag);
 
     // if(sort==="move"){

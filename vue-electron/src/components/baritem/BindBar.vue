@@ -45,6 +45,12 @@
         methods:{
             setBindFlag(flag){
               this.flag=flag;
+              if(flag){
+                  this.set_flip_bind(false)
+                  this.set_scale_bind(false)
+                  this.set_rotate_bind(false)
+                  this.set_move_bind(false)
+              }
             },
             set_flip_bind(flag){
                 for(let i=0;i<this.list.length;i++){

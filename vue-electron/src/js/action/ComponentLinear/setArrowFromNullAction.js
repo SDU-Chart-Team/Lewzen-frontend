@@ -49,7 +49,9 @@ export class SetArrowFromNullAction extends Base_action{
     filter() {
         return true;
     }
-
+    backFilter(action) {
+        return true;
+    }
 }
 
 export function createArrowFromNullAction(cmd,msg){//time

@@ -21,7 +21,6 @@ export class Connect_point {
     }
     create(){
         let mat_mul = (mat, p) => [p[0]*mat[0]+p[1]*mat[2],p[0]*mat[1]+p[1]*mat[3]];
-
         let node=createElementByTag("circle",this.id);
         let map_id=getHoverMapId();
         let map=document.getElementById(map_id);
@@ -63,13 +62,16 @@ export class Connect_point {
 
         }
         // alert(theta)
+        // console.log(111);
         map.appendChild(node);
+        // console.log(map);
         this.live=true;
     }
 
     delete(){
         if(!this.live)return;
         this.live=false;
+        // console.log(222);
         let map_id=getHoverMapId();
         let map=document.getElementById(map_id);
         let node=document.getElementById(this.id);

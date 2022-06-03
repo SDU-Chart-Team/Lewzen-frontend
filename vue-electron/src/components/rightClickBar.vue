@@ -1,7 +1,6 @@
 <template>
     <el-menu id="rightClick"
              :unique-opened="true"
-             :active-text-color="active_color"
             default-active="2"
             class="el-menu-vertical-demo"
             @open="handleOpen"
@@ -58,6 +57,9 @@
 
     export default {
         name: "rightClickBar",
+        mounted() {
+          window.setRightClick=this.setRightClick;
+        },
         methods:{
             handleSelect(index){
                 // console.log(index);
@@ -124,6 +126,9 @@
             },
             handleLine(){
                 showLine()
+            },
+            setRightClick(){
+                this.active_color
             }
         },
         data(){

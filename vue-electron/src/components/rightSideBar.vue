@@ -211,6 +211,12 @@
     import SetDottedLineBar from "@/components/barline/SetDottedLineBar";
     import AliasBar from "@/components/baritem/AliasBar";
     import BindBar from "@/components/baritem/BindBar";
+    import {
+        setArrangeModel,
+        setFillModel,
+        setLineModel, setRelationModel,
+        setTextModel
+    } from "@/js/canvas/operation/canvas_model_operation";
     export default {
         name: "rightSideBar",
         mounted() {
@@ -226,7 +232,7 @@
             list[0].style.marginRight="0px"
             // list[0].style.paddingTop="35px"
             // el-tabs__header is-left
-
+            window.getRightModel=this.getRightModel;
         },
         components:{
             BindBar,
@@ -252,7 +258,7 @@
             AngleBar, PositionBar, SizeBar, ZIndexBar, StyleBar, LineBar, ColorBar, FillBar, integratedEditor},
         data() {
             return {
-                activeName: 'Fill',
+                activeName: 'Line',
                 activeName_element:'Style',
                 activeName_graph:'Arrange',
                 activeName_line:"Line",
@@ -349,7 +355,9 @@
             collpaseTab(){
 
             },
-
+            getRightModel(){
+              return this.activeName;
+            },
             offText(){
                 // this.textShow=false;
                 // this.activeName_element='Style';
@@ -414,250 +422,21 @@
                     }
                     // console.log(111);
 
-                }
-            },
-            graph_change_set(value){
-                if(!value){
-
-                }else{
-                    this.graph_style="";
-                }
-                this.graph_change=value;
-            },
-            style_change_set(value){
-              if(!value){
-
-              }else{
-                  this.element_style=getStyleInCore();
-              }
-              this.style_change=value;
-            },
-            copy_style(){
-                this.copy_style_element=getStyleInCore();
-            },
-            paste(){
-                setStyleInCore(this.copy_style_element);
-            },
-            setDefault(){
-                this.copy_style_element="stroke : rgba(0,0,0,1);stroke-width : 3;fill : rgba(255,255,255,1);fill-opacity : 0;stroke-opacity : 1.0;";
-            },
-            handleOptionChange(e){
-              let guide_flag=false;
-              let connection_point_flag=false;
-              for(var item in e){
-                  if(e[item]==="Connection Points"&&this.connect_point===false){
-                      OnConnectionPoint();
-                      connection_point_flag=true;
-                      this.connect_point=true;
-                  }else if(e[item]==="Guides"&&this.guides===false){
-                      OnGuides();
-                      guide_flag=true;
-                      this.guides=true;
-                  }
-              }
-              if(!connection_point_flag&&this.connect_point===true){
-                  this.connect_point=false;
-                  OffConnectionPoint();
-              }
-              if(!guide_flag&&this.guides===true){
-                  this.guides=false;
-                  OffGuides();
-              }
-            },
-            handleStyleChange(e){
-                let round_flag=false;
-                let curve_flag=false;
-                for (var item in e){
-                    if(e[item]==="Rounded"&&this.rounded===false){
-                        OnRounded();
-                        this.rounded=true;
-                        round_flag=true;
-                    }else if(e[item]==="Curved"&&this.curved===false){
-                        OnCurved();
-                        this.curved=true;
-                        curve_flag=true;
-                    }
-                }
-                if(!round_flag&&this.rounded===true){
-                    OffRounded();
-                    this.rounded=false;
-                }
-                if(!curve_flag&&this.curved===true){
-                    OffCurved();
-                    this.curved=false;
-                }
-            },
-            handleChange(e){
-                let gridFlag=false;
-                let shadowFlag=false;
-                for(var item in e){
-                    if(e[item]==="Grid"&&this.grid===false){
-                        // createGrid(16);
-                        OnGrid();
-                        gridFlag=true;
-                        this.grid=true;
-                    }else if (e[item]==='Shadow'&&this.shadow===false){
-                        OnShadow();
-                        shadowFlag=true;
-                        this.shadow=true;
-                    }
-                }
-                if(!gridFlag&&this.grid===true){
-                    OffGrid();
-                    this.grid=false;
-                }
-                if(!shadowFlag&&this.shadow===true){
-                    OffShadow();
-                    this.shadow=false;
+                }else if(this.activeName==="Menu"){
+                }else if(this.activeName==="Setting"){
+                }else if(this.activeName==="Fill"){
+                    setFillModel();
+                }else if(this.activeName==="Arrange"){
+                    setArrangeModel();
+                }else if(this.activeName==="Line"){
+                    setLineModel();
+                }else if(this.activeName==="Text"){
+                    setTextModel();
+                }else if(this.activeName==="Relation"){
+                    setRelationModel();
                 }
             },
 
-            handleOption(e){
-
-            },
-        //    下面是关于style的选项
-
-            setStyle(msg){
-                // console.log(msg);
-                this.value_gradient=msg['value_gradient'];
-                this.color_fill=msg['color_fill'];
-                this.color_gradient=msg['color_gradient'];
-                this.fillOn=msg['fillOn'];
-                this.value_gradient=msg['value_gradient'];
-                this.gradientOn=msg['gradientOn'];
-                this.line_style_px=msg['stroke-width'];
-                this.color_line=msg['stroke']
-                this.value_line=msg['stroke-dasharray'];
-
-            },
-
-            handleFill(e){
-                this.fillOn=e;
-                if(this.fillOn){
-                    OnFill();
-                    // console.log(this.color_fill);
-                }else{
-                    OffFill();
-                    this.color_fill="rgba(255, 255, 255, 1)";
-                    this.color_gradient="rgba(255, 255, 255, 1)";
-                }
-            },
-
-
-            fillColorChange(e){
-                // console.log(e)
-                if(!this.gradientOn){
-                    FillColorChange(e);
-                }else{
-                    let msg={}
-                    msg['direction']=this.value_gradient;
-                    msg['start_color']=this.color_fill;
-                    msg['end_color']=this.color_gradient;
-                    GradientChange(msg)
-                }
-            },
-            OnGradientModel(e){
-                this.gradientOn=e;
-                if(this.gradientOn){
-                    OnGradient();
-                    this.color_gradient=this.color_fill;
-                }else{
-                    OffGradient();
-                    FillColorChange(this.color_fill);
-                }
-            },
-            GradientColorChange(e){
-                // console.log(111)
-                let msg={}
-                msg['direction']=this.value_gradient;
-                msg['start_color']=this.color_fill;
-                msg['end_color']=this.color_gradient;
-                GradientChange(msg)
-            },
-            handleGradientDirection(e){
-                let msg={}
-                msg['direction']=this.value_gradient;
-                msg['start_color']=this.color_fill;
-                msg['end_color']=this.color_gradient;
-                GradientChange(msg)
-            },
-
-            OnStroke(e){
-                this.strokeOn=e;
-                if(this.strokeOn){
-                    OnStrokeModel();
-                }else{
-                    OffStrokeModel();
-                    this.line_style_px=3;
-                    this.color_line="rgba(0,0,0,1)"
-                    this.value_line="";
-                }
-            },
-            handleStrokeColor(e){
-                // console.log(e);
-                SetCoreStrokeColor(e)
-            },
-            handleStrokeWidth(e){
-                SetCoreStrokeWidth(this.line_style_px);
-            },
-            handleStrokeStyle: function (e) {
-                // console.log(e);
-                if (e === "dotted") {
-                    SetCoreStrokeStyle("5,5")
-                } else if (e === "solid") {
-                    SetCoreStrokeStyle("")
-                }
-            },
-
-            SubmitStyle(){
-                let style=this.element_style;
-                setStyleInCore(style);
-            },
-
-
-
-
-            //arrange------------------------------
-            zIndexToBack(){
-              z_index_to_back();
-            },
-
-            zIndexToFront(){
-                z_index_to_front();
-            },
-
-            setArrange(msg){
-                if(!msg['flag']){
-                    this.isArrange=true;
-                    this.element_width="";
-                    this.element_height="";
-                    this.element_left="";
-                    this.element_top="";
-                }else{
-                    this.isArrange=false;
-                    this.element_width=msg['width'];
-                    this.element_height=msg['height'];
-                    this.element_left=msg['left'];
-                    this.element_top=msg['top'];
-                }
-            },
-            changeText(){
-                this.activeName_element="Text";
-            },
-
-            angle_change(){
-                let angle=this.element_angle;
-                ChangeAngle(angle);
-            },
-
-
-        //    关于graph
-            SubmitGraph(){
-                let option=this.graph_style;
-                let id=getNoteId();
-                // console.log(eval('('+option+')'));
-                createChart(eval('('+option+')'),id);
-            }
         }
     };
 </script>

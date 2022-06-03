@@ -2,7 +2,16 @@ P("cursors",{ids:[this.id]},false)
 <template>
     <div>
         <div class="card">
-            <div class="card-header">link/unlink</div>
+            <div class="card-header">link/unlink
+                <el-button
+                        size="mini"
+                        style="float: right"
+                        @click="quickLinkOn"
+                        :disabled="flag"
+                        :class="quick_class"
+                        round
+                >quick on</el-button>
+            </div>
             <div class="card-item">
                 <el-input
                         :disabled="flag"
@@ -40,7 +49,13 @@ P("cursors",{ids:[this.id]},false)
     import {getCoreList} from "@/js/element/core/core_queue";
     import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
     import {getModuleByGid} from "@/js/element/module/module_queue";
-    import {updateLink} from "@/js/canvas/operation/canvas_link_operation";
+    import {
+        link_quick_get,
+        link_quick_id_get,
+        link_quick_id_set,
+        link_quick_set,
+        updateLink
+    } from "@/js/canvas/operation/canvas_link_operation";
 
     export default {
         name: "LinkBar",
@@ -50,8 +65,19 @@ P("cursors",{ids:[this.id]},false)
           this.myChart = echarts.init(document.getElementById('relation_chart'));
         },
         methods:{
+            quickLinkOn(){
+              // console.log(111);
+                link_quick_set(true)
+                console.log(link_quick_get())
+                link_quick_id_set(getCoreList()[0])
+                var body = document.querySelector("body")
+                body.style.cursor= "pointer"
+            },
             setRelationFlag(flag){
                 this.flag=flag;
+                if(flag){
+                    this.link_text="";
+                }
             },
             link_set(){
                 let link_text=this.link_text;
@@ -134,6 +160,8 @@ P("cursors",{ids:[this.id]},false)
                 link_text:"",
                 myChart:{},
                 flag:true,
+                quick_class:"uncursor",
+                quick_flag:false,
             }
         }
     }
@@ -148,6 +176,8 @@ P("cursors",{ids:[this.id]},false)
     .card-header{
         font-weight: 600;
         font-size: 14px;
+        height: 28px;
+        line-height: 28px;
     }
     .card-item{
         padding-top: 7px;
@@ -169,6 +199,9 @@ P("cursors",{ids:[this.id]},false)
         line-height: 30px;
         width: 70%;
         height: 30px;
+        font-size: 14px;
+        color: #606266;
+        font-weight: 500;
     }
     .card-left-item{
         float: left;
@@ -202,5 +235,11 @@ P("cursors",{ids:[this.id]},false)
         /*padding-left: 20px;*/
         width:30%;
         height: 30px;
+    }
+    .cursor{
+        color: lightskyblue;
+    }
+    .uncursor{
+
     }
 </style>

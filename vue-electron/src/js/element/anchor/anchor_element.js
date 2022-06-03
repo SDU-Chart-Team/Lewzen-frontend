@@ -41,6 +41,7 @@ export class anchor_element{
         }
     }
     create(){
+        console.log(111);
         let node=document.getElementById(this.g_id);
         let children=node.childNodes;
         let position=getHoverPosition(this.g_id);

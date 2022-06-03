@@ -61,6 +61,13 @@ export class GroupAction extends Base_action{
         return true;
     }
 
+    backFilter(action) {
+        if(action.type==="create"){
+            return false;
+        }
+        return true;
+    }
+
 }
 
 export function createGroupAction(cmd,msg){//time

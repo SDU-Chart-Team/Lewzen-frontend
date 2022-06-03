@@ -86,6 +86,10 @@
                     {
                         value:  'complex_line',
                         label:  'complex_line'
+                    },
+                    {
+                        value:   'flexible_line',
+                        label:   'flexible_line'
                     }
                 ],
             }

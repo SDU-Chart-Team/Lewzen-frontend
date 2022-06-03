@@ -132,13 +132,14 @@ class Module_queue {
         point.x=x;
         point.y=y;
         let list=[]
+        let flag=false;
         for(var i=0;i<this.moduleQueue.length;i++){
             // console.log(this.moduleQueue[i])
             if(this.moduleQueue[i].isLine)continue;
             let g_id=this.moduleQueue[i].g_id;
             let node=document.getElementById(g_id);
             let children=node.childNodes;
-            let flag=false;
+            // let flag=false;
             for(let j=0;j<children.length;j++) {
                 let element = children[j];
                 // console.log(element);
@@ -151,6 +152,7 @@ class Module_queue {
             // console.log(flag)
             if(flag){
                 canvas_update("connect",g_id,{type:"create"})
+                break;
             }else{
                 canvas_update("connect",g_id,{type:"delete"})
             }

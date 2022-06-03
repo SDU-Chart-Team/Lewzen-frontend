@@ -53,6 +53,11 @@ export class RemoveAction extends Base_action{
     filter() {
         return true;
     }
+
+    backFilter(action) {
+        if(action.type==="ungroup")return true;
+        return false;
+    }
 }
 
 export function createRemoveAction(msg,flag){//time,id

@@ -70,6 +70,8 @@ import {createGetScaleBindAction, GetScaleBindAction} from "@/js/action/Componen
 import {createGetFlipBindAction, GetFlipBindAction} from "@/js/action/ComponentBindable/getFlipBindAction";
 import {createGetRotateBindAction, GetRotateBindAction} from "@/js/action/ComponentBindable/getRotateBindAction";
 import {createGetMoveBindAction, GetMoveBindAction} from "@/js/action/ComponentBindable/getMoveBindAction";
+import {CloseOffsetAction, createCloseOffsetAction} from "../action/ComponentLinear/closeOffsetAction";
+import {createGetOffsetAction, GetOffsetAction} from "../action/ComponentLinear/getOffsetAction";
 
 let socketQueue={}
 
@@ -78,7 +80,9 @@ let userAction={
     'arrow_from':true,
     'arrow_to':true,
     'arrow_from_null':true,
-    'arrow_to_null':true
+    'arrow_to_null':true,
+    'ungroup':true,
+
 }
 
 
@@ -90,7 +94,7 @@ export function socketPush(msg){
             return;
         }
     }
-
+    // console.log(msg);
     // console.log(socket_return);
     // msg=msg['ok'];
     // if(msg===undefined){
@@ -183,6 +187,9 @@ let cmdTypeList={
     "set_line_type":set_line_type,
     "on_offset":on_offset,
     "set_dotted_line":set_dotted_line,
+    "close_offset":closeOffsetAction,
+    "get_offset":getOffsetAction,
+
 
     //可写模块
     "set_html":setHtmlAction,
@@ -535,3 +542,12 @@ function getRotateBindAction(cmd,msg){
 }
 
 
+function closeOffsetAction(cmd,msg){
+    let action=new CloseOffsetAction("close_offset",cmd,msg);
+    pushAction(action);
+}
+
+function getOffsetAction(cmd,msg){
+    let action=new GetOffsetAction("get_offset",cmd,msg);
+    pushAction(action);
+}

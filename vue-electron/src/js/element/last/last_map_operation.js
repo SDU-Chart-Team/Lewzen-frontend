@@ -112,3 +112,18 @@ function init_canvas_right_menu() {
     }
 
 }
+
+
+let coordinate_canvas={
+    x:0,
+    y:0
+}
+
+export function set_coordinate_canvas(x,y) {
+    coordinate_canvas['x']=x;
+    coordinate_canvas['y']=y;
+}
+
+export function get_coordinate_canvas(){
+    return {x:coordinate_canvas['x'],y:coordinate_canvas['y']}
+}
