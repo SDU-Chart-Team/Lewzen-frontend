@@ -1,5 +1,6 @@
 import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {set_coordinate_canvas} from "../element/last/last_map_operation";
+import vi from "element-ui/src/locale/lang/vi";
 
 export function parserCmd(cmd){
     let domCmd=cmd["domcmd"];
@@ -111,6 +112,18 @@ function interpreter(root, cmds){
                 attr = next_parameter(i);
                 val = next_string_nonspace(i);
                 if(attr==="viewBox"){
+                    let canvas=document.getElementById(getMySvg());
+                    let viewBox=canvas.getAttribute("viewBox")
+                    console.log(viewBox);
+                    let d=[];
+                    if(viewBox!==null){
+                        d=viewBox.split(' ');
+                    }else{
+                        d.push(0)
+                        d.push(0)
+                    }
+
+                    console.log(d);
                     let tmp=val.split(' ');
                     console.log(tmp);
                     let msg={}
@@ -126,8 +139,8 @@ function interpreter(root, cmds){
                     // node.removeChild(node1);
                     // node.appendChild(node1);
                     // console.log(node.scrollHeight)
-                    let top=parseInt(node.scrollTop)-parseInt(tmp[1]);
-                    let left=parseInt(node.scrollLeft)-parseInt(tmp[0]);
+                    let top=parseInt(node.scrollTop)-parseInt(tmp[1])+parseInt(d[1]);
+                    let left=parseInt(node.scrollLeft)-parseInt(tmp[0])+parseInt(d[0]);
                     // set_coordinate_canvas(left,top);
 
                     // console.log(node.getAttribute(""))

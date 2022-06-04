@@ -238,6 +238,17 @@ export class Core_element {
                         // alert(list);
                         // console.log(list)
                         if(list.length>=1){
+                            let arrow=getArrow(that.g_id);
+                            if(arrow!==undefined&&arrow['to_a_id']!==undefined){
+                                let to_aid=arrow['to_a_id'];
+                                let to_gid=arrow['to_g_id'];
+                                let val={
+                                    command:"arrow_to_null",
+                                    flag:true
+                                };
+                                let msg={g_id:to_gid,line_id:that.g_id,a_id:to_aid}
+                                createArrowToNullAction(val,msg);
+                            }
                             let to_aid=list[0].a_id;
                             let to_gid=list[0].g_id;
                             let val={
@@ -267,6 +278,17 @@ export class Core_element {
                         // alert(list);
                         // console.log(list)
                         if(list.length>=1){
+                            let arrow=getArrow(that.g_id);
+                            if(arrow!==undefined&&arrow['from_a_id']!==undefined){
+                                let from_aid=arrow['from_a_id'];
+                                let from_gid=arrow['from_g_id'];
+                                let val={
+                                    command:"arrow_from_null",
+                                    flag:true
+                                };
+                                let msg={g_id:from_gid,line_id:that.g_id,a_id:from_aid}
+                                createArrowFromNullAction(val,msg);
+                            }
                             let from_aid=list[0].a_id;
                             let from_gid=list[0].g_id;
                             let val={
@@ -352,15 +374,27 @@ export class Core_element {
         let node=document.getElementById(g_id);
         let childNodes=node.childNodes;
         let states=[];
-        for(let i=0;i<childNodes.length;i++){
-            states[i]={}
-            states[i]['stroke_width']=childNodes[i].getAttribute("stroke_width")
-            states[i]['stroke']=childNodes[i].getAttribute("stroke")
-            states[i]['stroke_dasharray']=childNodes[i].getAttribute("stroke_dasharray")
-            childNodes[i].setAttribute("stroke-width",2);
-            childNodes[i].setAttribute("stroke","blue");
-            childNodes[i].setAttribute("stroke-dasharray",'3,3')
-        }
+        states={}
+
+        states['stroke_width']=node.style.strokeWidth
+        states['stroke']=node.style.stroke;
+        states['stroke_dasharray']=node.style.strokeDasharray
+        console.log(states);
+        // node.setAttribute("stroke-width",2);
+        // node.setAttribute("stroke","blue");
+        // node.setAttribute("stroke-dasharray",'3,3')
+        node.style.setProperty("stroke","#00A8FF")
+        node.style.setProperty("stroke-width",1)
+        node.style.setProperty("stroke-dasharray",'1,1,1,1')
+        // for(let i=0;i<childNodes.length;i++){
+        //     states[i]={}
+        //     states[i]['stroke_width']=childNodes[i].getAttribute("stroke_width")
+        //     states[i]['stroke']=childNodes[i].getAttribute("stroke")
+        //     states[i]['stroke_dasharray']=childNodes[i].getAttribute("stroke_dasharray")
+        //     childNodes[i].setAttribute("stroke-width",2);
+        //     // childNodes[i].setAttribute("stroke","blue");
+        //     childNodes[i].setAttribute("stroke-dasharray",'3,3')
+        // }
         this.states=states;
         // let bbox=node.getBBox();
         // let path=createElementByTag("polyline",this.g_id+"_linear");
@@ -404,12 +438,16 @@ export class Core_element {
         let node=document.getElementById(g_id);
         let childNodes=node.childNodes;
         let states=this.states;
-        for(let i=0;i<childNodes.length;i++){
-            childNodes[i].setAttribute("stroke-width",states[i]['stroke_width']);
-            childNodes[i].setAttribute("stroke",states[i]['stroke']);
-            childNodes[i].setAttribute("stroke-dasharray",states[i]['stroke-dasharray'])
-        }
-        this.states=[];
+
+        node.style.setProperty("stroke-width",states['stroke_width']);
+        node.style.setProperty("stroke",states['stroke']);
+        node.style.setProperty("stroke-dasharray",states['stroke_dasharray'])
+        // for(let i=0;i<childNodes.length;i++){
+        //     childNodes[i].setAttribute("stroke-width",states[i]['stroke_width']);
+        //     childNodes[i].setAttribute("stroke",states[i]['stroke']);
+        //     childNodes[i].setAttribute("stroke-dasharray",states[i]['stroke-dasharray'])
+        // }
+        this.states={};
     }
 
 

@@ -51,10 +51,9 @@ export class MovePAction extends Base_action{
     }
 
     forward(){
-        P("cursor",{ids:[this.id]},false)
+        P("cursors",{ids:[this.id]},false)
         // let msg={core_id:id,g_id:that.g_id,move_x:transX,move_y:transY}
         P("move_point",{core_id:this.pid,g_id:this.id,move_x:this.dx,move_y:this.dy,flag:true},false)
-        P("cursor",{ids:[this.id]},false)
         let coreList=getCoreList();
         let ancestorList=getAncestorAll(this.id);
         ancestorList.reverse();
@@ -71,11 +70,10 @@ export class MovePAction extends Base_action{
     }
 
     backward(){
-        P("cursor",{ids:[this.id]},false)
+        P("cursors",{ids:[this.id]},false)
 
         // let msg={core_id:id,g_id:that.g_id,move_x:transX,move_y:transY}
         P("move_point",{core_id:this.pid,g_id:this.id,move_x:-this.dx,move_y:-this.dy,flag:true},false)
-        P("cursor",{ids:[this.id]},false)
 
         let coreList=getCoreList();
         let ancestorList=getAncestorAll(this.id);

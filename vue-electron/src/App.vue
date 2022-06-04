@@ -2,7 +2,7 @@
   <div id="app">
 <!--header-->
     <div>
-      <div style="text-align: left;user-select: none; font-size: 12px;height: 60px ;margin-bottom: 5px" class="el-header">
+      <div style="text-align: left; font-size: 12px;height: 60px ;margin-bottom: 5px" class="el-header">
         <div class="head-top clear">
           <div class="head-top-logo left">
             <el-image :src="require('@/assets/logo.png')" class="logo"></el-image>
@@ -461,24 +461,35 @@
             this.scaleNum=Math.floor(scale*100)
             let width=parseFloat(this.canvas_width*scale);
             let height=parseFloat(this.canvas_height*scale);
-            console.log(width,height);
+            // console.log(width,height);
             let node=document.getElementById("myCanvas");
-            let padding_left=this.canvas_width*(scale-1)/2+"px";
-            let padding_top=this.canvas_height*(scale-1)/2+"px";
             let parser=new cssParser();
-            parser.updateStyle({"padding-top":padding_top})
-            parser.updateStyle({"padding-left":padding_left})
-            parser.updateStyle({"padding-right":padding_left})
-            parser.updateStyle({"padding-bottom":padding_top})
+            if(scale>=1){
+                let padding_left=this.canvas_width*(scale-1)/2+"px";
+                let padding_top=this.canvas_height*(scale-1)/2+"px";
+                // parser.updateStyle({"padding-top":padding_top})
+                // parser.updateStyle({"padding-left":padding_left})
+                // parser.updateStyle({"padding-right":padding_left})
+                // parser.updateStyle({"padding-bottom":padding_top})
+                parser.updateStyle({"height":height+'px'})
+                parser.updateStyle({"width":width+'px'})
+            }else{
+                let padding_left='0px';
+                let padding_top="0px";
+                parser.updateStyle({"padding-top":padding_top})
+                parser.updateStyle({"padding-left":padding_left})
+                parser.updateStyle({"padding-right":padding_left})
+                parser.updateStyle({"padding-bottom":padding_top})
+                parser.updateStyle({"height":this.canvas_height+'px'})
+                parser.updateStyle({"width":this.canvas_width+'px'})
+            }
 
-            parser.updateStyle({"height":height+'px'})
-            parser.updateStyle({"width":width+'px'})
             // node.setAttribute("height",height);
             // node.setAttribute("width",width);
             node.setAttribute("style",parser.get());
-            console.log(node.getAttribute("height"),node.getAttribute("width"));
+            // console.log(node.getAttribute("height"),node.getAttribute("width"));
             let node1=document.getElementById("main_canvas");
-            console.log(node1.scrollHeight,node1.scrollWidth)
+            // console.log(node1.scrollHeight,node1.scrollWidth)
             // console.log(node.getAttribute("height"));
             // console.log(node.getAttribute("width"));
             // let width=parseInt(this.canvas_width)+200+"px";
@@ -678,6 +689,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+      user-select: none;
   }
 
   nav {
@@ -777,7 +789,8 @@
       font-size: 12px;
   }
   .el-main{
-      overflow: auto;
+      overflow-x: scroll;
+      overflow-y: scroll;
   }
   .el-main::-webkit-scrollbar{
       width: 8px;

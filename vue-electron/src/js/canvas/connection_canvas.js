@@ -1,7 +1,7 @@
 import {DomOperator} from "@/js/util/domOperation";
 import {createElementByTag} from "@/js/util/createSvgOperation";
 import {getGuideBySvgId, getPositionAfterGuide} from "@/js/element/guide/guide_queue";
-import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
+import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation"
 import {getHoverPosition} from "@/svgParser/hoverProcessor";
 import {Connect_point} from "@/js/element/anchor/connect_point";
 import {from_point_remove} from "../element/anchor/arrow_operation";
@@ -92,11 +92,30 @@ export class Connection_canvas {
     }
 
     show_outline(g_id){
-
+        let g = document.getElementById(g_id);
+        let copies = []
+        if (g===null) return;
+        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+            let copied = c.cloneNode(true);
+            copied._temp = true;
+            copied.style.pointerEvents = 'none'
+            copied.style.setProperty('fill', 'none', 'important');
+            copied.style.setProperty('stroke', 'rgb(64, 158, 255)', 'important');
+            copied.style.strokeWidth = "1px";
+            copied.style.strokeDasharray = "2,2";
+            copies.push(copied);
+        }
+        copies.forEach(c=>g.appendChild(c));
     }
 
     delete_outline(g_id){
-
+        let g = document.getElementById(g_id);
+        let copies = [];
+        if (g===null) return;
+        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+            if (c._temp) copies.push(c);
+        }
+        copies.forEach(c=>g.removeChild(c));
     }
 
 
