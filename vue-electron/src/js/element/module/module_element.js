@@ -236,21 +236,23 @@ export class Module_element {
                     let module=getModuleByGid(that.g_id);
                     if(module.isLine){
                         let arrow=getArrow(that.g_id);
-                        if(arrow['from_id']!==undefined){
-                            let val={
-                                command:"arrow_from_null",
-                                flag:true
-                            };
-                            let msg={g_id:arrow['from_id'],line_id:that.g_id,a_id:arrow['from_a_id']}
-                            createArrowFromNullAction(val,msg);
-                        }
-                        if(arrow['to_id']!==undefined){
-                            let val={
-                                command:"arrow_to_null",
-                                flag:true
-                            };
-                            let msg={g_id:arrow['to_id'],line_id:that.g_id,a_id:arrow['to_a_id']}
-                            createArrowToNullAction(val,msg);
+                        if(arrow!==undefined){
+                            if(arrow['from_id']!==undefined){
+                                let val={
+                                    command:"arrow_from_null",
+                                    flag:true
+                                };
+                                let msg={g_id:arrow['from_id'],line_id:that.g_id,a_id:arrow['from_a_id']}
+                                createArrowFromNullAction(val,msg);
+                            }
+                            if(arrow['to_id']!==undefined){
+                                let val={
+                                    command:"arrow_to_null",
+                                    flag:true
+                                };
+                                let msg={g_id:arrow['to_id'],line_id:that.g_id,a_id:arrow['to_a_id']}
+                                createArrowToNullAction(val,msg);
+                            }
                         }
                     }
                     clearMoveState();
