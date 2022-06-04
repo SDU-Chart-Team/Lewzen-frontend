@@ -128,7 +128,7 @@
                 showLine()
             },
             setRightClick(){
-                this.active_color
+                // this.active_color
             }
         },
         data(){

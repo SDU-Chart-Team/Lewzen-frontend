@@ -1,6 +1,7 @@
 import {createElementByTag} from "@/js/util/createSvgOperation";
 import {getCoreList} from "@/js/element/core/core_queue";
 import {getTextMapId} from "@/js/util/getCanvasIdOperation";
+import {getBBox} from "../../util/bboxUtil";
 
 export function createText(g_id,svg_id){
     let foreign=createElementByTag("foreignObject");
@@ -42,7 +43,8 @@ export function setTextPosition(g_id,svg_id){
 function getAttrsAboutForeign(svg_id){
     let node=document.getElementById(svg_id);
     let attrs={};
-    let bbox=node.getBBox();
+    let bbox=getBBox(svg_id);
+    // let bbox=node.getBBox();
     attrs['x']=bbox.x;
     attrs['y']=bbox.y;
     attrs['width']=bbox.width;

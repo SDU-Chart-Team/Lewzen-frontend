@@ -33,6 +33,7 @@ import {createArrowFromNullAction} from "../../action/ComponentLinear/setArrowFr
 import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNullAction";
 import {get_connect_point_list} from "../../canvas/base_canvas";
 import {createArrowToAction} from "../../action/ComponentLinear/setArrowToAction";
+import {getBBox} from "../../util/bboxUtil";
 
 export class Module_element {
     constructor(msg,flag) {
@@ -257,7 +258,8 @@ export class Module_element {
                     }
                     clearMoveState();
                     let msg={}
-                    let bbox=document.getElementById(that.g_id).getBBox();
+                    let bbox=getBBox(that.g_id)
+                    // let bbox=document.getElementById(that.g_id).getBBox();
                     initMoveState({start_x:bbox.x,start_y:bbox.y});
                     // let startX=e.offsetX;
                     // let startY=e.offsetY;
