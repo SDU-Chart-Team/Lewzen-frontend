@@ -1,4 +1,5 @@
 import {getModuleByGid, getModuleBySid} from "@/js/element/module/module_queue";
+import {getBBox} from "../../util/bboxUtil";
 
 class Guide_queue {
     constructor() {
@@ -9,7 +10,8 @@ class Guide_queue {
     }
     getXGuide(g_id){
         let element=document.getElementById(g_id);
-        let bbox=element.getBBox();
+        let bbox=getBBox(g_id);
+        // let bbox=element.getBBox();
         let position_x=[];
         position_x.push(bbox.x);
         position_x.push(bbox.x+bbox.width/2);
@@ -19,7 +21,8 @@ class Guide_queue {
     getYGuide(g_id){
         let position_y=[];
         let element=document.getElementById(g_id);
-        let bbox=element.getBBox();
+        let bbox=getBBox(g_id);
+        // let bbox=element.getBBox();
         position_y.push(bbox.y);
         position_y.push(bbox.y+bbox.height/2);
         position_y.push(bbox.y+bbox.height);

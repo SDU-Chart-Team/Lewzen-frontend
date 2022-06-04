@@ -5,6 +5,7 @@ import {canvas_update} from "@/js/canvas/base_canvas";
 import {pushElementInQueue} from "../core/core_queue";
 import {getActionCounter, P} from "../../action/actionQueue";
 import {removeLineFromQueue} from "../anchor/arrow_Queue";
+import {getBBox} from "../../util/bboxUtil";
 
 class Module_queue {
     constructor() {
@@ -47,7 +48,8 @@ class Module_queue {
             let element=this.moduleQueue[i];
             if(g_id===element.g_id){
                 let g_id=element.g_id;
-                bbox=document.getElementById(g_id).getBBox();
+                bbox=getBBox(g_id)
+                // bbox=document.getElementById(g_id).getBBox();
                 break;
             }
         }
@@ -58,7 +60,8 @@ class Module_queue {
                 continue;
             }
             let g_id=element.g_id;
-            let new_box=document.getElementById(g_id).getBBox();
+            let new_box=getBBox(g_id);
+            // let new_box=document.getElementById(g_id).getBBox();
             if(this.getIn(new_box,bbox)){
                 elementList.push(element.g_id);
             }
@@ -93,7 +96,8 @@ class Module_queue {
             //     continue;
             // }
             let node=document.getElementById(g_id);
-            let bbox_0=node.getBBox();
+            let bbox_0=getBBox(g_id)
+            // let bbox_0=node.getBBox();
             if(this.rectInRect(bbox,bbox_0)){
                 list.push(g_id);
             }

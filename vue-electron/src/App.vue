@@ -215,7 +215,7 @@
                   width="30%"
 
           >
-              <fill-bar></fill-bar>
+              <fill-bar_dia></fill-bar_dia>
           </el-dialog>
 
 
@@ -225,24 +225,23 @@
                   width="30%"
 
           >
-              <line-bar></line-bar>
-
+              <line-bar_dia></line-bar_dia>
           </el-dialog>
 
-          <el-dialog
-                  title="Graph"
-                  :visible.sync="graphVisible"
-                  width="50%"
+<!--          <el-dialog-->
+<!--                  title="Graph"-->
+<!--                  :visible.sync="graphVisible"-->
+<!--                  width="50%"-->
 
-          >
-              <graph-create-bar></graph-create-bar>
-          </el-dialog>
+<!--          >-->
+<!--              <graph-create-bar></graph-create-bar>-->
+<!--          </el-dialog>-->
 
 
 <!--        </el-scrollbar>-->
       </el-main>
 <!--rightsider-->
-      <el-aside id="rightBar" class="aside-div left Tab" style="width:350px;background-color:#FBFBFB">
+      <el-aside id="rightBar" class="aside-div left RightTab" :width="rightWidth" >
         <right-side-bar></right-side-bar>
 
       </el-aside>
@@ -288,12 +287,18 @@
   import LineBar from "@/components/baritem/LineBar";
   import {setShadow} from "@/js/canvas/operation/canvas_style_operation";
   import RightClickBar from "@/components/rightClickBar";
-  let socket;
   import Module from "./js/socket/wasm"
   import GraphCreateBar from "@/components/bargraph/graphCreateBar";
+  import LineBar_dia from "./components/baritem/LineBar_dia";
+  import FillBar_dia from "./components/baritem/FillBar_dia";
+  import {updateState} from "./js/action/actionQueue";
+  import {updateStyle, updateStyleDia} from "./js/canvas/operation/canvas_style_operation";
+  import {getCoreList} from "./js/element/core/core_queue";
   export default {
     name: "test",
     components: {
+        FillBar_dia,
+        LineBar_dia,
         GraphCreateBar,
         RightClickBar,
         LineBar,
@@ -313,7 +318,7 @@
         // Module.server_init();
         initKey();//初始化键盘事件
         init_canvas();
-
+        window.get_canvas_height_and_width=this.get_canvas_height_and_width;
         window.showLine=this.lineAction;
         window.showFill=this.fillAction;
         window.mapUpdate=this.mapUpdate;
@@ -370,12 +375,16 @@
               shadow_can:false,
               fillVisible:false,
               lineVisible:false,
-              graphVisible:false
+              graphVisible:false,
+              rightWidth:"350px"
           }
       },
     methods:{
         get_file_name(){
           return this.file_name;
+        },
+        get_canvas_height_and_width(){
+            return {width:this.canvas_width,height:this.canvas_height}
         },
         createGraph(){
             // alert(1);
@@ -580,14 +589,17 @@
       bottomAction(){
           if(!this.bottom_can)return;
           P("backward",{})
+
       },
         fillAction(){
           if(!this.fill_can)return;
           this.fillVisible=true;
+          updateStyleDia(getCoreList()[0])
         } ,
         lineAction(){
           if(!this.line_can)return;
           this.lineVisible=true;
+          updateStyleDia(getCoreList()[0])
         },
       //extend width
       extendWidth(){
@@ -751,7 +763,7 @@
     padding-left:10px;
   }
   .aside-div{
-    width: 100px;
+    /*width: 100px;*/
     /*overflow-x: hidden;*/
   }
   body .el-scrollbar__wrap {
@@ -850,6 +862,9 @@
       border-radius: 0;
       background: #F8F9FA;
   }
-
+    #rightBar{
+        /*width:350px;*/
+        background-color:#FBFBFB
+    }
 </style>
 

@@ -1,6 +1,7 @@
 import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {set_coordinate_canvas} from "../element/last/last_map_operation";
 import vi from "element-ui/src/locale/lang/vi";
+import {canvasAdjust} from "../canvas/base_canvas";
 
 export function parserCmd(cmd){
     let domCmd=cmd["domcmd"];
@@ -130,6 +131,7 @@ function interpreter(root, cmds){
                     msg['height']=parseInt(tmp[3]);
                     msg['width']=parseInt(tmp[2]);
                     mapUpdate(msg);
+                    canvasAdjust("grid")
                     // let node1=document.getElementById("myCanvas");
                     let node=document.getElementById("main_canvas");
                     // console.log(node1.getAttribute("width"))

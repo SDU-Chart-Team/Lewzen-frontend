@@ -25,6 +25,7 @@
 <script>
     import {getCoreList} from "@/js/element/core/core_queue";
     import {P} from "@/js/action/actionQueue";
+    import {getBBox} from "@/js/util/bboxUtil";
 
     export default {
         name: "FilpBar",
@@ -39,7 +40,9 @@
                 let coreList=getCoreList();
                 let mean=0;
                 for(let i=0;i<coreList.length;i++){
-                    let bbox=document.getElementById(coreList[i]).getBBox();
+                    let bbox=getBBox(coreList[i]);
+                    // let bbox=document.getElementById(coreList[i]).getBBox();
+                    console.log(bbox);
                     let line=bbox.x+bbox.width/2;
                     mean+=line;
                 }
@@ -47,7 +50,17 @@
                 P("flip",{a:1,b:0,c:-mean})
             },
             Vflip(){
-
+                let coreList=getCoreList();
+                let mean=0;
+                for(let i=0;i<coreList.length;i++){
+                    let bbox=getBBox(coreList[i]);
+                    // let bbox=document.getElementById(coreList[i]).getBBox();
+                    // console.log(bbox);
+                    let line=bbox.y+bbox.height/2;
+                    mean+=line;
+                }
+                mean/=coreList.length;
+                P("flip",{a:0,b:1,c:-mean})
             }
         },
         data(){

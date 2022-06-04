@@ -13,6 +13,7 @@ import {
 import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {cssParser} from "@/js/util/cssParser";
 import {get_canvas_scale, setSvgScaleNum, updateMapWithoutGrid} from "@/js/util/canvas_operation";
+import {getBBox} from "../util/bboxUtil";
 
 export class Grid_canvas {
     constructor() {
@@ -40,8 +41,9 @@ export class Grid_canvas {
         let domOperator=new DomOperator();
         let attrs_need=['height','width']
         let svg_id=getMySvg();
-        let attrs=domOperator.getAttrById(svg_id,attrs_need);
+        // let attrs=domOperator.getAttrById(svg_id,attrs_need);
         // console.log(attrs);
+        let attrs=get_canvas_height_and_width();
         let scale=get_canvas_scale();
 
         if(width!==-1&&height!==-1){
@@ -147,9 +149,16 @@ export class Grid_canvas {
         // let now_x=parseInt(node.getAttribute("x"));
         // let now_y=parseInt(node.getAttribute("y"));
         let element=document.getElementById(msg['g_id'])
-        let bbox=element.getBBox();
+        // let children=element.getElementsByTagName("foreignObject")
+        // console.log(children)
+        // let bbox=element.getBBox();
+        let bbox=getBBox(msg['g_id'])
+        console.log(bbox);
         let now_x=bbox.x;
         let now_y=bbox.y;
+        console.log(end_x,end_y)
+        console.log(now_x,now_y)
+        console.log(msg['move_x'],msg['move_y'])
         trans['x']=end_x-(now_x+msg['move_x'])
         trans['y']=end_y-(now_y+msg['move_y'])
         // console.log(end_x,end_y);
@@ -217,7 +226,8 @@ export class Grid_canvas {
         let end_x = x + msg['all_move_x'];
         let end_y = y + msg['all_move_y'];
         let element=document.getElementById(msg['g_id'])
-        let bbox=element.getBBox();
+        let bbox=getBBox(msg['g_id'])
+        // let bbox=element.getBBox();
         let now_x=bbox.x;
         let now_y=bbox.y;
 
@@ -280,7 +290,8 @@ export class Grid_canvas {
         let end_x = x + msg['all_move_x'];
         let end_y = y + msg['all_move_y'];
         let element=document.getElementById(msg['g_id'])
-        let bbox=element.getBBox();
+        let bbox=getBBox(msg['g_id'])
+        // let bbox=element.getBBox();
         let now_x=msg['now_x'];
         let now_y=msg['now_y'];
 
@@ -337,7 +348,7 @@ export class Grid_canvas {
     }
 
     updatePosition(msg){
-        console.log(msg);
+        // console.log(msg);
         if(!getCanvasState("guide")){
             return this.updateWithoutGuide(msg);
         }else{

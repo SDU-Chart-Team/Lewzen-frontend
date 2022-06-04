@@ -15,7 +15,7 @@ export class FlipAction extends Base_action{
         // this.ids=cmd['ids'];
         this.command=cmd['command'];
         this.status=cmd['status'];
-        this.core=[];
+        this.core=getCoreList();
     }
 
     before(){
@@ -23,7 +23,7 @@ export class FlipAction extends Base_action{
     }
 
     after(){
-        this.core=getCoreList();
+        P("cursors",{ids:this.core},false)
     }
 
     forward(){

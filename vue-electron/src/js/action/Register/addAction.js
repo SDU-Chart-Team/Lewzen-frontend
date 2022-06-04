@@ -13,6 +13,7 @@ import {clearMoveState, initMoveState} from "../ComponentBasics/moveAction";
 import {getAllModules} from "../../element/module/module_queue";
 import {guideSet} from "../../canvas/base_canvas";
 import {createGroupAction} from "./groupAction";
+import {getBBox} from "../../util/bboxUtil";
 
 export class AddAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -77,7 +78,8 @@ export class AddAction extends Base_action{
             clearMoveState();
 
             let move=set_move_center();
-            let bbox=document.getElementById(this.id[i]).getBBox();
+            let bbox=getBBox(this.id[i])
+            // let bbox=document.getElementById(this.id[i]).getBBox();
 
             initMoveState({start_x:bbox.x,start_y:bbox.y})
 

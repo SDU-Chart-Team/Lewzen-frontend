@@ -57,6 +57,64 @@ function unInitFillColor(){
     }
 }
 
+export function updateStyleDia(id){
+    let node=document.getElementById(id)
+    let style=node.getAttribute("style")
+    let parser=new cssParser();
+    parser.parseStyle(style);
+    let msg={};
+    //fill
+    let fillOn=parser.returnStyle("fill-opacity");
+    if(parseInt(fillOn)===0){
+        msg["fillOn"]=false;
+    }else{
+        msg["fillOn"]=true;
+        let fill=parser.returnStyle("fill");
+        // console.log(Trim(fill).substr(0,1))
+        if(Trim(fill).substr(0,1)==="u"){
+            msg['gradientOn']=true;
+            fill=Trim(fill);
+            // console.log(fill.substring(14,fill.length-1));
+            let fillColor=getGradient(fill.substring(14,fill.length-1));
+            msg['value_gradient']=fillColor['direction'];
+            msg['color_gradient']=fillColor['end_color'];
+            msg['color_fill']=fillColor['start_color'];
+        }else{
+            msg['gradientOn']=false;
+            msg['value_gradient']="south"
+            fill=window.getComputedStyle(node).fill;
+            msg['color_gradient']=fill;
+            msg['color_fill']=fill;
+        }
+    }
+    msg['value_gradient']="south"
+    msg['stroke']=window.getComputedStyle(node).stroke;
+    msg['stroke-width']=window.getComputedStyle(node).strokeWidth;
+    // msg['stroke-width']=parser.returnStyle("stroke-width")
+    msg['stroke-dasharray']=parser.returnStyle("stroke-dasharray")
+    if(msg['stroke-dasharray']===undefined||Trim(msg['stroke-dasharray'])===""){
+        msg['stroke-dasharray']="solid";
+    }else{
+        msg['stroke-dasharray']="dotted";
+    }
+    if(window.setFillStyleDia!==undefined){
+        setFillStyleDia(msg);
+    }
+    // setStyle(msg);
+    // setFillStyleDia(msg);
+    // setStrokeStyleDia(msg);
+    dialog_style_set(msg);
+}
+
+let DialogStyle={}
+function dialog_style_set(msg){
+    DialogStyle=msg;
+}
+
+export function dialog_style_get(){
+    return DialogStyle;
+}
+
 export function updateStyle(id){
     let node=document.getElementById(id)
     let style=node.getAttribute("style")

@@ -393,28 +393,29 @@
                 if(this.activeName==="Block"){
                     if(this.BarBlock){
                         let node=document.getElementsByClassName("el-tabs__content")[0];
-                        console.log(node);
+                        // console.log(node);
                         let width= window.getComputedStyle(node).width;
                         let bar=document.getElementById("rightBar");
                         let widthBar=window.getComputedStyle(bar).width;
                         width=parseInt(width.substr(0,width.length-2))
                         widthBar=parseInt(widthBar.substr(0,widthBar.length-2))
-                        console.log(width)
-                        console.log(widthBar)
+                        // console.log(width)
+                        // console.log(widthBar)
                         bar.setAttribute("style","width:"+(widthBar-width)+"px;background-color: rgb(251, 251, 251);")
                         this.BarWidth=width;
                         node.style.display="none";
                         this.BarBlock=false;
+                        // this.activeName="Menu"
                     }else{
                         let node=document.getElementsByClassName("el-tabs__content")[0];
-                        console.log(node);
+                        // console.log(node);
                         // let width= window.getComputedStyle(node).width;
                         let bar=document.getElementById("rightBar");
                         let widthBar=window.getComputedStyle(bar).width;
                         // width=parseInt(width.substr(0,width.length-2))
                         widthBar=parseInt(widthBar.substr(0,widthBar.length-2))
                         widthBar+=this.BarWidth
-                        console.log(widthBar)
+                        // console.log(widthBar)
                         bar.setAttribute("style","width:"+(widthBar)+"px;background-color: rgb(251, 251, 251);")
                         node.style.display="block";
                         this.activeName="Menu"

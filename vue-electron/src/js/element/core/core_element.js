@@ -19,6 +19,7 @@ import {createArrowToAction} from "../../action/ComponentLinear/setArrowToAction
 import {getArrow} from "../anchor/arrow_Queue";
 import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNullAction";
 import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAction";
+import {getBBox} from "../../util/bboxUtil";
 let style_core="fill:#29B6F2"
 let style_core_v="fill:#FCA000"
 export class Core_element {
@@ -197,7 +198,8 @@ export class Core_element {
                 let nowX=e.screenX;
                 let nowY=e.screenY;
                 clearScaleState();
-                let bbox=document.getElementById(that.g_id).getBBox();
+                let bbox=getBBox(that.g_id)
+                // let bbox=document.getElementById(that.g_id).getBBox();
                 initMovePState({start_x:bbox.x,start_y:bbox.y});
                 let svg=document.getElementById(getMySvg())
                 document.onmousemove=function (e) {
