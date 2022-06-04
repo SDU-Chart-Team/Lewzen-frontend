@@ -337,6 +337,7 @@ export class Grid_canvas {
     }
 
     updatePosition(msg){
+        console.log(msg);
         if(!getCanvasState("guide")){
             return this.updateWithoutGuide(msg);
         }else{
@@ -348,6 +349,7 @@ export class Grid_canvas {
     updatePPosition(msg){
         let g_id=msg['g_id'];
         let module=getModuleByGid(g_id);
+        console.log(msg);
         if(module.isLine){
             return {x:0,y:0};
         }

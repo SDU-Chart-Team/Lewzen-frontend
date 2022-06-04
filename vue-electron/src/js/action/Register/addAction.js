@@ -81,7 +81,7 @@ export class AddAction extends Base_action{
 
             initMoveState({start_x:bbox.x,start_y:bbox.y})
 
-            let msg={g_id:getCoreList()[0],move_x:move['x']-bbox.width/2,move_y:move['y']-bbox.height/2}
+            let msg={g_id:this.id[i],move_x:move['x']-bbox.width/2,move_y:move['y']-bbox.height/2}
             P("move",msg,false)
             P("cursors",{ids:this.msg['ids']})
             guideSet(this.id[i],false);
