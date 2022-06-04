@@ -27,6 +27,12 @@ import {initMovePState} from "../../action/ComponentBasics/movePAction";
 import {getActionCounter} from "../../action/actionQueue";
 import {get_coordinate_canvas} from "../last/last_map_operation";
 import {link_quick_get, link_quick_id_get, link_quick_set} from "../../canvas/operation/canvas_link_operation";
+import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAction";
+import {getArrow} from "../anchor/arrow_Queue";
+import {createArrowFromNullAction} from "../../action/ComponentLinear/setArrowFromNullAction";
+import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNullAction";
+import {get_connect_point_list} from "../../canvas/base_canvas";
+import {createArrowToAction} from "../../action/ComponentLinear/setArrowToAction";
 
 export class Module_element {
     constructor(msg,flag) {
@@ -227,6 +233,26 @@ export class Module_element {
                 //     }
                 // }
                 if(flag||that.isCore){
+                    let module=getModuleByGid(that.g_id);
+                    if(module.isLine){
+                        let arrow=getArrow(that.g_id);
+                        if(arrow['from_id']!==undefined){
+                            let val={
+                                command:"arrow_from_null",
+                                flag:true
+                            };
+                            let msg={g_id:arrow['from_id'],line_id:that.g_id,a_id:arrow['from_a_id']}
+                            createArrowFromNullAction(val,msg);
+                        }
+                        if(arrow['to_id']!==undefined){
+                            let val={
+                                command:"arrow_to_null",
+                                flag:true
+                            };
+                            let msg={g_id:arrow['to_id'],line_id:that.g_id,a_id:arrow['to_a_id']}
+                            createArrowToNullAction(val,msg);
+                        }
+                    }
                     clearMoveState();
                     let msg={}
                     let bbox=document.getElementById(that.g_id).getBBox();

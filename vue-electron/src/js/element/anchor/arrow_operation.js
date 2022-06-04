@@ -50,7 +50,7 @@ class Arrow_operation {
         node.setAttribute("cx",msg['x']);
         node.setAttribute("cy",msg['y']);
         node.setAttribute("r",7);
-        node.setAttribute("fill","green")
+        node.setAttribute("fill","#B2FFB2")
         map.appendChild(node);
         // console.log(msg);
         node.onmousedown=function(e){
