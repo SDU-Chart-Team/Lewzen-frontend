@@ -130,12 +130,25 @@ class ActionQueue {
     pushAction(action){
         V();
         if(this.filter(action)) {
-            if(this.actionQueue.length>0){
-                if(action.merge(this.actionQueue[this.actionQueue.length-1])){
-                    this.actionQueue.pop();
+            if(before_register_get()){
+                push_before_action(action);
+                before_register_set(false);
+            }else if(after_register_get()){
+                this.actionQueue[this.actionQueue.length-1].pushActionAfter(action);
+                after_register_set(false);
+            }else{
+                if(this.actionQueue.length>0){
+                    if(action.merge(this.actionQueue[this.actionQueue.length-1])){
+                        this.actionQueue.pop();
+                    }
                 }
+                let actionList=get_before_action_list();
+                clear_before_action_list();
+                for(let i=0;i<actionList.length;i++){
+                    action.pushActionBefore(actionList[i]);
+                }
+                this.actionQueue.push(action);
             }
-            this.actionQueue.push(action);
             // console.log(this.actionQueue);
             if(this.backQueue.length>0){
                 let time=getActionCounter();
@@ -148,34 +161,78 @@ class ActionQueue {
         this.updateMapAction()
     }
 
-    backAction(){
-        console.log(this.actionQueue)
-        while(this.actionQueue.length>0){
-            let action=this.actionQueue[this.actionQueue.length-1];
-            this.backQueue.push(action);
-            action.backward();
-            this.actionQueue.pop();
-            if(this.actionQueue.length>0&&!action.backFilter(this.actionQueue[this.actionQueue.length-1])){
-                break;
-            }
-        }
-        this.updateMapAction();
-        console.log(this.actionQueue)
-    }
+    // backAction(){
+    //     console.log(this.actionQueue)
+    //     while(this.actionQueue.length>0){
+    //         let action=this.actionQueue[this.actionQueue.length-1];
+    //         this.backQueue.push(action);
+    //         action.backward();
+    //         this.actionQueue.pop();
+    //         if(this.actionQueue.length>0&&!action.backFilter(this.actionQueue[this.actionQueue.length-1])){
+    //             break;
+    //         }
+    //     }
+    //     this.updateMapAction();
+    //     console.log(this.actionQueue)
+    // }
+    //
+    // forwardAction(){
+    //     console.log(this.backQueue)
+    //     while(this.backQueue.length>0){
+    //         let action=this.backQueue[this.backQueue.length-1];
+    //         this.actionQueue.push(action);
+    //         action.forward();
+    //         this.backQueue.pop();
+    //         if(this.backQueue.length>0&&!action.frontFilter(this.backQueue[this.backQueue.length-1])){
+    //             break;
+    //         }
+    //     }
+    //     this.updateMapAction();
+    //     console.log(this.backQueue)
+    // }
 
-    forwardAction(){
-        console.log(this.backQueue)
-        while(this.backQueue.length>0){
-            let action=this.backQueue[this.backQueue.length-1];
-            this.actionQueue.push(action);
-            action.forward();
-            this.backQueue.pop();
-            if(this.backQueue.length>0&&!action.frontFilter(this.backQueue[this.backQueue.length-1])){
-                break;
-            }
+    backAction(){
+        console.log(this.actionQueue);
+        if(this.actionQueue.length<=0)return;
+        let action=this.actionQueue[this.actionQueue.length-1];
+        this.backQueue.push(action);
+        this.actionQueue.pop();
+        let actionBefore=action.getActionBefore();
+        let actionAfter=action.getActionAfter();
+        console.log(actionAfter);
+        console.log(actionBefore);
+        for(let i=actionAfter.length-1;i>=0;i--){
+            actionAfter[i].backward();
         }
+        action.backward();
+        for(let i=actionBefore.length-1;i>=0;i--){
+            actionBefore[i].backward();
+        }
+
+        // let actionAfter()
+        console.log(this.actionQueue);
+
         this.updateMapAction();
-        console.log(this.backQueue)
+    }
+    forwardAction(){
+        console.log(this.backQueue);
+        if(this.backQueue.length<=0)return;
+        let action=this.backQueue[this.backQueue.length-1];
+        this.actionQueue.push(action);
+        this.backQueue.pop();
+        let actionBefore=action.getActionBefore();
+        let actionAfter=action.getActionAfter();
+        console.log(actionAfter);
+        console.log(actionBefore);
+        for(let i=0;i<actionBefore.length;i++){
+            actionBefore[i].forward();
+        }
+        action.forward();
+        for(let i=0;i<actionAfter.length;i++){
+            actionAfter[i].forward();
+        }
+        console.log(this.backQueue);
+        this.updateMapAction();
     }
 
     updateMapAction(){
@@ -377,4 +434,39 @@ export function getState(){
 export function initActionQueue(){
     actionQueue.actionQueue=[];
     actionQueue.backQueue=[];
+}
+
+
+let register_before=false;
+
+export function before_register_get(){
+    return register_before;
+}
+
+export function before_register_set(flag){
+    register_before=flag;
+}
+
+let register_after=false;
+
+export function after_register_get(){
+    return register_after;
+}
+
+export function after_register_set(flag){
+    register_after=flag;
+}
+
+let before_action_list=[];
+
+export function push_before_action(action){
+    before_action_list.push(action);
+}
+
+export function get_before_action_list(){
+    return before_action_list;
+}
+
+export function clear_before_action_list(){
+    before_action_list=[];
 }
