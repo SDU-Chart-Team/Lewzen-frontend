@@ -14,6 +14,7 @@ import {getAllModules} from "../../element/module/module_queue";
 import {guideSet} from "../../canvas/base_canvas";
 import {createGroupAction} from "./groupAction";
 import {getBBox} from "../../util/bboxUtil";
+import {after_register_set} from "../actionQueue";
 
 export class AddAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -54,6 +55,7 @@ export class AddAction extends Base_action{
                 }
                 let coreList=getCoreList();
                 let groupMsg={group_id:this.id[i],son:coreList}
+                after_register_set(true);
                 createGroupAction(val,groupMsg);
                 // for (var j=0;j<coreList.length;j++){
                 //     linkByGroup(coreList[j],this.id[i]);

@@ -21,7 +21,7 @@ export class CursorAction extends Base_action{
     }
 
     after(){
-        P('get_p',{},this.cmd['flag'])
+        // P('get_p',{},this.cmd['flag'])
     }
 
     forward(){

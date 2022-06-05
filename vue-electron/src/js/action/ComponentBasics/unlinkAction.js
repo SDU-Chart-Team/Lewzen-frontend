@@ -9,8 +9,8 @@ export class UnlinkAction extends Base_action{
         super(type)
         this.cmd=cmd;
         this.msg=msg;
-        console.log(cmd);
-        console.log(msg);
+        // console.log(cmd);
+        // console.log(msg);
         this.id1=msg['id1'];
         this.id2=msg['id2'];
     }

@@ -5,6 +5,7 @@ import {getCoreList} from "@/js/element/core/core_queue";
 import {P} from "@/js/action/actionQueue";
 import {createArrowFromNullAction} from "../../action/ComponentLinear/setArrowFromNullAction";
 import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNullAction";
+import {before_register_set} from "../../action/actionQueue";
 
 class Arrow_Queue {
     constructor() {
@@ -358,6 +359,7 @@ class Arrow_Queue {
                     flag:true
                 };
                 let msg={g_id:g_id,line_id:from_list[i]['id'],a_id:from_list[i]['a_id']}
+                before_register_set(true);
                 createArrowFromNullAction(val,msg);
             }
         }
@@ -368,6 +370,7 @@ class Arrow_Queue {
                     flag:true
                 };
                 let msg={g_id:g_id,line_id:from_list[i]['id'],a_id:from_list[i]['a_id']}
+                before_register_set(true);
                 createArrowToNullAction(val,msg);
             }
         }
@@ -381,6 +384,7 @@ class Arrow_Queue {
                 flag:true
             };
             let msg={g_id:arrow['from_id'],line_id:g_id,a_id:arrow['from_a_id']}
+            before_register_set(true);
             createArrowFromNullAction(val,msg);
         }
         if(arrow['to_id']!==undefined){
@@ -389,6 +393,7 @@ class Arrow_Queue {
                 flag:true
             };
             let msg={g_id:arrow['to_id'],line_id:g_id,a_id:arrow['to_a_id']}
+            before_register_set(true);
             createArrowToNullAction(val,msg);
         }
     }

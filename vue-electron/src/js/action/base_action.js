@@ -3,6 +3,17 @@ import fa from "element-ui/src/locale/lang/fa";
 export class Base_action {
     constructor(type) {
         this.type=type;
+        this.actionAfter=[];
+        this.actionBefore=[];
+    }
+
+
+    pushActionAfter(action){
+        this.actionAfter.push(action);
+    }
+
+    pushActionBefore(action){
+        this.actionBefore.push(action);
     }
 
     before(){
@@ -27,6 +38,14 @@ export class Base_action {
 
     filter(){
         return false;
+    }
+
+    getActionAfter(){
+        return this.actionAfter;
+    }
+
+    getActionBefore(){
+        return this.actionBefore;
     }
 
     backFilter(action){

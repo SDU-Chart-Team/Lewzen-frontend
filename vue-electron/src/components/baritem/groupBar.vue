@@ -45,7 +45,7 @@
                 this.flag=flag;
             },
             group(){
-                P("create",{id:0,show:false})
+                P("create",{id:2,show:false})
 
             },
             ungroup(){

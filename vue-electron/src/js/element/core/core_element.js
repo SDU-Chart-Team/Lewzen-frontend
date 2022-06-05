@@ -20,6 +20,7 @@ import {getArrow} from "../anchor/arrow_Queue";
 import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNullAction";
 import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAction";
 import {getBBox} from "../../util/bboxUtil";
+import {after_register_set} from "../../action/actionQueue";
 let style_core="fill:#29B6F2"
 let style_core_v="fill:#FCA000"
 export class Core_element {
@@ -105,6 +106,7 @@ export class Core_element {
                     let start_y=e.offsetY;
                     let svg=document.getElementById(getMySvg());
                     that.rotate_core_none();
+                    P("cursor",{ids:[that.g_id]})
                     canvas_update("connect",that.g_id,{type:"flag",flag:false})
                     svg.onmousemove=function(e){
                         let end_x=e.offsetX;
@@ -249,6 +251,7 @@ export class Core_element {
                                     flag:true
                                 };
                                 let msg={g_id:to_gid,line_id:that.g_id,a_id:to_aid}
+                                after_register_set(true);
                                 createArrowToNullAction(val,msg);
                             }
                             let to_aid=list[0].a_id;
@@ -258,6 +261,7 @@ export class Core_element {
                                 flag:true
                             };
                             let msg={g_id:to_gid,line_id:that.g_id,a_id:to_aid}
+                            after_register_set(true);
                             createArrowToAction(val,msg);
                         }else if(list.length===0){
                             let arrow=getArrow(that.g_id);
@@ -269,6 +273,7 @@ export class Core_element {
                                     flag:true
                                 };
                                 let msg={g_id:to_gid,line_id:that.g_id,a_id:to_aid}
+                                after_register_set(true)
                                 createArrowToNullAction(val,msg);
                             }
                         }
@@ -289,6 +294,7 @@ export class Core_element {
                                     flag:true
                                 };
                                 let msg={g_id:from_gid,line_id:that.g_id,a_id:from_aid}
+                                after_register_set(true);
                                 createArrowFromNullAction(val,msg);
                             }
                             let from_aid=list[0].a_id;
@@ -298,6 +304,7 @@ export class Core_element {
                                 flag:true
                             };
                             let msg={g_id:from_gid,line_id:that.g_id,a_id:from_aid}
+                            after_register_set(true);
                             createArrowFromAction(val,msg);
                         }else if(list.length===0){
                             let arrow=getArrow(that.g_id);
@@ -309,6 +316,7 @@ export class Core_element {
                                     flag:true
                                 };
                                 let msg={g_id:from_gid,line_id:that.g_id,a_id:from_aid}
+                                after_register_set(true);
                                 createArrowFromNullAction(val,msg);
                             }
                         }

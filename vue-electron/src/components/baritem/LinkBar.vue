@@ -27,6 +27,15 @@ P("cursors",{ids:[this.id]},false)
                     </el-button>
                 </el-input>
             </div>
+            <div class="card-item">
+                <el-button
+                        size="mini"
+                        style="width:100%"
+                        @click="quickUnlinkOn"
+                        :disabled="flag"
+                        :class="quick_class"
+                >quick unlink</el-button>
+            </div>
             <div>
 
             </div>
@@ -44,7 +53,7 @@ P("cursors",{ids:[this.id]},false)
 </template>
 
 <script>
-    import {getTree, linkByUser} from "@/js/element/module/module_tree";
+    import {getTree, linkByUser, unlinkWithFather} from "@/js/element/module/module_tree";
     import * as echarts from 'echarts';
     import {getCoreList} from "@/js/element/core/core_queue";
     import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
@@ -73,6 +82,10 @@ P("cursors",{ids:[this.id]},false)
                 var body = document.querySelector("body")
                 body.style.cursor= "pointer"
             },
+            quickUnlinkOn(){
+                let id=getCoreList()[0];
+                unlinkWithFather(id);
+            },
             setRelationFlag(flag){
                 this.flag=flag;
                 if(flag){
@@ -94,6 +107,21 @@ P("cursors",{ids:[this.id]},false)
                 let links=[];
                 let nodeList=msg['node'];
                 let linkList=msg['link'];
+                let legend={
+                    orient:'horizontal',
+                    x:'center',
+                    y:'top',
+                    data:[{
+                        name:'now',
+                        color:'green',
+                    },{
+                        name:'group',
+                        color:'yellow',
+                    },{
+                        name:'other',
+                        color:'blue',
+                    }]
+                }
                 let widthCounter={};
                 for(var i=0;i<nodeList.length;i++){
                     if(widthCounter[nodeList[i]['width']]===undefined){
@@ -147,7 +175,8 @@ P("cursors",{ids:[this.id]},false)
                 var option = {
                     series: [
                         item
-                    ]
+                    ],
+                    // legend:legend
                 };
 
                 // 使用刚指定的配置项和数据显示图表。

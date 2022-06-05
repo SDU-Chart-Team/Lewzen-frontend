@@ -24,7 +24,7 @@ import {canvas_update, guideSet} from "@/js/canvas/base_canvas";
 import {updateStyleAfterChange} from "@/js/element/anchor/arrow_Queue";
 import {get_rect_move_flag} from "@/js/element/last/last_map_operation";
 import {initMovePState} from "../../action/ComponentBasics/movePAction";
-import {getActionCounter} from "../../action/actionQueue";
+import {before_register_set, getActionCounter} from "../../action/actionQueue";
 import {get_coordinate_canvas} from "../last/last_map_operation";
 import {link_quick_get, link_quick_id_get, link_quick_set} from "../../canvas/operation/canvas_link_operation";
 import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAction";
@@ -244,6 +244,7 @@ export class Module_element {
                                     flag:true
                                 };
                                 let msg={g_id:arrow['from_id'],line_id:that.g_id,a_id:arrow['from_a_id']}
+                                before_register_set(true);
                                 createArrowFromNullAction(val,msg);
                             }
                             if(arrow['to_id']!==undefined){
@@ -252,6 +253,7 @@ export class Module_element {
                                     flag:true
                                 };
                                 let msg={g_id:arrow['to_id'],line_id:that.g_id,a_id:arrow['to_a_id']}
+                                before_register_set(true);
                                 createArrowToNullAction(val,msg);
                             }
                         }

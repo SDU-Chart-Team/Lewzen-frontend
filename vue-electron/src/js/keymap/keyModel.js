@@ -10,7 +10,8 @@ let ctrlOn=false;
 export function initKey(){
     document.onkeydown=function (e) {
         key_code_map[e.keyCode]=true;
-        // console.log(e.keyCode)
+        console.log(e.keyCode)
+        console.log(e.ctrlKey)
         if(e.ctrlKey){
             updateCtrlOnTrue();
             ctrlOn=true;
@@ -35,6 +36,7 @@ export function initKey(){
     document.onkeyup=function(e){
         // console.log("ctrl off");
         key_code_map[e.keyCode]=false;
+
         if(!e.ctrlKey){
             updateCtrlOnFalse();
             ctrlOn=false;
@@ -42,6 +44,7 @@ export function initKey(){
     }
 
     document.onmousewheel = function (e) {
+        console.log(e.ctrlKey)
         if(e.wheelDelta > 0){
             if(ctrlOn){
                 canvas_scale_up();

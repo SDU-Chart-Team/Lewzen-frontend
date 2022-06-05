@@ -184,7 +184,6 @@
 <!--          <canvas @click="click_canvas" @mouseenter="mouseenter_canvas" @mousemove="mousemove_canvas" @mousedown="mousedown_canvas" @mouseup="mouseup_canvas" id="myCanvas" width="2000" height="1600">-->
 <!--          </canvas>-->
               <div id="myCanvas" >
-                  <right-click-bar></right-click-bar>
                   <svg xmlns="http://www.w3.org/2000/svg" class="svg"  @click="click_canvas" id="mySvg" :width="canvas_width" :height="canvas_height">
                       <defs id="myDefs"></defs>
                       <g id="last_map">
@@ -208,6 +207,7 @@
                       <!--                      </foreignObject>-->
                       <!--                  </g>-->
                   </svg>
+                  <right-click-bar></right-click-bar>
               </div>
           <el-dialog
                   title="fill style"

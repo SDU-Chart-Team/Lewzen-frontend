@@ -5,7 +5,7 @@ import th from "element-ui/src/locale/lang/th";
 import {P} from "@/js/action/actionQueue";
 import {getCoreList} from "@/js/element/core/core_queue";
 import {getListInFill} from "@/js/element/module/module_queue";
-import {getActionCounter} from "../../action/actionQueue";
+import {after_register_set, getActionCounter} from "../../action/actionQueue";
 import {canvas_update, get_connect_point_list} from "../../canvas/base_canvas";
 import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAction";
 import {createArrowToAction} from "../../action/ComponentLinear/setArrowToAction";
@@ -75,6 +75,7 @@ class Arrow_operation {
                 flag:true
             };
             let msgTo={g_id:g_id,line_id:id,a_id:a_id}
+            after_register_set(true);
             createArrowFromAction(val,msgTo);
             let svg=document.getElementById(getMySvg());
             let start_x=e.offsetX;
@@ -117,6 +118,7 @@ class Arrow_operation {
                             flag:true
                         };
                         let msgTo={g_id:to_gid,line_id:id,a_id:to_aid}
+                        after_register_set(true);
                         createArrowToAction(val,msgTo);
                     }else if(list.length===0){
                         let arrow=getArrow(that.g_id);
@@ -128,6 +130,7 @@ class Arrow_operation {
                                 flag:true
                             };
                             let msgTo={g_id:to_gid,line_id:id,a_id:to_aid}
+                            after_register_set(true);
                             createArrowToNullAction(val,msgTo);
                         }
                     }

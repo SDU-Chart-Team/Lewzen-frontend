@@ -12,6 +12,7 @@ export class Connection_canvas {
         this.connect_map={}
         this.connect_list=[];
         this.flag=true;
+        this.outlineList=[];
     }
 
     getState(){
@@ -85,7 +86,7 @@ export class Connection_canvas {
             this.show_outline(g_id);
         }else if(msg['type']==="delete"){
             this.delete_connect_point(g_id);
-            this.delete_outline(g_id);
+            this.delete_outline();
         }else if(msg['type']==="flag"){
             this.flag=msg['flag']
         }
@@ -106,16 +107,20 @@ export class Connection_canvas {
             copies.push(copied);
         }
         copies.forEach(c=>g.appendChild(c));
+        this.outlineList.push(g_id);
     }
 
-    delete_outline(g_id){
-        let g = document.getElementById(g_id);
-        let copies = [];
-        if (g===null) return;
-        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
-            if (c._temp) copies.push(c);
+    delete_outline(){
+        for(let i=0;i<this.outlineList.length;i++){
+            let g_id=this.outlineList[i];
+            let g = document.getElementById(g_id);
+            let copies = [];
+            if (g===null) return;
+            for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+                if (c._temp) copies.push(c);
+            }
+            copies.forEach(c=>g.removeChild(c));
         }
-        copies.forEach(c=>g.removeChild(c));
     }
 
 
@@ -125,6 +130,7 @@ export class Connection_canvas {
             let id=key;
             for(let i=0;i<this.connect_map[id]['len'];i++) {
                 let index = this.connect_map[id]['start'] + i;
+                if(this.connect_list.length<=index)return;
                 this.connect_list[index].delete();
             }
         }

@@ -2,6 +2,7 @@ import {P} from "@/js/action/actionQueue";
 import {getModuleByGid} from "@/js/element/module/module_queue";
 import {getCoreList} from "@/js/element/core/core_queue";
 import {getShapeMapId} from "@/js/util/getCanvasIdOperation";
+import {before_register_set} from "../../action/actionQueue";
 
 let aliasCounter={
     circle:0,
@@ -118,11 +119,42 @@ class Module_tree {
 
 
 
+    unlinkWithFather(id1){
+        id1=this.aliasList[id1];
+        if(id1===undefined){
+            alert("name wrong")
+        }
+        let index=this.nodeList[id1];
+        if(this.head[index]['father']!==index){
+            let findex=this.head[index]['father'];
+            let f=this.aliasList[this.head[findex]['id']];
+            P("unlink",{id1:id1,id2:f},flag);
+        }
+    }
 
     //别名link
     linkByAlias(id1,id2,flag=true){
+        id1=this.aliasList[id1];
+        id2=this.aliasList[id2];
+        if(id1===undefined||id2===undefined){
+            alert("name wrong")
+        }
+        let index=this.nodeList[id1];
+        if(this.head[index]['father']!==index){
+            let findex=this.head[index]['father'];
+            let f=this.aliasList[this.head[findex]['id']];
+            before_register_set(true);
+            P("unlink",{id1:id1,id2:f},flag);
+        }
+
+
         // console.log(this.head);
-        P("link",{id1:this.aliasList[id1],id2:this.aliasList[id2]},flag)
+        P("link",{id1:id1,id2:id2},flag)
+    }
+
+
+    unlinkByAlias(id1,id2,flag=true){
+        P("unlink",{id1:this.aliasList[id1],id2:this.aliasList[id2]},flag)
     }
     //id link
     linkById(id1,id2,flag=true){
@@ -494,6 +526,9 @@ export function linkByUser(link_text) {
     let id2=Trim(link_text[2])
     if (command==="link"){
         module_tree.linkByAlias(id1,id2);
+    }else if(command==="unlink"){
+        // P("")
+        module_tree.unlinkByAlias(id1,id2);
     }
 }
 
@@ -551,4 +586,8 @@ export function getAlias(id){
 }
 export function getTypeById(id){
     return module_tree.getTypeById(id);
+}
+
+export function unlinkWithFather(id1){
+    module_tree.unlinkWithFather(id1);
 }
