@@ -25,58 +25,58 @@ export function inDiagramModel() {
     // style.updateStyle({display:"none"});
     // line.setAttribute("style",style.get());
     // graph.setAttribute("style",style.get());
-
-    offText();
-    offRelation();
-    updateLineFlag(true);
-    updateElementFlag(true);
-    setPosition({flag:false})
-    setElementSize({flag:false})
+    //
+    // offText();
+    // offRelation();
+    // updateLineFlag(true);
+    // updateElementFlag(true);
+    // setPosition({flag:false})
+    // setElementSize({flag:false})
 }
 
 export function inElementStyleModel(){
 
-    let coreList=getCoreList();
-    if(getModuleByGid(coreList[0]).isLine&&coreList.length===1){
-        inElementLineModel();
-        offText();
-        offRelation();
-        return;
-    }
-    // console.log(coreList.length);
-
-    if(coreList.length>1){
-
-        offText();
-        offRelation();
-    }else{
-        onText();
-        onRelation();
-    }
-    // let elementStyle=document.getElementById("elementStyleBar");
-    // let diagram=document.getElementById("diagramBar");
-    // let graph=document.getElementById("graphStyleBar");
-    // let line=document.getElementById("lineStyleBar");
-    // let style=new cssParser();
-    // style.updateStyle({display:"none"})
-    // diagram.setAttribute("style",style.get());
-    // style.clear();
-    // style.updateStyle({display:"block"})
-    // elementStyle.setAttribute("style",style.get());
-    // style.clear();
-    // style.updateStyle({display:"none"})
-    // graph.setAttribute("style",style.get());
-    // style.clear();
-    // style.updateStyle({display:"none"});
-    // line.setAttribute("style",style.get());
-    // let node=document.getElementById(coreList[coreList.length-1]);
-    // let style_node=node.getAttribute("style");
-    updateElementFlag(false)
-    updateStyle(coreList[coreList.length-1]);
-    updateArrange()
-    updateTextSet();
-    updateLink();
-    updateLineFlag(true)
+    // let coreList=getCoreList();
+    // if(getModuleByGid(coreList[0]).isLine&&coreList.length===1){
+    //     inElementLineModel();
+    //     offText();
+    //     offRelation();
+    //     return;
+    // }
+    // // console.log(coreList.length);
+    //
+    // if(coreList.length>1){
+    //
+    //     offText();
+    //     offRelation();
+    // }else{
+    //     onText();
+    //     onRelation();
+    // }
+    // // let elementStyle=document.getElementById("elementStyleBar");
+    // // let diagram=document.getElementById("diagramBar");
+    // // let graph=document.getElementById("graphStyleBar");
+    // // let line=document.getElementById("lineStyleBar");
+    // // let style=new cssParser();
+    // // style.updateStyle({display:"none"})
+    // // diagram.setAttribute("style",style.get());
+    // // style.clear();
+    // // style.updateStyle({display:"block"})
+    // // elementStyle.setAttribute("style",style.get());
+    // // style.clear();
+    // // style.updateStyle({display:"none"})
+    // // graph.setAttribute("style",style.get());
+    // // style.clear();
+    // // style.updateStyle({display:"none"});
+    // // line.setAttribute("style",style.get());
+    // // let node=document.getElementById(coreList[coreList.length-1]);
+    // // let style_node=node.getAttribute("style");
+    // updateElementFlag(false)
+    // updateStyle(coreList[coreList.length-1]);
+    // updateArrange()
+    // updateTextSet();
+    // updateLink();
+    // updateLineFlag(true)
 }
 
 export function inGraphModel(){
