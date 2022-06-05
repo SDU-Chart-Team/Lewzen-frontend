@@ -18,7 +18,7 @@ async function waitwasm() {
 export function sendSocket(val){
     // console.log(val['cmd']);
     updateCMD(val['cmd'])
-    // console.log(val['cmd'])
+    console.log(val['cmd'])
     var ret=JSON.parse(window.$server_run(val['cmd']))
     // var ret=Module.server_run(val['cmd'])
     // console.log(ret);

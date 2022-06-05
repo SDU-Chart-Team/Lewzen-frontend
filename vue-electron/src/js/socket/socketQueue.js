@@ -113,7 +113,7 @@ export function socketPush(msg){
     let cmd=getCMD();
     cmd=JSON.parse(cmd);
     // console.log(cmd);
-    // console.log(msg);
+    console.log(msg);
     let val = parserCmd(msg);
     // console.log(val);
 

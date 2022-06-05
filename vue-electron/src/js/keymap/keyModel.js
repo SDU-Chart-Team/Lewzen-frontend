@@ -3,6 +3,7 @@ import {canvas_scale, canvas_scale_down, canvas_scale_up} from "@/js/util/canvas
 import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
 import {P, updateState} from "@/js/action/actionQueue";
 import {getAncestorAll} from "@/js/element/module/module_tree";
+import {saveAsHTML, saveAsImage} from "../util/fileOperation";
 
 
 let key_code_map={}
@@ -10,7 +11,7 @@ let ctrlOn=false;
 export function initKey(){
     document.onkeydown=function (e) {
         key_code_map[e.keyCode]=true;
-        // console.log(e.keyCode)
+        console.log(e.keyCode)
         // console.log(e.ctrlKey)
         if(e.ctrlKey){
             updateCtrlOnTrue();
@@ -19,18 +20,38 @@ export function initKey(){
             ctrlOn=false;
         }
         if(e.keyCode===97){//1
-            if(ctrlOn){
+            if(e.ctrlKey){
                 canvas_scale_up()
             }
         }else if(e.keyCode===99){//3
-            if(ctrlOn){
+            if(e.ctrlKey){
                 canvas_scale_down()
             }
         }else if(e.keyCode===67){//c
-            if(ctrlOn)ctrlC();
+            if(e.ctrlKey)ctrlC();
         }else if(e.keyCode===86){//v
-            if(ctrlOn)ctrlV();
+            if(e.ctrlKey)ctrlV();
+        }else if(e.keyCode===83){//s
+            if(e.ctrlKey){
+                let svg=document.getElementById(getShapeMapId());
+                let children=svg.childNodes;
+                for(let i=0;i<children.length;i++){
+                    let style=children[i].getAttribute("style");
+                    // console.log(style);
+                    let id=children[i].getAttribute("id");
+                    // console.log(id);
+                    P("cursors",{ids:[id]})
+                    P("set_style",{style:style})
+                }
+                P("save",{})
+
+            }
+        }else if(e.keyCode===79){//o
+            if(e.ctrlKey){
+                saveAsImage();
+            }
         }
+        e.preventDefault();
     }
 
     document.onkeyup=function(e){
@@ -42,18 +63,20 @@ export function initKey(){
             ctrlOn=false;
         }
     }
+    let node=document.getElementById("main_canvas");
 
-    document.onmousewheel = function (e) {
+    node.onmousewheel = function (e) {
         // console.log(e.ctrlKey)
         if(e.wheelDelta > 0){
-            if(ctrlOn){
+            if(e.ctrlKey){
                 canvas_scale_up();
             }
         }else{
-            if(ctrlOn){
+            if(e.ctrlKey){
                 canvas_scale_down();
             }
         }
+        e.preventDefault();
     }
 }
 
