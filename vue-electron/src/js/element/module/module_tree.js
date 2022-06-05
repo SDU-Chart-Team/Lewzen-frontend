@@ -536,6 +536,9 @@ export function linkByGroup(id1,id2){
     module_tree.linkById(id1,id2,false);
 }
 
+export function linkById(id1,id2){
+    module_tree.linkById(id1,id2,true);
+}
 export function addModuleToTree(id,type) {
     module_tree.addModule(id,type);
 }

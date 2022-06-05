@@ -199,7 +199,7 @@ export function setArrangeModel(){
         zindexFlag(true);
         setThetaFlag(true);
         set_theta_bar("");
-        FlipFlag(true);
+        // FlipFlag(true);
         setPosition({flag:false})
         groupFlag(true);
         return;
@@ -207,7 +207,7 @@ export function setArrangeModel(){
     if(coreList.length>1){
         zindexFlag(false);
         setThetaFlag(false);
-        FlipFlag(false);
+        // FlipFlag(false);
         setPosition({flag:false})
         groupFlag(false);
         setGroupType(true);
@@ -223,7 +223,7 @@ export function setArrangeModel(){
             setGroupType(true);
         }
         setThetaFlag(false);
-        FlipFlag(false);
+        // FlipFlag(false);
         P("get_rect",{})
         P("get_theta",{})
     }
