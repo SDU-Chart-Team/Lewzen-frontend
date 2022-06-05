@@ -68,7 +68,7 @@
 
                 <angle-bar></angle-bar>
 
-                <filp-bar></filp-bar>
+<!--                <filp-bar></filp-bar>-->
 
                 <group-bar></group-bar>
             </el-tab-pane>

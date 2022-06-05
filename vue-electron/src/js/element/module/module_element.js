@@ -34,6 +34,7 @@ import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNu
 import {get_connect_point_list} from "../../canvas/base_canvas";
 import {createArrowToAction} from "../../action/ComponentLinear/setArrowToAction";
 import {getBBox} from "../../util/bboxUtil";
+import {linkById} from "./module_tree";
 
 export class Module_element {
     constructor(msg,flag) {
@@ -155,7 +156,8 @@ export class Module_element {
                     let id=link_quick_id_get();
                     body.style.cursor="default"
                     link_quick_set(false)
-                    P("link",{id1:id,id2:that.g_id});
+                    linkById(id,that.g_id)
+                    // P("link",{id1:id,id2:that.g_id});
                     return;
                 }
                 if(that.move){
