@@ -142,12 +142,16 @@ class Module_queue {
             if(this.moduleQueue[i].isLine)continue;
             let g_id=this.moduleQueue[i].g_id;
             let node=document.getElementById(g_id);
+            if(node===undefined)continue;
             let children=node.childNodes;
+
             // let flag=false;
             for(let j=0;j<children.length;j++) {
                 let element = children[j];
                 // console.log(element);
                 if(element===undefined)continue;
+                if(element.isPointInFill===undefined)continue;
+                if(element.isPointInStroke===undefined)continue;
                 if (element.isPointInFill(point)||element.isPointInStroke(point)) {
                     flag = true;
                 }

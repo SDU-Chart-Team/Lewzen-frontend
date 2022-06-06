@@ -29,6 +29,7 @@
   // eslint-disable-next-line no-unused-vars
   import Vue from "vue";
   import {P, updateState} from "@/js/action/actionQueue";
+  import {EncodeUtf8} from "../js/util/utilChinese";
   // import { Boot } from "@wangeditor/editor";
   // import formulaModule from "@wangeditor/plugin-formula";
   //eslint-disable-next-line

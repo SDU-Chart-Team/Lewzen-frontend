@@ -1,7 +1,7 @@
 import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {set_coordinate_canvas} from "../element/last/last_map_operation";
-import vi from "element-ui/src/locale/lang/vi";
 import {canvasAdjust} from "../canvas/base_canvas";
+import {reverseUTF8} from "./utilChinese";
 
 export function parserCmd(cmd){
     let domCmd=cmd["domcmd"];
@@ -78,7 +78,40 @@ function interpreter(root, cmds){
                 break;
             case 'append':
                 let xml = next_string(Number(next_parameter(i)));
+                // xml=reverseUTF8(xml)
                 current.insertAdjacentHTML('beforeend', xml);
+                console.log(current.id);
+                let id=current.id;
+                // if(id!==undefined&&id!==null){
+                //     id=id.split("_");
+                //     if(id[id.length-1]==="text"){
+                //         let node=current.childNodes[0].childNodes[0];
+                //         let html=node.innerHTML;
+                //         html=reverseUTF8(html);
+                //         node.innerHTML=html;
+                //         // console.log(node)
+                //     }else{
+                //         let nodeList=current.getElementsByTagName("foreignObject");
+                //         console.log(nodeList)
+                //         if(nodeList!==undefined&&nodeList!==null){
+                //             let node=nodeList[0];
+                //             if(node!==undefined&&node!==null){
+                //                 let nid=node.getAttribute("id");
+                //                 // console.log(nid);
+                //                 if(nid!==undefined&&nid!==null){
+                //                     nid=nid.split("_");
+                //                     if(nid[nid.length-1]==="text"){
+                //                         let nod=node.childNodes[0].childNodes[0];
+                //                         let html=nod.innerHTML;
+                //                         html=reverseUTF8(html);
+                //                         nod.innerHTML=html;
+                //                         // console.log(node)
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
                 break;
             case 'sort':
                 let indices = next_string_nonspace(i);

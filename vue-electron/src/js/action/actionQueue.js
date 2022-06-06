@@ -131,6 +131,7 @@ class ActionQueue {
         V();
         if(this.filter(action)) {
             if(before_register_get()){
+                console.log(111);
                 push_before_action(action);
                 before_register_set(false);
             }else if(after_register_get()){
@@ -143,11 +144,12 @@ class ActionQueue {
                     }
                 }
                 let actionList=get_before_action_list();
-                clear_before_action_list();
+                // console.log(actionList);
                 for(let i=0;i<actionList.length;i++){
                     action.pushActionBefore(actionList[i]);
                 }
                 this.actionQueue.push(action);
+                clear_before_action_list();
             }
             // console.log(this.actionQueue);
             if(this.backQueue.length>0){

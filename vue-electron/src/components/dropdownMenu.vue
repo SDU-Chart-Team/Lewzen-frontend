@@ -57,12 +57,14 @@
                 <el-dropdown-item>Back</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <el-dropdown>
+        <el-dropdown @command="handleTheme">
         <span class="el-dropdown-link">
-            Extras
+            Theme
         </span>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>theme</el-dropdown-item>
+                <el-dropdown-item command="0">default</el-dropdown-item>
+                <el-dropdown-item command="1">night</el-dropdown-item>
+                <el-dropdown-item command="2">eyeshield</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown>
@@ -86,6 +88,7 @@
     import {OffGrid} from "@/js/canvas/operation/canvas_diagram_operation";
     import {initCanvasState} from "@/js/util/init";
     import {saveAsHTML, saveAsImage} from "@/js/util/fileOperation";
+    import {changeTheme} from "@/js/theme/changeTheme";
 
     export default {
         name: "dropdownMenu",
@@ -93,6 +96,15 @@
             // window.saveFile=this.saveFile;
         },
         methods:{
+            handleTheme(command){
+              if(command==="0"){
+                  changeTheme("default")
+              }else if(command==='1'){
+                  changeTheme("night")
+              }else if(command==="2"){
+                  changeTheme("eyeshield")
+              }
+            },
             handleFile(command){
                 // console.log(command)
                 if(command==='2'){

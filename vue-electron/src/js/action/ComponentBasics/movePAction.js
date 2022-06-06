@@ -97,6 +97,14 @@ export class MovePAction extends Base_action{
             if(action.pid!==this.pid)return false;
             this.dx+=action.dx;
             this.dy+=action.dy;
+            let actionBefore=action.getActionBefore();
+            let actionAfter=action.getActionAfter();
+            for(let i=actionAfter.length-1;i>=0;i--){
+                this.actionBefore.unshift(actionAfter[i])
+            }
+            for(let i=actionBefore.length-1;i>=0;i--){
+                this.actionBefore.unshift(actionBefore[i])
+            }
             return true;
         }
         else return false;

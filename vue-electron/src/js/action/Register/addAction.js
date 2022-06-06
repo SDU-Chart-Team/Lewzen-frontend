@@ -15,6 +15,7 @@ import {guideSet} from "../../canvas/base_canvas";
 import {createGroupAction} from "./groupAction";
 import {getBBox} from "../../util/bboxUtil";
 import {after_register_set} from "../actionQueue";
+import {get_dotted_line_type_Before, get_line_type_Before} from "../../util/setLineType";
 
 export class AddAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -88,6 +89,11 @@ export class AddAction extends Base_action{
             let msg={g_id:this.id[i],move_x:move['x']-bbox.width/2,move_y:move['y']-bbox.height/2}
             P("move",msg,false)
             P("cursors",{ids:this.msg['ids']})
+            if(this.type==="line"){
+                P("set_line_type",{line_type:get_line_type_Before()})
+                P("set_dotted_line",{dot_type:get_dotted_line_type_Before()})
+
+            }
             guideSet(this.id[i],false);
         }
 
