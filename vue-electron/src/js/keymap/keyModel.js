@@ -11,7 +11,7 @@ let ctrlOn=false;
 export function initKey(){
     document.onkeydown=function (e) {
         key_code_map[e.keyCode]=true;
-        console.log(e.keyCode)
+        // console.log(e.keyCode)
         // console.log(e.ctrlKey)
         if(e.ctrlKey){
             updateCtrlOnTrue();
@@ -22,15 +22,22 @@ export function initKey(){
         if(e.keyCode===97){//1
             if(e.ctrlKey){
                 canvas_scale_up()
+                e.preventDefault();
             }
         }else if(e.keyCode===99){//3
             if(e.ctrlKey){
                 canvas_scale_down()
             }
         }else if(e.keyCode===67){//c
-            if(e.ctrlKey)ctrlC();
+            if(e.ctrlKey){
+                ctrlC();
+                e.preventDefault();
+            }
         }else if(e.keyCode===86){//v
-            if(e.ctrlKey)ctrlV();
+            if(e.ctrlKey){
+                ctrlV();
+                e.preventDefault();
+            }
         }else if(e.keyCode===83){//s
             if(e.ctrlKey){
                 let svg=document.getElementById(getShapeMapId());
@@ -44,14 +51,14 @@ export function initKey(){
                     P("set_style",{style:style})
                 }
                 P("save",{})
-
+                e.preventDefault();
             }
         }else if(e.keyCode===79){//o
             if(e.ctrlKey){
                 saveAsImage();
+                e.preventDefault();
             }
         }
-        e.preventDefault();
     }
 
     document.onkeyup=function(e){
@@ -70,19 +77,22 @@ export function initKey(){
         if(e.wheelDelta > 0){
             if(e.ctrlKey){
                 canvas_scale_up();
+                e.preventDefault();
+
             }
         }else{
             if(e.ctrlKey){
                 canvas_scale_down();
+                e.preventDefault();
             }
         }
-        e.preventDefault();
     }
 }
 
 
 let ctrlCList=[];
 export function ctrlC(){
+    ctrlCList=[];
     let coreList=getCoreList();
     ctrlCList=coreList;
 }
@@ -122,5 +132,4 @@ export function ctrlV(){
     P("cursors",{ids:list});
     updateState({list:list})
     P("copy",{});
-    ctrlCList=[];
 }

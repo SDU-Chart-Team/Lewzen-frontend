@@ -3,6 +3,7 @@ import {sendSocket} from "@/js/socket/socket";
 import {getActionCounter, P} from "@/js/action/actionQueue";
 import {inElementStyleModel} from "@/js/canvas/operation/canvas_model_operation";
 import {updateArrange} from "@/js/canvas/operation/canvas_arrange_operation";
+import {reverseUTF8} from "../../util/utilChinese";
 
 export class GetHtmlAction extends Base_action{
     constructor(type,cmd,msg) {

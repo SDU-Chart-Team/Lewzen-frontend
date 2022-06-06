@@ -1,7 +1,7 @@
 <template>
 
             <el-collapse v-model="activeNames">
-                <el-collapse-item class="item" title="General" name="1">
+                <el-collapse-item style="background-color: #FBFBFB" class="item" title="General" name="1">
                     <el-image
                             :src="require('@/assets/circle.png')"
                             @click="createShapeInForm2(0,0)"
@@ -686,6 +686,9 @@
 
     export default {
         name: "leftSideBar",
+        mounted() {
+
+        },
         data() {
             return {
                 activeNames: ['1'],
@@ -727,6 +730,7 @@
     user-select: none;
     padding-left: 10px;
     text-align: left;
+    background-color: #FBFBFB;
 }
 .el-container{
     padding:0;

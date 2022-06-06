@@ -34,6 +34,7 @@ export class SetEndAction extends Base_action{
     merge(action){
         return false;
     }
+
 }
 
 export function createSetEndAction(msg,flag){//list of id

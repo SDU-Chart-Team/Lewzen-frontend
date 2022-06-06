@@ -21,8 +21,8 @@ import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNu
 import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAction";
 import {getBBox} from "../../util/bboxUtil";
 import {after_register_set} from "../../action/actionQueue";
-let style_core="fill:#29B6F2"
-let style_core_v="fill:#FCA000"
+let style_core="fill:rgba(41,182,242,0.6);stroke:#29B6F2;stroke-width:1;opacity:0.9"
+let style_core_v="fill:rgba(252,160,0,0.6);stroke:#FCA000;stroke-width:1;opacity:0.9"
 export class Core_element {
     constructor(points) {
         this.points=points;
@@ -43,6 +43,50 @@ export class Core_element {
         let canvas_id=getKeyMapId();
 
         let canvas=document.getElementById(canvas_id);
+
+        // // outline
+        // let g = document.getElementById(this.g_id);
+        // let copies = [];
+        // if (g===null) return;
+        // for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+        //     let id=c.getAttribute("id")
+        //     // console.log(id);
+        //     if(id!==undefined&&id!==null){
+        //         id=id.split('_');
+        //         if(id[id.length-1]==="text"){
+        //             continue;
+        //         }
+        //     }
+        //     let copied = c.cloneNode(true);
+        //     copied._temp_selected = true;
+        //     copied.style.pointerEvents = 'none'
+        //     copied.style.setProperty('fill', 'none', 'important');
+        //     copied.style.setProperty('stroke', 'rgb(64, 158, 255)', 'important');
+        //     copied.style.strokeWidth = "2px";
+        //     copied.style.strokeDasharray = "2,2";
+        //     copies.push(copied);
+        // }
+        // copies.forEach(c=>canvas.appendChild(c));
+        // // rect outline
+        // let out_rect = new Map();
+        // for(let i=0;i<points.length;i++)if(["LT","LB","RT","RB"].includes(points[i].id))out_rect.set(points[i].id,{x:points[i].x,y:points[i].y});
+        // if(out_rect.has("LT")&&out_rect.has("RT")&&out_rect.has("RB")&&out_rect.has("LB")){
+        //     let node=createElementByTag("path");
+        //     let pos=[];out_rect.forEach((v,k)=>{pos.push(v.x+" "+v.y)});
+        //     // node._temp_selected = true;
+        //     node.id = this.g_id+"_outline";
+        //     node.setAttribute("d", "M " + pos.join(" L ") + " Z");
+        //     node.style.pointerEvents = 'none';
+        //     node.style.setProperty('fill', 'none', 'important');
+        //     node.style.setProperty('stroke', 'rgb(64, 158, 255)', 'important');
+        //     node.style.strokeWidth = "2px";
+        //     node.style.strokeDasharray = "2,2";
+        //     console.log(node);
+        //     // console.log(1111);
+        //     canvas.appendChild(node);
+        //     console.log(canvas.childNodes);
+        // }
+        //
         // console.log(points);
         for(let i=0;i<points.length;i++){
             let core_id=points[i].comp_id+"_"+points[i].id;
@@ -52,12 +96,12 @@ export class Core_element {
             let node=createElementByTag("circle",core_id);
             if(points[i].color===""){
                 domOperator.setAttrByDom(node,{
-                    cx:x,cy:y,r:5,style:style_core
+                    cx:x,cy:y,r:4,style:style_core
                 })
 
             }else{
                 domOperator.setAttrByDom(node,{
-                    cx:x,cy:y,r:5,style:style_core_v
+                    cx:x,cy:y,r:4,style:style_core_v
                 })
 
             }
@@ -184,6 +228,20 @@ export class Core_element {
         let node = document.getElementById(this.g_id+ "rotate")
         let canvas_hover = document.getElementById(getHoverMapId());
         if(node!==null) canvas_hover.removeChild(node);
+
+        // outline
+        let outrect=document.getElementById(this.g_id+"_outline");
+        // console.log(outrect);
+        if(outrect!==null){
+            canvas.removeChild(outrect);
+        }
+        let g = document.getElementById(getKeyMapId());
+        let copies = [];
+        if (g===null) return;
+        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+            if (c._temp_selected) copies.push(c);
+        }
+        copies.forEach(c=>canvas.removeChild(c));
     }
 
     setCoreMouseDown(){
@@ -204,10 +262,11 @@ export class Core_element {
                 // let bbox=document.getElementById(that.g_id).getBBox();
                 initMovePState({start_x:bbox.x,start_y:bbox.y});
                 let svg=document.getElementById(getMySvg())
+                node.style.pointerEvents="none";
                 document.onmousemove=function (e) {
                     // console.log(id);
                     if(id==="end"||id==="start"){
-                        getListInFill(e.offsetX,e.offsetY);
+                        // getListInFill(e.offsetX,e.offsetY);
                     }
                     that.movePUpdateStyle(core_id);
                     let newX=e.screenX;
@@ -343,6 +402,14 @@ export class Core_element {
         }
         let node=document.getElementById(this.g_id+"rotate")
         if(node!==null) node.setAttribute("style","display:none")
+
+        // // outline
+        // let g = document.getElementById(getKeyMapId());
+        // for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+        //     if (c._temp_selected) c.setAttribute("style","display:none");
+        // }
+        // let outrect=document.getElementById(this.g_id+"_outline");
+        // if(outrect!==null) outrect.setAttribute("style","display:none")
     }
 
     updateMovePStyle(core_id,move_x,move_y){
@@ -377,6 +444,14 @@ export class Core_element {
             node.setAttribute("style","display:none")
         }
         this.setMoveLinear();
+
+        // outline
+        // let g = document.getElementById(getKeyMapId());
+        // for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+        //     if (c._temp_selected) c.setAttribute("style","display:none");
+        // }
+        // let outrect=document.getElementById(this.g_id+"_outline");
+        // if(outrect!==null) outrect.setAttribute("style","display:none")
     }
 
     setMoveLinear(){
@@ -385,27 +460,28 @@ export class Core_element {
         let childNodes=node.childNodes;
         let states=[];
         states={}
-
-        states['stroke_width']=node.style.strokeWidth
-        states['stroke']=node.style.stroke;
-        states['stroke_dasharray']=node.style.strokeDasharray
-        console.log(states);
-        // node.setAttribute("stroke-width",2);
-        // node.setAttribute("stroke","blue");
-        // node.setAttribute("stroke-dasharray",'3,3')
-        node.style.setProperty("stroke","#00A8FF")
-        node.style.setProperty("stroke-width",1)
-        node.style.setProperty("stroke-dasharray",'1,1,1,1')
-        // for(let i=0;i<childNodes.length;i++){
-        //     states[i]={}
-        //     states[i]['stroke_width']=childNodes[i].getAttribute("stroke_width")
-        //     states[i]['stroke']=childNodes[i].getAttribute("stroke")
-        //     states[i]['stroke_dasharray']=childNodes[i].getAttribute("stroke_dasharray")
-        //     childNodes[i].setAttribute("stroke-width",2);
-        //     // childNodes[i].setAttribute("stroke","blue");
-        //     childNodes[i].setAttribute("stroke-dasharray",'3,3')
-        // }
-        this.states=states;
+        if(node.style!==undefined&&node.style!==null){
+            states['stroke_width']=node.style.strokeWidth
+            states['stroke']=node.style.stroke;
+            states['stroke_dasharray']=node.style.strokeDasharray
+            console.log(states);
+            // node.setAttribute("stroke-width",2);
+            // node.setAttribute("stroke","blue");
+            // node.setAttribute("stroke-dasharray",'3,3')
+            node.style.setProperty("stroke","#00A8FF")
+            node.style.setProperty("stroke-width",1)
+            node.style.setProperty("stroke-dasharray",'1,1,1,1')
+            // for(let i=0;i<childNodes.length;i++){
+            //     states[i]={}
+            //     states[i]['stroke_width']=childNodes[i].getAttribute("stroke_width")
+            //     states[i]['stroke']=childNodes[i].getAttribute("stroke")
+            //     states[i]['stroke_dasharray']=childNodes[i].getAttribute("stroke_dasharray")
+            //     childNodes[i].setAttribute("stroke-width",2);
+            //     // childNodes[i].setAttribute("stroke","blue");
+            //     childNodes[i].setAttribute("stroke-dasharray",'3,3')
+            // }
+            this.states=states;
+        }
         // let bbox=node.getBBox();
         // let path=createElementByTag("polyline",this.g_id+"_linear");
         // let points="";
@@ -502,6 +578,14 @@ export class Core_element {
             let node=document.getElementById(core_id);
             node.setAttribute("style","display:none");
         }
+
+        // outline
+        let g = document.getElementById(this.g_id);
+        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+            if (c._temp_selected) c.setAttribute("style","display:none");
+        }
+        let outrect=document.getElementById(this.g_id+"_outline");
+        if(outrect!==null) outrect.setAttribute("style","display:none")
     }
 
     rotate_core_block(){
@@ -511,6 +595,14 @@ export class Core_element {
             let node=document.getElementById(core_id);
             node.setAttribute("style","display:block");
         }
+
+        // outline
+        let g = document.getElementById(this.g_id);
+        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
+            if (c._temp_selected) c.setAttribute("style","display:block");
+        }
+        let outrect=document.getElementById(this.g_id+"_outline");
+        if(outrect!==null) outrect.setAttribute("style","display:block")
     }
 
     updateRotate(theta){

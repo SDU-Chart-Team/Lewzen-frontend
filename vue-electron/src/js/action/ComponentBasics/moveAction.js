@@ -108,6 +108,14 @@ export class MoveAction extends Base_action{
             }
             this.dx+=action.dx;
             this.dy+=action.dy;
+            let actionBefore=action.getActionBefore();
+            let actionAfter=action.getActionAfter();
+            for(let i=actionAfter.length-1;i>=0;i--){
+                this.actionBefore.unshift(actionAfter[i])
+            }
+            for(let i=actionBefore.length-1;i>=0;i--){
+                this.actionBefore.unshift(actionBefore[i])
+            }
             return true;
         }
         else return false;

@@ -4,6 +4,7 @@ import {getActionCounter, getState, P} from "@/js/action/actionQueue";
 import {inElementStyleModel} from "@/js/canvas/operation/canvas_model_operation";
 import {updateArrange} from "@/js/canvas/operation/canvas_arrange_operation";
 import {getCoreList} from "@/js/element/core/core_queue";
+import {reverseUTF8} from "../../util/utilChinese";
 
 export class SetHtmlAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -22,7 +23,8 @@ export class SetHtmlAction extends Base_action{
     }
 
     after(){
-
+        console.log(this.msg['html'])
+        console.log(reverseUTF8(this.msg['html']))
         // set_html_bar(this.msg['html'])
     }
 

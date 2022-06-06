@@ -30,6 +30,7 @@ export class SetEndArrowAction extends Base_action{
     merge(action){
         return false;
     }
+
 }
 
 export function createSetEndArrowAction(msg,flag){//cursor dx dy

@@ -24,7 +24,7 @@ export class LoadAction extends Base_action{
     after(){
         let state=getState();
         let arrow=state['json']['arrow'];
-        console.log(arrow)
+        // console.log(arrow)
         let indices=this.msg['json']['indices'];
         let comps=this.msg['json']['comps'];
         let index=0;
@@ -37,9 +37,10 @@ export class LoadAction extends Base_action{
             }
             // console.log(index);
         }
-
         let list=document.getElementById(getShapeMapId()).childNodes;
         for(let i=0;i<arrow.length;i++){
+            // console.log(arrow[i])
+            if(arrow[i]['id']===undefined)continue;
             arrow[i]['id']=list[arrow[i]['id']].getAttribute("id")
             if(arrow[i]['from_id']!==undefined){
                 arrow[i]['from_id']=list[arrow[i]['from_id']].getAttribute("id")

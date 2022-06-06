@@ -17,7 +17,7 @@ export class GetRectAction extends Base_action{
 
     after(){
         let msg={}
-        if(msg['status']!=="!succeed"){
+        if(msg['status']==="!succeed"){
             msg['flag']=true;
             msg['x']=this.msg['rect']['x']
             msg['y']=this.msg['rect']['y']

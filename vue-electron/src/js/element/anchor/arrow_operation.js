@@ -50,7 +50,7 @@ class Arrow_operation {
         node.setAttribute("cx",msg['x']);
         node.setAttribute("cy",msg['y']);
         node.setAttribute("r",7);
-        node.setAttribute("fill","#B2FFB2")
+        node.setAttribute("style","fill:rgba(41,182,242,0.6);stroke:#29B6F2;stroke-width:1;opacity:0.9")
         map.appendChild(node);
         // console.log(msg);
         node.onmousedown=function(e){
@@ -82,6 +82,7 @@ class Arrow_operation {
             let end_x=e.offsetX;
             let start_y=e.offsetY;
             let end_y=e.offsetY;
+            node.style.pointerEvents="none";
             svg.onmousemove=function (e) {
                 // line.setAttribute("x2",e.offsetX);
                 // line.setAttribute("y2",e.offsetY);
@@ -90,7 +91,7 @@ class Arrow_operation {
                 end_x=e.offsetX;
                 end_y=e.offsetY;
                 // getListInFill(end_x,end_y)
-                getListInFill(e.offsetX,e.offsetY);
+                // getListInFill(e.offsetX,e.offsetY);
 
             }
             svg.onmouseup=function(e){

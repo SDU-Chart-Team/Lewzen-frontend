@@ -2,10 +2,10 @@
   <div id="app">
 <!--header-->
     <div>
-      <div style="text-align: left; font-size: 12px;height: 60px ;margin-bottom: 5px" class="el-header">
+      <div style="text-align: left; font-size: 12px;height: 70px ;margin-bottom: 5px" class="el-header">
         <div class="head-top clear">
           <div class="head-top-logo left">
-            <el-image :src="require('@/assets/logo.png')" class="logo"></el-image>
+            <el-image :src="require('@/assets/icon.png')" class="logo"></el-image>
           </div>
           <div class="head-top-item left">
             <div class="item-top">
@@ -28,7 +28,7 @@
       </div>
     </div>
     <hr style="padding-right: 0;margin-right: 0">
-    <div style="text-align: left; font-size: 12px;height: 30px;margin-top: 5px;" class="el-header">
+    <div style="text-align: left; font-size: 12px;height: 35px;margin-top: 5px;" class="el-header">
       <div class="head-bottom">
           <div class="OperationBar">
 <!--              <el-dropdown @command="handleModelChange">-->
@@ -104,21 +104,32 @@
                  @click="shadowAction"
               ></i>
 <!--              添加箭头-->
-              <el-dropdown>
+              <el-dropdown @command="handleArrowStyle">
                 <span class="el-dropdown-link">
                     <i class="iconfont icon-right icon-left"></i>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="solid">solid</el-dropdown-item>
+                    <el-dropdown-item command="dotted">dotted</el-dropdown-item>
+                    <el-dropdown-item command="dashed">dashed</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 <!--              添加折线-->
-              <el-dropdown>
+              <el-dropdown @command="handleLineType">
             <span class="el-dropdown-link">
                 <i class="iconfont icon-zhexian icon-left"></i>
                 <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
                   <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item command="straight_line">straight_line</el-dropdown-item>
+                      <el-dropdown-item command="vertical_line">vertical_line</el-dropdown-item>
+                      <el-dropdown-item command="curve">curve</el-dropdown-item>
+                      <el-dropdown-item command="horizontal_line">horizontal_line</el-dropdown-item>
+                      <el-dropdown-item command="curve_two">curve_two</el-dropdown-item>
+                      <el-dropdown-item command="hallow_line">hallow_line</el-dropdown-item>
+                      <el-dropdown-item command="complex_line">complex_line</el-dropdown-item>
+                      <el-dropdown-item command="flexible_line">flexible_line</el-dropdown-item>
                   </el-dropdown-menu>
               </el-dropdown>
 <!--              创建图形-->
@@ -160,17 +171,22 @@
       </div>
     </div>
 <!--container-->
-    <el-container style="height:550px;border: 1px solid #eee">
+    <el-container style="height:590px;border: 1px solid #eee">
 <!--leftsider-->
       <el-aside :width="leftAsideWidth" class="aside-div clear" style="background-color: #FBFBFB;padding-right: 20px">
         <el-scrollbar style="height: 100%;width: 100%;float: left;">
           <div class="left-top">
-            <el-input
-                    placeholder="请输入内容"
-                    prefix-icon="el-icon-search"
-                    style="user-select: none"
-                    v-model="icon_search">
-            </el-input>
+<!--            <el-input-->
+<!--                    placeholder="请输入内容"-->
+<!--                    prefix-icon="el-icon-search"-->
+<!--                    style="user-select: none"-->
+<!--                    v-model="icon_search">-->
+<!--            </el-input>-->
+              <el-button
+                      style="width: 100%"
+              >
+                  add your element
+              </el-button>
           </div>
           <left-side-bar v-on:createShapeInForm2="createShape"></left-side-bar>
         </el-scrollbar>
@@ -249,7 +265,7 @@
     </el-container>
 <!--footer-->
     <el-container>
-      <el-footer style="text-align: right; font-size: 12px">
+      <el-footer style="background-color:#FBFBFB;height:29px;text-align: right; font-size: 12px">
       </el-footer>
     </el-container>
 
@@ -265,7 +281,7 @@
   import rightSideBar from "@/components/rightSideBar";
   import RightSideBar from "@/components/rightSideBar";
   import IconBase from "@/components/icon/iconBase";
-
+  import "@/assets/style/style.css"
   import GlobalTextEditor from "./components/integratedEditor.vue";
   import editorToolbar from "./components/toolbar.vue";
   import {create_Action_Before} from "@/js/action/create_action";
@@ -294,6 +310,7 @@
   import {updateState} from "./js/action/actionQueue";
   import {updateStyle, updateStyleDia} from "./js/canvas/operation/canvas_style_operation";
   import {getCoreList} from "./js/element/core/core_queue";
+  import {set_dotted_line_type_Before, set_line_type_Before} from "./js/util/setLineType";
   export default {
     name: "test",
     components: {
@@ -380,6 +397,13 @@
           }
       },
     methods:{
+        handleArrowStyle(e){
+            // console.log(e);
+            set_dotted_line_type_Before(e);
+        },
+        handleLineType(e){
+            set_line_type_Before(e);
+        },
         get_file_name(){
           return this.file_name;
         },
@@ -480,6 +504,10 @@
                 // parser.updateStyle({"padding-left":padding_left})
                 // parser.updateStyle({"padding-right":padding_left})
                 // parser.updateStyle({"padding-bottom":padding_top})
+                parser.updateStyle({"padding-top":padding_top})
+                parser.updateStyle({"padding-left":padding_left})
+                parser.updateStyle({"padding-right":padding_left})
+                parser.updateStyle({"padding-bottom":padding_top})
                 parser.updateStyle({"height":height+'px'})
                 parser.updateStyle({"width":width+'px'})
             }else{
@@ -736,10 +764,7 @@
   .el-aside {
     color: #333;
   }
-  *{
-    margin: 0;
-    padding: 0;
-  }
+
   .left{
     float: left;
   }
@@ -772,6 +797,7 @@
   .OperationBar{
       padding-left:10px;
       line-height: 30px;
+      height: 30px;
   }
   .icon{
       padding-left: 8px;

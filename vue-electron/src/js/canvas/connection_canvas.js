@@ -5,6 +5,7 @@ import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation"
 import {getHoverPosition} from "@/svgParser/hoverProcessor";
 import {Connect_point} from "@/js/element/anchor/connect_point";
 import {from_point_remove} from "../element/anchor/arrow_operation";
+import {getHoverMapId} from "../util/getCanvasIdOperation";
 let counter=0;
 export class Connection_canvas {
     constructor() {
@@ -55,6 +56,7 @@ export class Connection_canvas {
             }
         }else{
             for(let i=this.connect_map[g_id]['start'];i<this.connect_map[g_id]['start']+this.connect_map[g_id]['len'];i++){
+                if(this.connect_list[i]===undefined)continue;
                 this.connect_list[i].delete();
             }
             this.connect_list.splice(this.connect_map[g_id]['start'],this.connect_map[g_id]['len'])
@@ -94,6 +96,7 @@ export class Connection_canvas {
 
     show_outline(g_id){
         let g = document.getElementById(g_id);
+        let canvas=document.getElementById(getHoverMapId());
         let copies = []
         if (g===null) return;
         for (var c=g.firstChild; c!==null; c=c.nextSibling) {
@@ -106,21 +109,17 @@ export class Connection_canvas {
             copied.style.strokeDasharray = "2,2";
             copies.push(copied);
         }
-        copies.forEach(c=>g.appendChild(c));
+        copies.forEach(c=>canvas.appendChild(c));
         this.outlineList.push(g_id);
     }
 
     delete_outline(){
-        for(let i=0;i<this.outlineList.length;i++){
-            let g_id=this.outlineList[i];
-            let g = document.getElementById(g_id);
-            let copies = [];
-            if (g===null) return;
-            for (var c=g.firstChild; c!==null; c=c.nextSibling) {
-                if (c._temp) copies.push(c);
-            }
-            copies.forEach(c=>g.removeChild(c));
+        let canvas=document.getElementById(getHoverMapId());
+        let copies = [];
+        for(var c=canvas.firstChild;c!=null;c=c.nextSibling){
+            if(c._temp)copies.push(c);
         }
+        copies.forEach(c=>canvas.removeChild(c));
     }
 
 
@@ -130,7 +129,8 @@ export class Connection_canvas {
             let id=key;
             for(let i=0;i<this.connect_map[id]['len'];i++) {
                 let index = this.connect_map[id]['start'] + i;
-                if(this.connect_list.length<=index)return;
+                // if(this.connect_list.length<=index)return;
+                if(this.connect_list[index]===undefined)continue;
                 this.connect_list[index].delete();
             }
         }

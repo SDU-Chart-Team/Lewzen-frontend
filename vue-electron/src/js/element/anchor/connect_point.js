@@ -54,7 +54,7 @@ export class Connect_point {
         this.x=rp[0];
         this.y=rp[1];
         node.setAttribute("r",5);
-        node.setAttribute("fill","lightblue")
+        node.setAttribute("style","fill:rgba(173,216,230,0.6);stroke:lightblue;stroke-width:1;opacity:0.9")
         node.onmouseenter=function(e){
                 signal_arrow(that.g_id,that.a_id,{type:"auto",x:rp[0],y:rp[1]})
         }

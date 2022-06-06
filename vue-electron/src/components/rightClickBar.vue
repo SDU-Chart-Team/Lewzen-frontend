@@ -147,5 +147,7 @@
     top: 100px;
     height: 200px;
     width:200px;
+    border: #e9e9e9 1px solid;
+    background-color: #fbfbfb;
 }
 </style>
