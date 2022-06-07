@@ -200,7 +200,7 @@
                           addLinearGradient(list[i]);
                       }
                   }
-                  // initCanvasState();
+                  initCanvasState();
                   // console.log(json)
                   updateState({json:json})
                   P("load",{json:json['json']})

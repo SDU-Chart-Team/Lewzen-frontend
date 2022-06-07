@@ -8,6 +8,7 @@ import './css/iconfont.css'
 import './scripts/mathml.css'
 import './scripts/registerEditorPlugins'
 import VueSocketIO from 'vue-socket.io';
+
 Vue.use(ElementUI)
 // Vue.use(new VueSocketIO({
 //   debug:false,

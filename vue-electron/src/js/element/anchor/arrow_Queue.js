@@ -378,6 +378,7 @@ class Arrow_Queue {
 
     BeforeDeleteLine(g_id){//删除line之前要进行的操作
         let arrow=this.arrowList[g_id];
+        if(arrow===undefined)return;
         if(arrow['from_id']!==undefined){
             let val={
                 command:"arrow_from_null",

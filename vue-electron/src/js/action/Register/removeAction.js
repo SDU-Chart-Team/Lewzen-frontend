@@ -37,7 +37,10 @@ export class RemoveAction extends Base_action{
     }
 
     forward(){
+        P("cursors",{ids:this.msg['ids']})
+        this.msg['time']=getActionCounter();
         P("remove",this.msg);
+
     }
 
     backward(){
@@ -62,6 +65,8 @@ export class RemoveAction extends Base_action{
 
 export function createRemoveAction(msg,flag){//time,id
     let val={}
+
+
     val["command"]="remove";
     val['time']=msg['time'];
     // val['id']=msg['id'];

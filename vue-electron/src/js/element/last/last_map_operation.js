@@ -89,8 +89,26 @@ export function init_canvas(){
         }
     }
     init_canvas_right_menu()
+    init_canvas_enter()
 
 }
+let inSvgFlag=false;
+export function set_svg_flag(flag){
+    inSvgFlag=flag;
+}
+export function get_svg_flag(){
+    return inSvgFlag;
+}
+function init_canvas_enter(){
+    let node=document.getElementById("main_canvas");
+    node.onmouseenter=function () {
+        set_svg_flag(true);
+    }
+    node.onmouseleave=function () {
+        set_svg_flag(false);
+    }
+}
+
 function init_canvas_right_menu() {
     let svg=document.getElementById(getMySvg());
     svg.oncontextmenu=function (e) {

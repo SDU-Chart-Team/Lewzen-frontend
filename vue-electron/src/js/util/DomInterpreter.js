@@ -9,7 +9,7 @@ export function parserCmd(cmd){
     let id=getMySvg();
     let root=document.getElementById(id);
     // console.log(domCmd);
-    interpreter(root,domCmd);
+    interpreterDom(root,domCmd);
     // for(let i=0;i<cmd.length;i++){
     //     let control=cmd[i];
     //     control=Trim(control);
@@ -35,7 +35,7 @@ export function parserCmd(cmd){
 }
 
 
-function interpreter(root, cmds){
+export function interpreterDom(root, cmds){
     let i = 0;
     let next_parameter = () => {
         let j = i;
@@ -77,7 +77,7 @@ function interpreter(root, cmds){
                 current.removeChild(current.childNodes[index]);
                 break;
             case 'append':
-                let xml = next_string(Number(next_parameter(i)));
+                let xml = unescape(next_string(Number(next_parameter(i))));
                 // xml=reverseUTF8(xml)
                 current.insertAdjacentHTML('beforeend', xml);
                 console.log(current.id);

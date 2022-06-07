@@ -7,8 +7,8 @@ export class GetRectAction extends Base_action{
         super(type)
         this.cmd=cmd;
         this.msg=msg;
-        // console.log(cmd);
-        // console.log(msg);
+        console.log(cmd);
+        console.log(msg);
     }
 
     before(){
@@ -17,7 +17,7 @@ export class GetRectAction extends Base_action{
 
     after(){
         let msg={}
-        if(msg['status']==="!succeed"){
+        if(this.msg['status']==="!succeed"){
             msg['flag']=true;
             msg['x']=this.msg['rect']['x']
             msg['y']=this.msg['rect']['y']

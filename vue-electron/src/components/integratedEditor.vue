@@ -17,6 +17,7 @@
             :mode="mode"
             @onCreated="onCreated"
             @onChange="handleBlur"
+            :disabled="text_flag"
     />
   </div>
 </template>
@@ -39,6 +40,8 @@
     components: {Editor, Toolbar},
     mounted() {
       window.set_html_bar=this.setValueHtml;
+      window.set_text_flag=this.set_text_flag;
+      window.get_text_flag=this.get_text_flag;
       // setTimeout(()=>{
       //   this.valueHtml = '<p>hello</p>';
       //   console.log('on mounted')
@@ -48,6 +51,7 @@
     props: {},
     data() {
       return {
+        text_flag:true,
         editor: null,
         valueHtml: "",
         valueHtml_last:"",
@@ -108,6 +112,17 @@
       };
     },
     methods: {
+      set_text_flag(flag){
+        this.text_flag=flag;
+        if(!flag){
+          this.setEnable();
+        }else{
+          this.setDisabled()
+        }
+      },
+      get_text_flag(flag){
+        return flag;
+      },
       onCreated(editor) {
         this.editor = Object.seal(editor); // 一定要用 Object.seal() ，否则会报错
         // console.log(this.editor.getAllMenuKeys());
@@ -151,9 +166,15 @@
       handleBlur() {
         // emit the event:editorBlur for the parent component
         updateState({html:this.valueHtml_last})
-        P("set_html",{html:this.valueHtml})
+        P("set_html",{html:escape(this.valueHtml)})
         this.valueHtml_last=this.valueHtml;
         this.$emit("editorBlur");
+      },
+      setDisabled(){
+        this.editor.disable();
+      },
+      setEnable(){
+        this.editor.enable();
       },
       setValueHtml(value){
         // setTimeout(()=>{

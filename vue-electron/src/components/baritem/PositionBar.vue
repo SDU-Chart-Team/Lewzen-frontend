@@ -58,14 +58,14 @@
                     this.element_left='';
                 }else{
                     this.isArrange=false;
-                    this.element_left=msg['x'];
-                    this.element_top=msg['y'];
-                    this.element_height=msg['height']
-                    this.element_width=msg['width']
-                    this.element_left_last=msg['x'];
-                    this.element_top_last=msg['y'];
-                    this.element_height_last=msg['height']
-                    this.element_width_last=msg['width']
+                    this.element_left=parseInt(msg['x']);
+                    this.element_top=parseInt(msg['y']);
+                    this.element_height=parseInt(msg['height'])
+                    this.element_width=parseInt(msg['width'])
+                    this.element_left_last=parseInt(msg['x']);
+                    this.element_top_last=parseInt(msg['y']);
+                    this.element_height_last=parseInt(msg['height'])
+                    this.element_width_last=parseInt(msg['width'])
                 }
             },
             updatePosition(){

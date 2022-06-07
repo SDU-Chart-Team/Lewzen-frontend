@@ -20,6 +20,7 @@
     "echarts": "^5.3.2",
     "element-ui": "^2.15.6",
     "file-loader": "^6.2.0",
+    "fs": "^0.0.1-security",
     "net": "^1.0.2",
     "path": "^0.12.7",
     "raw-loader": "^4.0.2",

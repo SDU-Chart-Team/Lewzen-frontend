@@ -1,0 +1,8 @@
+{
+  "component":[
+    {
+      "url": "../main/newjson/big_arrow_left_js.json",
+      "svg": "../main/svg/big_arrow_left.svg"
+    }
+  ]
+}
