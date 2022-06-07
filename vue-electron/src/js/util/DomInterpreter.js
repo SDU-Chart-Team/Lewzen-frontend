@@ -176,7 +176,7 @@ export function interpreterDom(root, cmds){
                     // console.log(node.scrollHeight)
                     let top=parseInt(node.scrollTop)-parseInt(tmp[1])+parseInt(d[1]);
                     let left=parseInt(node.scrollLeft)-parseInt(tmp[0])+parseInt(d[0]);
-                    // set_coordinate_canvas(left,top);
+                    set_coordinate_canvas(parseInt(tmp[0]),parseInt(tmp[1]));
 
                     // console.log(node.getAttribute(""))
 

@@ -224,7 +224,10 @@
                       id="elementManageButton"
 
               >
-                  add your element
+                  <a href="myprotocol://">
+                      add your element
+                  </a>
+
               </el-button>
           </div>
           <left-side-bar  v-on:createShapeInForm2="createShape"></left-side-bar>
@@ -951,5 +954,32 @@
         /*width:350px;*/
         background-color:#FBFBFB
     }
+
+  /*去除a标签下划线*/
+  a {
+      text-decoration: none;
+  }
+  /*去除未被访问的a标签的下划线*/
+  a:link {
+      text-decoration: none;
+  }
+  /*去除已经被访问过的a标签的下划线*/
+  a:visited {
+      text-decoration: none;
+  }
+  /*去除鼠标悬停时的a标签的下划线*/
+  a:hover {
+      text-decoration: none;
+  }
+  /*去除正在点击的a标签的下划线（鼠标按下，尚未松开）*/
+  a:active {
+      text-decoration: none;
+  }
+  /*去除获得焦点的a标签的下划线（被鼠标点击过）*/
+  a:focus {
+      text-decoration: none;
+  }
+
+
 </style>
 

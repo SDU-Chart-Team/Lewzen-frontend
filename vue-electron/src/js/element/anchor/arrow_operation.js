@@ -11,6 +11,7 @@ import {createArrowFromAction} from "../../action/ComponentLinear/setArrowFromAc
 import {createArrowToAction} from "../../action/ComponentLinear/setArrowToAction";
 import {getArrow} from "./arrow_Queue";
 import {createArrowToNullAction} from "../../action/ComponentLinear/setArrowToNullAction";
+import {get_coordinate_canvas} from "../last/last_map_operation";
 
 let counter=0;
 class Arrow_operation {
@@ -86,7 +87,8 @@ class Arrow_operation {
             svg.onmousemove=function (e) {
                 // line.setAttribute("x2",e.offsetX);
                 // line.setAttribute("y2",e.offsetY);
-                P("set_end",{x:e.offsetX,y:e.offsetY})
+                let canvas_xy=get_coordinate_canvas();
+                P("set_end",{x:e.offsetX+canvas_xy['x'],y:e.offsetY+canvas_xy['y']})
                 P("get_p",{})
                 end_x=e.offsetX;
                 end_y=e.offsetY;
