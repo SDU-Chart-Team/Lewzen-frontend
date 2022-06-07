@@ -142,13 +142,17 @@ export class Connection_canvas {
         let x=parseFloat(msg['x']),y=parseFloat(msg['y']);
         console.log(x,y)
         let list=[]
+        let minn=100000;
         for(let i=0;i<this.connect_list.length;i++){
             let point=this.connect_list[i].get_point();
             let x1=parseFloat(point['x'])
             let y1=parseFloat(point['y'])
             // console.log(x1,y1);
             // console.log((x-x1)*(x-x1)+(y-y1)*(y-y1))
-            if((x-x1)*(x-x1)+(y-y1)*(y-y1)<80){
+            if((x-x1)*(x-x1)+(y-y1)*(y-y1)<50){
+                if((x-x1)*(x-x1)+(y-y1)*(y-y1)<=minn){
+                    list=[];
+                }
                 list.push(this.connect_list[i]);
             }
         }

@@ -87,6 +87,9 @@ let aliasCounter={
     entity_circle:0,
 
     line:0,
+    rectangle_scriptable:0,
+    rectangle_text:0,
+    sub_topic:0,
 }
 //rectangle_1;link;rectangle_2
 class Module_tree {

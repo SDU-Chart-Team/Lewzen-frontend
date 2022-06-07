@@ -236,8 +236,12 @@ let create_List={
     107:'generalize_all',
     108:'bind',
     109:'entity_circle',
-
     30:'line',
+
+    150:'rectangle_text',
+    151:'sub_topic',
+
+    1000:'rectangle_scriptable'
 }
 export function createAddAction(msg,flag){//type,x,y
     let val={}

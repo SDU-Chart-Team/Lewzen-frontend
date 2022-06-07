@@ -222,7 +222,7 @@
               <el-button
                       style="width: 100%;"
                       id="elementManageButton"
-                      @click="addElementUser"
+
               >
                   add your element
               </el-button>
@@ -447,24 +447,6 @@
           }
       },
     methods:{
-        addElementUser(){
-                let url="../config/config.json";
-                let request=new XMLHttpRequest();
-                request.open("get",url);
-                request.send(null);
-                console.log(request);
-                request.onload=function(){
-                    if(request.status===200){
-                        let json=JSON.parse(request.responseText);
-                        console.log(json);
-                        // let component=json[]
-
-
-                    }else{
-                        // console.log(1111);
-                    }
-                }
-        },
 
 
         handleArrowStyle(e){
