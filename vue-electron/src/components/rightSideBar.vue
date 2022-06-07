@@ -23,13 +23,13 @@
             </el-tab-pane>
 
 
-            <el-tab-pane  name="Menu">
-                <span slot="label"><i class="el-icon-menu"></i></span>
-                <div class="menu">
-                    Theme
-                </div>
-                <diagram-style-bar></diagram-style-bar>
-            </el-tab-pane>
+<!--            <el-tab-pane  name="Menu">-->
+<!--                <span slot="label"><i class="el-icon-menu"></i></span>-->
+<!--                <div class="menu">-->
+<!--                    Theme-->
+<!--                </div>-->
+<!--                <diagram-style-bar></diagram-style-bar>-->
+<!--            </el-tab-pane>-->
 
 
             <!--  Diagram栏的设置      -->
@@ -259,7 +259,7 @@
         data() {
             return {
                 activeName: 'Line',
-                activeName_element:'Style',
+                activeName_element:'Setting',
                 activeName_graph:'Arrange',
                 activeName_line:"Line",
                 viewList: [],

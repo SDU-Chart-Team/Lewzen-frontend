@@ -48,6 +48,7 @@
             },
             onOffset(){
                 P("on_offset",{})
+                P("get_offset",{})
             },
             offOffset(){
                 P("close_offset",{})
@@ -56,7 +57,7 @@
         data(){
             return{
                 flag:true,
-                isOn:false
+                isOn:true
             }
         }
     }

@@ -736,7 +736,7 @@
         methods: {
             addElementUser(){
                 let that=this;
-                let url="../config/config.json";
+                let url="../main/newjson/config.json";
                 let request=new XMLHttpRequest();
                 request.open("get",url);
                 request.send(null);
@@ -758,34 +758,25 @@
                                 if(request_url.status===200){
                                     let url_item=JSON.parse(request_url.responseText);
                                     console.log(url_item);
-                                    let request_svg=new XMLHttpRequest();
-                                    request_svg.open("get",url_svg)
-                                    request_svg.send(null);
-                                    request_svg.onload=function () {
-                                        if(request_svg.status===200){
-                                            let url_svg=request_svg.responseText;
-                                            console.log(url_svg);
-                                            url_svg="url('data:image/svg+xml;"+url_svg+"');"
-                                            that.user_component_list=url_svg;
-                                            let node=document.createElement("img");
-                                            let bar=document.getElementById("user_component_list");
-                                            let content=bar.getElementsByClassName("el-collapse-item__content")
-                                            node.src=url_svg;
-                                            content[0].appendChild(node);
-                                            node.onclick=function (e) {
-                                                that.createShapeInForm2(1000,0);
-                                                let comp_id=getCoreList()[0];
-                                                console.log(comp_id);
-                                                Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
-                                                var ret = JSON.parse(Module.server_run("{\"command\": \"rect_js_config\", \"config\": " + JSON.stringify(url_item) + "}"));
-                                                var cmd = ret["domcmd"];
-                                                console.log(cmd);
-                                                let id=getMySvg();
-                                                let root=document.getElementById(id);
-                                                interpreterDom(root, cmd);
-
-                                            }
-                                        }
+                                    console.log(url_svg);
+                                    that.user_component_list=url_svg;
+                                    let node=document.createElement("img");
+                                    node.setAttribute("style","width: 40px; height: 30px")
+                                    let bar=document.getElementById("user_component_list");
+                                    let content=bar.getElementsByClassName("el-collapse-item__content")
+                                    node.src=url_svg;
+                                    content[0].appendChild(node);
+                                    node.onclick=function (e) {
+                                        that.createShapeInForm2(1000,0);
+                                        let comp_id=getCoreList()[0];
+                                        console.log(comp_id);
+                                        Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+                                        var ret = JSON.parse(Module.server_run("{\"command\": \"rect_js_config\", \"config\": " + JSON.stringify(url_item) + "}"));
+                                        var cmd = ret["domcmd"];
+                                        console.log(cmd);
+                                        let id=getMySvg();
+                                        let root=document.getElementById(id);
+                                        interpreterDom(root, cmd);
                                     }
                                 }
                             }

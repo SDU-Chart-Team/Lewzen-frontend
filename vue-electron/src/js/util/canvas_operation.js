@@ -65,7 +65,7 @@ export function set_move_center(){
     // console.log(scrollLeft);
     // console.log(width)
     // console.log(height)
-    return{x:scrollLeft+width/2,y:scrollTop+height/2};
+    return{x:width/2,y:height/2};
 }
 
 export function cancel_shape_create(){
