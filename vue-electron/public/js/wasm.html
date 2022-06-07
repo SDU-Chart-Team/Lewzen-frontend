@@ -75,7 +75,45 @@
     var add_component = (comp_name) => {
       var ret = JSON.parse(Module.server_run("{\"command\": \"add\", \"type\": \"" + comp_name + "\"}"));
       var cmd = ret["domcmd"];
-      document.comp_ids.push(ret["returns"][0]["id"]);
+      document.comp_ids = document.comp_ids.concat(ret["returns"][0]["ids"]);
+      interpret(document.svg, cmd);
+    }
+    var get_points = (comp_id) => {
+      Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+      var ret = JSON.parse(Module.server_run("{\"command\": \"get_points\"}"));
+      var cmd = ret["domcmd"];
+      console.log(ret["returns"][0]["points"]);
+      interpret(document.svg, cmd);
+    }
+    var copy_component = (comp_id) => {
+      Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+      var ret = JSON.parse(Module.server_run("{\"command\": \"copy\"}"));
+      var cmd = ret["domcmd"];
+      document.comp_ids = document.comp_ids.concat(ret["returns"][0]["ids"]);
+      interpret(document.svg, cmd);
+    }
+    var readd_component = () => {
+      var ret = JSON.parse(Module.server_run("{\"command\": \"readd\"}"));
+      var cmd = ret["domcmd"];
+      document.comp_ids = document.comp_ids.concat(ret["returns"][0]["ids"]);
+      interpret(document.svg, cmd);
+    }
+    var remove_component = (comp_id, time) => {
+      Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+      var ret = JSON.parse(Module.server_run("{\"command\": \"remove\", \"time\": " + time + "}"));
+      var cmd = ret["domcmd"];
+      var index = document.comp_ids.indexOf(comp_id);
+      if (index !== -1) document.comp_ids.splice(index, 1);
+      interpret(document.svg, cmd);
+    }
+    var remove_all = (time) => {
+      //while (document.comp_ids.length > 0) {
+      //  remove_component(document.comp_ids[0], time);
+      //}
+      Module.server_run("{\"command\": \"cursors\", \"ids\": " + JSON.stringify(document.comp_ids) + "}");
+      var ret = JSON.parse(Module.server_run("{\"command\": \"remove\", \"time\": " + time + "}"));
+      var cmd = ret["domcmd"];
+      document.comp_ids = []
       interpret(document.svg, cmd);
     }
     var move_component = (comp_id, dx, dy) => {
@@ -84,10 +122,73 @@
       var cmd = ret["domcmd"];
       interpret(document.svg, cmd);
     }
+    var move_point = (comp_id, pid, dx, dy) => {
+      var ret = JSON.parse(Module.server_run("{\"command\": \"move_point\", \"id\": \"" + comp_id + "\", \"pid\": \"" + pid + "\", \"dx\": " + dx + ", \"dy\": " + dy + "}"));
+      var cmd = ret["domcmd"];
+      interpret(document.svg, cmd);
+    }
+    var rotate_component = (comp_id, theta) => {
+      Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+      var ret = JSON.parse(Module.server_run("{\"command\": \"set_theta\", \"theta\": " + theta + "}"));
+      var cmd = ret["domcmd"];
+      interpret(document.svg, cmd);
+    }
+    var link_component = (comp_id1, comp_id2) => {
+      var ret = JSON.parse(Module.server_run("{\"command\": \"link\", \"id1\": \"" + comp_id1 + "\", \"id2\": \"" + comp_id2 + "\"}"));
+      var cmd = ret["domcmd"];
+      interpret(document.svg, cmd);
+    }
+    var unlink_component = (comp_id1, comp_id2) => {
+      var ret = JSON.parse(Module.server_run("{\"command\": \"unlink\", \"id1\": \"" + comp_id1 + "\", \"id2\": \"" + comp_id2 + "\"}"));
+      var cmd = ret["domcmd"];
+      interpret(document.svg, cmd);
+    }
     var set_html = (comp_id, html) => {
+      Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
       var ret = JSON.parse(Module.server_run("{\"command\": \"set_html\", \"html\": \"" + html + "\"}"));
       var cmd = ret["domcmd"];
       interpret(document.svg, cmd);
+    }
+    var set_linetype = (comp_id) => {
+      Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+      var ret = JSON.parse(Module.server_run("{\"command\": \"set_start_arrow\", \"start_arrow\": \"start_arrow_two_tri\"}"));
+      var cmd = ret["domcmd"];
+      interpret(document.svg, cmd);
+    }
+    var save_json = () => {
+      var ret = JSON.parse(Module.server_run("{\"command\": \"save\"}"));
+      console.log(JSON.stringify(ret["returns"][0]["json"]));
+    }
+    var load_json = (json) => {
+      var json = JSON.stringify(json);
+      var ret = JSON.parse(Module.server_run("{\"command\": \"load\", \"json\": " + json + "}"));
+      var cmd = ret["domcmd"];
+      document.comp_ids = document.comp_ids.concat(ret["returns"][0]["ids"]);
+      interpret(document.svg, cmd);
+    }
+    var config = (comp_id, js_config) => {
+      Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+      var ret = JSON.parse(Module.server_run("{\"command\": \"rect_js_config\", \"config\": " + JSON.stringify(js_config) + "}"));
+      var cmd = ret["domcmd"];
+      interpret(document.svg, cmd);
+    }
+
+    // 压力测试
+    var pressure = {
+      create: function (type, n) {
+        for (var i = 0; i < n; i++) {
+          console.time('add ' + type)
+          add_component(type);
+          console.timeEnd('add ' + type)
+        }
+      },
+      copy: function (comp_id, n) {
+        for (var i = 0; i < n; i++) {
+          console.time('copy ' + comp_id)
+          copy_component(comp_id)
+          console.timeEnd('copy ' + comp_id)
+        }
+      }
     }
 
     // WASM模块
@@ -98,19 +199,101 @@
         document.svg = document.getElementById("svg-parent").childNodes[0];
 
         // 进行测试
-        console.time('add rectangle')
+        /*console.time('add rectangle')
         add_component("rectangle");
         console.timeEnd('add rectangle')
+
+        console.time('add isometric_cube')
+        add_component("isometric_cube");
+        console.timeEnd('add isometric_cube')
 
         console.time('move rectangle')
         move_component(document.comp_ids[0], 100, 200);
         console.timeEnd('move rectangle')
 
+        console.time('move point')
+        move_point(document.comp_ids[1], "Control", 0, -10);
+        console.timeEnd('move point')
+
         console.time('set html')
-        set_html(document.comp_ids[0], '<em>hel11111</em><em>111</em><u><em>111</em></u><u><em>1lo</em></u>');
+        set_html(document.comp_ids[1], '<em>hel11111</em><em>111</em><u><em>111</em></u><u><em>1lo</em></u>');
         console.timeEnd('set html')
+
+        console.time('link')
+        link_component(document.comp_ids[0], document.comp_ids[1])
+        console.timeEnd('link')
+
+        console.time('rotate')
+        rotate_component(document.comp_ids[1], Math.PI / 3);
+        console.timeEnd('rotate')
+
+        console.time('unlink')
+        unlink_component(document.comp_ids[0], document.comp_ids[1]);
+        console.timeEnd('unlink')
+
+        console.time('copy')
+        copy_component(document.comp_ids[1]);
+        console.timeEnd('copy')
+
+        console.time('move rectangle')
+        move_component(document.comp_ids[3], -100, -200);
+        console.timeEnd('move rectangle')
+
+        console.time('remove')
+        remove_component(document.comp_ids[1], 1);
+        console.timeEnd('remove')
+
+        console.time('readd')
+        readd_component();
+        console.timeEnd('readd')
+
+        console.time('remove all')
+        remove_all(1);
+        console.timeEnd('remove all')
+
+        console.time('readd')
+        readd_component();
+        console.timeEnd('readd')
+
+        save_json();*/
+
+        //console.time('load')
+        //var ld = {"comps":[{"alignment":{"horizental":1,"vertical":1},"children":null,"core_points":{"B":{"arrow":"","can_remove":false,"color":"","id":"B","is_virtual":false,"x":-54.83186032926301,"y":332.49284058869046},"L":{"arrow":"","can_remove":false,"color":"","id":"L","is_virtual":false,"x":-154.831860329263,"y":282.49284058869046},"LB":{"arrow":"","can_remove":false,"color":"","id":"LB","is_virtual":false,"x":-154.831860329263,"y":332.49284058869046},"LT":{"arrow":"","can_remove":false,"color":"","id":"LT","is_virtual":false,"x":-154.831860329263,"y":232.49284058869046},"R":{"arrow":"","can_remove":false,"color":"","id":"R","is_virtual":false,"x":45.16813967073699,"y":282.49284058869046},"RB":{"arrow":"","can_remove":false,"color":"","id":"RB","is_virtual":false,"x":45.16813967073699,"y":332.49284058869046},"RT":{"arrow":"","can_remove":false,"color":"","id":"RT","is_virtual":false,"x":45.16813967073699,"y":232.49284058869046},"T":{"arrow":"","can_remove":false,"color":"","id":"T","is_virtual":false,"x":-54.83186032926301,"y":232.49284058869046}},"html":"","modules":["Basics","Flippable","Rectangle","Rotatable","Scalable","Stylized","Writable"],"spacing":{"bottom":0,"global":10,"left":0,"right":0,"top":0},"style":"stroke: black; fill: white; stroke-width: 1px;","theta":1.0471975511965976,"type":"rectangle"},{"alignment":{"horizental":1,"vertical":1},"children":null,"core_points":{"B":{"arrow":"","can_remove":false,"color":"","id":"B","is_virtual":false,"x":50,"y":100},"Control":{"arrow":"","can_remove":false,"color":"orange","id":"Control","is_virtual":false,"x":0,"y":10},"L":{"arrow":"","can_remove":false,"color":"","id":"L","is_virtual":false,"x":0,"y":50},"LB":{"arrow":"","can_remove":false,"color":"","id":"LB","is_virtual":false,"x":0,"y":100},"LT":{"arrow":"","can_remove":false,"color":"","id":"LT","is_virtual":false,"x":0,"y":0},"R":{"arrow":"","can_remove":false,"color":"","id":"R","is_virtual":false,"x":100,"y":50},"RB":{"arrow":"","can_remove":false,"color":"","id":"RB","is_virtual":false,"x":100,"y":100},"RT":{"arrow":"","can_remove":false,"color":"","id":"RT","is_virtual":false,"x":100,"y":0},"T":{"arrow":"","can_remove":false,"color":"","id":"T","is_virtual":false,"x":50,"y":0}},"html":"<em>hel11111</em><em>111</em><u><em>111</em></u><u><em>1lo</em></u>","modules":["Basics","Flippable","Rectangle","Rotatable","Scalable","Stylized","Writable"],"spacing":{"bottom":0,"global":10,"left":0,"right":0,"top":0},"style":"stroke: black; fill: white; stroke-width: 1px;","theta":1.0471975511965976,"type":"isometric_cube"},{"alignment":{"horizental":1,"vertical":1},"children":null,"core_points":{"B":{"arrow":"","can_remove":false,"color":"","id":"B","is_virtual":false,"x":50,"y":100},"Control":{"arrow":"","can_remove":false,"color":"orange","id":"Control","is_virtual":false,"x":0,"y":10},"L":{"arrow":"","can_remove":false,"color":"","id":"L","is_virtual":false,"x":0,"y":50},"LB":{"arrow":"","can_remove":false,"color":"","id":"LB","is_virtual":false,"x":0,"y":100},"LT":{"arrow":"","can_remove":false,"color":"","id":"LT","is_virtual":false,"x":0,"y":0},"R":{"arrow":"","can_remove":false,"color":"","id":"R","is_virtual":false,"x":100,"y":50},"RB":{"arrow":"","can_remove":false,"color":"","id":"RB","is_virtual":false,"x":100,"y":100},"RT":{"arrow":"","can_remove":false,"color":"","id":"RT","is_virtual":false,"x":100,"y":0},"T":{"arrow":"","can_remove":false,"color":"","id":"T","is_virtual":false,"x":50,"y":0}},"html":"<em>hel11111</em><em>111</em><u><em>111</em></u><u><em>1lo</em></u>","modules":["Basics","Flippable","Rectangle","Rotatable","Scalable","Stylized","Writable"],"spacing":{"bottom":0,"global":10,"left":0,"right":0,"top":0},"style":"stroke: black; fill: white; stroke-width: 1px;","theta":1.0471975511965976,"type":"isometric_cube"}],"indices":[0,2,1]};
+        //load_json(ld);
+        //console.timeEnd('load')
+
+        add_component("rectangle_scriptable");
+
+        config(document.comp_ids[0], {
+          "name": "acute_triangle",
+          "size": {
+            "width": 150,
+            "height": 100
+          },
+          "points": [
+            {
+              "pid": "Control",
+              "pos": {
+                "x": 75,
+                "y": 10
+              },
+              "color": "orange",
+              "callback": "if (context.Control.ny != context.y + context.height / 10) context.Control.y = context.y + context.height / 10;\nif (context.Control.nx < context.x) context.Control.x = context.x;\nif (context.Control.nx > context.x + context.width) context.Control.x = context.x + context.width;",
+              "delta": "context.Control.dy = 0;"
+            }
+          ],
+          "before_rect_change": "context.perc = (context.Control.x - context.x) / context.width;",
+          "after_rect_change": "context.Control = {x: context.x + context.width * context.perc, y: context.y + context.height / 10};",
+          "path": "let a = {x: context.x, y: context.y + context.height};\nlet b = {x: context.x + context.width, y: context.y + context.height};\nlet c = {x: context.Control.x, y: context.Control.y};\ncontext.path = \"M \" + a.x + \" \" + a.y + \" L \" + b.x + \" \" + b.y + \" L \" + c.x + \" \" + c.y + \" Z\";"
+        });
+
+        move_component(document.comp_ids[0], 100, 100);
+        //move_point(document.comp_ids[0], "Control", 100, 4);
+        move_point(document.comp_ids[0], "Control", -20, 0);
+        //move_point(document.comp_ids[0], "LB", -30, -10);
+        get_points(document.comp_ids[0]);
       }
     };
   </script>
-  <script src="../../src/js/socket/wasm.js"></script>
+  <script src="wasm.js"></script>
 </html>

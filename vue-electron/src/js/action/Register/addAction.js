@@ -15,7 +15,12 @@ import {guideSet} from "../../canvas/base_canvas";
 import {createGroupAction} from "./groupAction";
 import {getBBox} from "../../util/bboxUtil";
 import {after_register_set} from "../actionQueue";
-import {get_dotted_line_type_Before, get_line_type_Before} from "../../util/setLineType";
+import {
+    get_arrow_end_Before,
+    get_arrow_start_Before,
+    get_dotted_line_type_Before,
+    get_line_type_Before
+} from "../../util/setLineType";
 
 export class AddAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -92,6 +97,9 @@ export class AddAction extends Base_action{
             if(this.type==="line"){
                 P("set_line_type",{line_type:get_line_type_Before()})
                 P("set_dotted_line",{dot_type:get_dotted_line_type_Before()})
+                P("set_start_arrow",{start_arrow:get_arrow_start_Before()})
+                P("set_end_arrow",{end_arrow:get_arrow_end_Before()})
+
 
             }
             guideSet(this.id[i],false);

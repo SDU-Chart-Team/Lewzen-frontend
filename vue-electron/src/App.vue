@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" >
 <!--header-->
     <div>
       <div style="text-align: left; font-size: 12px;height: 70px ;margin-bottom: 5px" class="el-header">
@@ -9,7 +9,7 @@
           </div>
           <div class="head-top-item left">
             <div class="item-top">
-              <div @dblclick="file_name_change=true" v-if="!file_name_change">
+              <div @dblclick="file_name_change=true" id="chart_title" v-if="!file_name_change">
                   {{file_name}}
               </div>
               <el-input
@@ -132,6 +132,43 @@
                       <el-dropdown-item command="flexible_line">flexible_line</el-dropdown-item>
                   </el-dropdown-menu>
               </el-dropdown>
+<!--              start箭头样式-->
+              <el-dropdown @command="handleStartArrowType">
+            <span class="el-dropdown-link">
+                <i class="el-icon-arrow-left icon-left"></i>
+                <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+                  <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item command="start_arrow">start_arrow</el-dropdown-item>
+                      <el-dropdown-item command="start_arrow_circle">start_arrow_circle</el-dropdown-item>
+                      <el-dropdown-item command="start_arrow_line">start_arrow_line</el-dropdown-item>
+                      <el-dropdown-item command="start_arrow_tri_h">start_arrow_tri_h</el-dropdown-item>
+                      <el-dropdown-item command="start_arrow_vline">start_arrow_vline</el-dropdown-item>
+                      <el-dropdown-item command="start_arrow_tri_half">start_arrow_tri_half</el-dropdown-item>
+                      <el-dropdown-item command="start_arrow_two_tri">start_arrow_two_tri</el-dropdown-item>
+                      <el-dropdown-item command="start_arrow_tri">start_arrow_tri</el-dropdown-item>
+                      <el-dropdown-item command="null">null</el-dropdown-item>
+                  </el-dropdown-menu>
+              </el-dropdown>
+
+<!--              end箭头样式-->
+              <el-dropdown @command="handleEndArrowType">
+            <span class="el-dropdown-link">
+                <i class="el-icon-arrow-right icon-left"></i>
+                <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+                  <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item command="end_arrow">end_arrow</el-dropdown-item>
+                      <el-dropdown-item command="end_arrow_circle">end_arrow_circle</el-dropdown-item>
+                      <el-dropdown-item command="end_arrow_line">end_arrow_line</el-dropdown-item>
+                      <el-dropdown-item command="end_arrow_tri_h">end_arrow_tri_h</el-dropdown-item>
+                      <el-dropdown-item command="end_arrow_vline">end_arrow_vline</el-dropdown-item>
+                      <el-dropdown-item command="end_arrow_tri_half">end_arrow_tri_half</el-dropdown-item>
+                      <el-dropdown-item command="end_arrow_two_tri">end_arrow_two_tri</el-dropdown-item>
+                      <el-dropdown-item command="end_arrow_tri">end_arrow_tri</el-dropdown-item>
+                      <el-dropdown-item command="null">null</el-dropdown-item>
+                  </el-dropdown-menu>
+              </el-dropdown>
 <!--              创建图形-->
               <el-dropdown @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -183,24 +220,26 @@
 <!--                    v-model="icon_search">-->
 <!--            </el-input>-->
               <el-button
-                      style="width: 100%"
+                      style="width: 100%;"
+                      id="elementManageButton"
+                      @click="addElementUser"
               >
                   add your element
               </el-button>
           </div>
-          <left-side-bar v-on:createShapeInForm2="createShape"></left-side-bar>
+          <left-side-bar  v-on:createShapeInForm2="createShape"></left-side-bar>
         </el-scrollbar>
         <div @mousedown="mousedown_aside" class="right slider" id="slider" style="line-height: 500px;background-color: #E1E1E1" @mouseenter="mouseenter_aside" @mouseleave="mouseleave_aside">
           <i class="el-icon-caret-right" style="font-size: 20px;vertical-align: center"></i>
         </div>
       </el-aside>
 <!--midcanvas-->
-      <el-main style="padding: 0" id="main_canvas"  class="el-main">
+      <el-main style="padding: 0;" id="main_canvas"  class="el-main">
 <!--        <el-scrollbar style="height:100%">-->
 <!--          <canvas @click="click_canvas" @mouseenter="mouseenter_canvas" @mousemove="mousemove_canvas" @mousedown="mousedown_canvas" @mouseup="mouseup_canvas" id="myCanvas" width="2000" height="1600">-->
 <!--          </canvas>-->
               <div id="myCanvas" >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="svg"  @click="click_canvas" id="mySvg" :width="canvas_width" :height="canvas_height">
+                  <svg xmlns="http://www.w3.org/2000/svg"  class="svg"  @click="click_canvas" id="mySvg" :width="canvas_width" :height="canvas_height">
                       <defs id="myDefs"></defs>
                       <g id="last_map">
                           <rect id="last" :height="canvas_height" :width="canvas_width" style="fill-opacity: 0"></rect>
@@ -257,7 +296,7 @@
 <!--        </el-scrollbar>-->
       </el-main>
 <!--rightsider-->
-      <el-aside id="rightBar" class="aside-div left RightTab" :width="rightWidth" >
+      <el-aside id="rightBar"  class="aside-div left RightTab" :width="rightWidth" >
         <right-side-bar></right-side-bar>
 
       </el-aside>
@@ -265,7 +304,9 @@
     </el-container>
 <!--footer-->
     <el-container>
-      <el-footer style="background-color:#FBFBFB;height:29px;text-align: right; font-size: 12px">
+      <el-footer
+              id="footerBar"
+              style="background-color:#FBFBFB;height:29px;text-align: right; font-size: 12px">
       </el-footer>
     </el-container>
 
@@ -310,7 +351,16 @@
   import {updateState} from "./js/action/actionQueue";
   import {updateStyle, updateStyleDia} from "./js/canvas/operation/canvas_style_operation";
   import {getCoreList} from "./js/element/core/core_queue";
-  import {set_dotted_line_type_Before, set_line_type_Before} from "./js/util/setLineType";
+  import {
+      set_arrow_end_Before,
+      set_arrow_start_Before,
+      set_dotted_line_type_Before,
+      set_line_type_Before
+  } from "./js/util/setLineType";
+
+
+
+
   export default {
     name: "test",
     components: {
@@ -397,6 +447,26 @@
           }
       },
     methods:{
+        addElementUser(){
+                let url="../config/config.json";
+                let request=new XMLHttpRequest();
+                request.open("get",url);
+                request.send(null);
+                console.log(request);
+                request.onload=function(){
+                    if(request.status===200){
+                        let json=JSON.parse(request.responseText);
+                        console.log(json);
+                        // let component=json[]
+
+
+                    }else{
+                        // console.log(1111);
+                    }
+                }
+        },
+
+
         handleArrowStyle(e){
             // console.log(e);
             set_dotted_line_type_Before(e);
@@ -404,6 +474,13 @@
         handleLineType(e){
             set_line_type_Before(e);
         },
+        handleEndArrowType(e){
+            set_arrow_end_Before(e);
+        },
+        handleStartArrowType(e){
+            set_arrow_start_Before(e);
+        },
+
         get_file_name(){
           return this.file_name;
         },

@@ -44,50 +44,22 @@ export class Core_element {
 
         let canvas=document.getElementById(canvas_id);
 
-        // // outline
-        // let g = document.getElementById(this.g_id);
-        // let copies = [];
-        // if (g===null) return;
-        // for (var c=g.firstChild; c!==null; c=c.nextSibling) {
-        //     let id=c.getAttribute("id")
-        //     // console.log(id);
-        //     if(id!==undefined&&id!==null){
-        //         id=id.split('_');
-        //         if(id[id.length-1]==="text"){
-        //             continue;
-        //         }
-        //     }
-        //     let copied = c.cloneNode(true);
-        //     copied._temp_selected = true;
-        //     copied.style.pointerEvents = 'none'
-        //     copied.style.setProperty('fill', 'none', 'important');
-        //     copied.style.setProperty('stroke', 'rgb(64, 158, 255)', 'important');
-        //     copied.style.strokeWidth = "2px";
-        //     copied.style.strokeDasharray = "2,2";
-        //     copies.push(copied);
-        // }
-        // copies.forEach(c=>canvas.appendChild(c));
-        // // rect outline
-        // let out_rect = new Map();
-        // for(let i=0;i<points.length;i++)if(["LT","LB","RT","RB"].includes(points[i].id))out_rect.set(points[i].id,{x:points[i].x,y:points[i].y});
-        // if(out_rect.has("LT")&&out_rect.has("RT")&&out_rect.has("RB")&&out_rect.has("LB")){
-        //     let node=createElementByTag("path");
-        //     let pos=[];out_rect.forEach((v,k)=>{pos.push(v.x+" "+v.y)});
-        //     // node._temp_selected = true;
-        //     node.id = this.g_id+"_outline";
-        //     node.setAttribute("d", "M " + pos.join(" L ") + " Z");
-        //     node.style.pointerEvents = 'none';
-        //     node.style.setProperty('fill', 'none', 'important');
-        //     node.style.setProperty('stroke', 'rgb(64, 158, 255)', 'important');
-        //     node.style.strokeWidth = "2px";
-        //     node.style.strokeDasharray = "2,2";
-        //     console.log(node);
-        //     // console.log(1111);
-        //     canvas.appendChild(node);
-        //     console.log(canvas.childNodes);
-        // }
-        //
-        // console.log(points);
+        // rect outline
+        let out_rect = new Map();
+        for(let i=0;i<points.length;i++)if(["LT","LB","RT","RB"].includes(points[i].id))out_rect.set(points[i].id,{x:points[i].x,y:points[i].y});
+        if(out_rect.has("LT")&&out_rect.has("RT")&&out_rect.has("RB")&&out_rect.has("LB")){
+            let node=createElementByTag("path");
+            let pos=[];out_rect.forEach((v,k)=>{pos.push(v.x+" "+v.y)});
+            node.id = this.g_id+"_outline";
+            node.setAttribute("d", "M " + pos.join(" L ") + " Z");
+            node.style.pointerEvents = 'none';
+            node.style.setProperty('fill', 'none', 'important');
+            node.style.setProperty('stroke', 'rgb(64, 158, 255)', 'important');
+            node.style.strokeWidth = "2px";
+            node.style.strokeDasharray = "2,2";
+            canvas.appendChild(node);
+        }
+
         for(let i=0;i<points.length;i++){
             let core_id=points[i].comp_id+"_"+points[i].id;
             let x=points[i].x;
@@ -403,13 +375,9 @@ export class Core_element {
         let node=document.getElementById(this.g_id+"rotate")
         if(node!==null) node.setAttribute("style","display:none")
 
-        // // outline
-        // let g = document.getElementById(getKeyMapId());
-        // for (var c=g.firstChild; c!==null; c=c.nextSibling) {
-        //     if (c._temp_selected) c.setAttribute("style","display:none");
-        // }
-        // let outrect=document.getElementById(this.g_id+"_outline");
-        // if(outrect!==null) outrect.setAttribute("style","display:none")
+        // outline
+        let outrect=document.getElementById(this.g_id+"_outline");
+        if(outrect!==null) outrect.setAttribute("style","display:none")
     }
 
     updateMovePStyle(core_id,move_x,move_y){
@@ -446,12 +414,8 @@ export class Core_element {
         this.setMoveLinear();
 
         // outline
-        // let g = document.getElementById(getKeyMapId());
-        // for (var c=g.firstChild; c!==null; c=c.nextSibling) {
-        //     if (c._temp_selected) c.setAttribute("style","display:none");
-        // }
-        // let outrect=document.getElementById(this.g_id+"_outline");
-        // if(outrect!==null) outrect.setAttribute("style","display:none")
+        let outrect=document.getElementById(this.g_id+"_outline");
+        if(outrect!==null) outrect.setAttribute("style","display:none")
     }
 
     setMoveLinear(){
@@ -580,10 +544,6 @@ export class Core_element {
         }
 
         // outline
-        let g = document.getElementById(this.g_id);
-        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
-            if (c._temp_selected) c.setAttribute("style","display:none");
-        }
         let outrect=document.getElementById(this.g_id+"_outline");
         if(outrect!==null) outrect.setAttribute("style","display:none")
     }
@@ -597,10 +557,6 @@ export class Core_element {
         }
 
         // outline
-        let g = document.getElementById(this.g_id);
-        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
-            if (c._temp_selected) c.setAttribute("style","display:block");
-        }
         let outrect=document.getElementById(this.g_id+"_outline");
         if(outrect!==null) outrect.setAttribute("style","display:block")
     }

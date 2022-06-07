@@ -96,30 +96,24 @@ export class Connection_canvas {
 
     show_outline(g_id){
         let g = document.getElementById(g_id);
-        let canvas=document.getElementById(getHoverMapId());
-        let copies = []
         if (g===null) return;
-        for (var c=g.firstChild; c!==null; c=c.nextSibling) {
-            let copied = c.cloneNode(true);
-            copied._temp = true;
-            copied.style.pointerEvents = 'none'
-            copied.style.setProperty('fill', 'none', 'important');
-            copied.style.setProperty('stroke', 'rgb(64, 158, 255)', 'important');
-            copied.style.strokeWidth = "1px";
-            copied.style.strokeDasharray = "2,2";
-            copies.push(copied);
-        }
-        copies.forEach(c=>canvas.appendChild(c));
+        let copied = g.cloneNode(true);
+        copied.id = g_id + '_hoverline';
+        copied.style.pointerEvents = 'none'
+        copied.style.setProperty('fill', 'none', 'important');
+        copied.style.setProperty('stroke', 'rgb(64, 158, 255)', 'important');
+        copied.style.strokeWidth = "1px";
+        copied.style.strokeDasharray = "2,2";
+        let canvas=document.getElementById(getHoverMapId());
+        canvas.appendChild(copied);
         this.outlineList.push(g_id);
     }
 
     delete_outline(){
-        let canvas=document.getElementById(getHoverMapId());
-        let copies = [];
-        for(var c=canvas.firstChild;c!=null;c=c.nextSibling){
-            if(c._temp)copies.push(c);
-        }
-        copies.forEach(c=>canvas.removeChild(c));
+        this.outlineList.forEach((id) => {
+            let copied = document.getElementById(id + '_hoverline');
+            if (copied && copied.parentNode) copied.parentElement.removeChild(copied);
+        })
     }
 
 
@@ -154,7 +148,7 @@ export class Connection_canvas {
             let y1=parseFloat(point['y'])
             // console.log(x1,y1);
             // console.log((x-x1)*(x-x1)+(y-y1)*(y-y1))
-            if((x-x1)*(x-x1)+(y-y1)*(y-y1)<300){
+            if((x-x1)*(x-x1)+(y-y1)*(y-y1)<80){
                 list.push(this.connect_list[i]);
             }
         }

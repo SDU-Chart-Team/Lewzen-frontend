@@ -4,6 +4,9 @@ import {getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
 import {P, updateState} from "@/js/action/actionQueue";
 import {getAncestorAll} from "@/js/element/module/module_tree";
 import {saveAsHTML, saveAsImage} from "../util/fileOperation";
+import {getAllModules} from "../element/module/module_queue";
+import {backAction, forwardAction, getActionCounter} from "../action/actionQueue";
+import {get_svg_flag} from "../element/last/last_map_operation";
 
 
 let key_code_map={}
@@ -26,17 +29,23 @@ export function initKey(){
             }
         }else if(e.keyCode===99){//3
             if(e.ctrlKey){
-                canvas_scale_down()
+                if(get_svg_flag()){
+                    canvas_scale_down()
+                }
             }
         }else if(e.keyCode===67){//c
             if(e.ctrlKey){
-                ctrlC();
-                e.preventDefault();
+                if(get_svg_flag()){
+                    ctrlC();
+                    e.preventDefault();
+                }
             }
         }else if(e.keyCode===86){//v
             if(e.ctrlKey){
-                ctrlV();
-                e.preventDefault();
+                if(get_svg_flag()){
+                    ctrlV();
+                    e.preventDefault();
+                }
             }
         }else if(e.keyCode===83){//s
             if(e.ctrlKey){
@@ -57,6 +66,63 @@ export function initKey(){
             if(e.ctrlKey){
                 saveAsImage();
                 e.preventDefault();
+            }
+        }else if(e.keyCode===65){//a
+            if(e.ctrlKey){
+                if(get_svg_flag()){
+                    let list=getAllModules();
+                    P("cursors",{ids:list})
+                }
+            }
+        }else if(e.keyCode===89){//y;
+            if(e.ctrlKey){
+                if(get_svg_flag()){
+                    forwardAction();
+                }
+            }
+        }else if(e.keyCode===90){//z;
+            if(e.ctrlKey){
+                if(get_svg_flag()){
+                    backAction();
+                }
+            }
+        }else if(e.keyCode===8){
+            if(get_svg_flag()){
+                let time= getActionCounter();
+                P("remove",{time:time})
+            }
+        }else if(e.keyCode===37){
+            if(get_svg_flag()){
+                let node=document.getElementById("main_canvas");
+                let top=parseInt(node.scrollTop)
+                let left=parseInt(node.scrollLeft)-1;
+                node.scrollTop=top;
+                node.scrollLeft=left;
+
+            }
+        }else if(e.keyCode===38){
+            if(get_svg_flag()){
+                let node=document.getElementById("main_canvas");
+                let top=parseInt(node.scrollTop)-1;
+                let left=parseInt(node.scrollLeft);
+                node.scrollTop=top;
+                node.scrollLeft=left;
+            }
+        }else if(e.keyCode===39){
+            if(get_svg_flag()){
+                let node=document.getElementById("main_canvas");
+                let top=parseInt(node.scrollTop)
+                let left=parseInt(node.scrollLeft)+1;
+                node.scrollTop=top;
+                node.scrollLeft=left;
+            }
+        }else if(e.keyCode===40){
+            if(get_svg_flag()){
+                let node=document.getElementById("main_canvas");
+                let top=parseInt(node.scrollTop)+1;
+                let left=parseInt(node.scrollLeft);
+                node.scrollTop=top;
+                node.scrollLeft=left;
             }
         }
     }

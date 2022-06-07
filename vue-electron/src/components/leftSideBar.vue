@@ -1,6 +1,6 @@
 <template>
 
-            <el-collapse v-model="activeNames">
+            <el-collapse v-model="activeNames" >
                 <el-collapse-item style="background-color: #FBFBFB" class="item" title="General" name="1">
                     <el-image
                             :src="require('@/assets/circle.png')"
@@ -730,7 +730,7 @@
     user-select: none;
     padding-left: 10px;
     text-align: left;
-    background-color: #FBFBFB;
+    /*background-color: black !important;*/
 }
 .el-container{
     padding:0;
@@ -747,4 +747,6 @@
     margin-bottom: 0;
     width: 50%;
 }
+
+
 </style>

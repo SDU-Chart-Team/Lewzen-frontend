@@ -77,7 +77,7 @@ function interpreter(root, cmds){
                 current.removeChild(current.childNodes[index]);
                 break;
             case 'append':
-                let xml = next_string(Number(next_parameter(i)));
+                let xml = unescape(next_string(Number(next_parameter(i))));
                 // xml=reverseUTF8(xml)
                 current.insertAdjacentHTML('beforeend', xml);
                 console.log(current.id);

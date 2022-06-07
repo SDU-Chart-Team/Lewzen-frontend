@@ -131,7 +131,7 @@ class ActionQueue {
         V();
         if(this.filter(action)) {
             if(before_register_get()){
-                console.log(111);
+                // console.log(111);
                 push_before_action(action);
                 before_register_set(false);
             }else if(after_register_get()){

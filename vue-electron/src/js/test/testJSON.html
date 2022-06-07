@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    window.onload=function () {
+        let url="../../json/demo.json";
+        let request=new XMLHttpRequest();
+        request.open("get",url);
+        request.send(null);
+        request.onload=function(){
+            if(request.status===200){
+                let json=JSON.parse(request.responseText);
+                console.log(json);
+            }else{
+                console.log(1111);
+            }
+        }
+    }
+</script>
+</body>
+</html>

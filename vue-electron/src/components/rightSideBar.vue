@@ -363,11 +363,12 @@
                 // this.activeName_element='Style';
                 set_spacing_flag(true)
                 set_alignment_flag(true)
+                set_text_flag(true)
             },
             onText(){
                 set_alignment_flag(false)
                 set_spacing_flag(false)
-
+                set_text_flag(false)
                 // this.textShow=true;
             },
             offRelation(){
