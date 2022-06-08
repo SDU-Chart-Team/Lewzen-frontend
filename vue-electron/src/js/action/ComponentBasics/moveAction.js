@@ -32,15 +32,24 @@ export class MoveAction extends Base_action{
     after(){
         for(let i=0;i<this.ids.length;i++){
             // console.log(this.msg);
+            let node=document.getElementById(this.ids[i]);
+            // console.log(node.getAttribute("style"))
             updateGuide(this.ids[i])
+
             guideSet(this.ids[i])
+            // console.log(node.getAttribute("style"))
             // anchor_update(this.ids[i])
             // update_arrow(this.ids[i])
             update_position_by_gid(this.ids[i])
+            // console.log(node.getAttribute("style"))
             let list=getChildren(this.ids[i])
+            // console.log(node.getAttribute("style"))
+
             for(let j=0;j<list.length;j++){
                 update_position_by_gid(list[j])
             }
+            // console.log(node.getAttribute("style"))
+
         }
     }
 

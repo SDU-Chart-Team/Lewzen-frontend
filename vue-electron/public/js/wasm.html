@@ -263,31 +263,12 @@
         //console.timeEnd('load')
 
         add_component("rectangle_scriptable");
-
-        config(document.comp_ids[0], {
-          "name": "acute_triangle",
-          "size": {
-            "width": 150,
-            "height": 100
-          },
-          "points": [
-            {
-              "pid": "Control",
-              "pos": {
-                "x": 75,
-                "y": 10
-              },
-              "color": "orange",
-              "callback": "if (context.Control.ny != context.y + context.height / 10) context.Control.y = context.y + context.height / 10;\nif (context.Control.nx < context.x) context.Control.x = context.x;\nif (context.Control.nx > context.x + context.width) context.Control.x = context.x + context.width;",
-              "delta": "context.Control.dy = 0;"
-            }
-          ],
-          "before_rect_change": "context.perc = (context.Control.x - context.x) / context.width;",
-          "after_rect_change": "context.Control = {x: context.x + context.width * context.perc, y: context.y + context.height / 10};",
-          "path": "let a = {x: context.x, y: context.y + context.height};\nlet b = {x: context.x + context.width, y: context.y + context.height};\nlet c = {x: context.Control.x, y: context.Control.y};\ncontext.path = \"M \" + a.x + \" \" + a.y + \" L \" + b.x + \" \" + b.y + \" L \" + c.x + \" \" + c.y + \" Z\";"
-        });
-
         move_component(document.comp_ids[0], 100, 100);
+
+        config(document.comp_ids[0],
+                {"name": "big_arrow_left", "size": {"width": 100, "height": 100}, "points": [{"pid": "abc", "pos": {"x": 75.0, "y": 25.0}, "color": "orange", "callback": "if(context.abc.nx < context.x) context.abc.x = context.x;\nif(context.abc.nx > context.x+context.width) context.abc.x = context.x+context.width;\nif(context.abc.ny < context.y) context.abc.y = context.y;\nif(context.abc.ny > context.y+context.height*0.5) context.abc.y = context.y+context.height*0.5;\nif(context.abc.x<context.cde.x){context.abc.x=context.cde.x;}", "delta": ""}, {"pid": "cde", "pos": {"x": 25.0, "y": 50.0}, "color": "orange", "callback": "if(context.cde.nx < context.x) context.cde.x = context.x;\nif(context.cde.nx > context.x+context.width) context.cde.x = context.x+context.width;\nif(context.cde.ny < context.y) context.cde.y = context.y;\nif(context.cde.ny > context.y+context.height) context.cde.y = context.y+context.height;\nif(context.cde.x>context.abc.x){context.cde.x=context.abc.x;}", "delta": "context.cde.dx = 0;"}], "path": "let p0 = {x: context.x, y: context.abc.y};\nlet p1 = {x: context.abc.x, y: context.abc.y};\nlet p2 = {x: context.abc.x, y: context.y};\nlet p3 = {x: context.x+context.width, y: context.y+context.height*0.5};\nlet p4 = {x: context.abc.x, y: context.y+context.height};\nlet p5 = {x: context.abc.x, y: context.y+context.height-context.abc.y+context.y};\nlet p6 = {x: context.x, y: context.y+context.height-context.abc.y+context.y};\nlet p7 = {x: context.cde.x, y: context.cde.y};\nlet p8 = {x: context.x, y: context.abc.y};\ncontext.path = \"M \" + p0.x + \" \" + p0.y + \" \" + \"L \" + p1.x + \" \" + p1.y + \" \" + \"L \" + p2.x + \" \" + p2.y + \" \" + \"L \" + p3.x + \" \" + p3.y + \" \" + \"L \" + p4.x + \" \" + p4.y + \" \" + \"L \" + p5.x + \" \" + p5.y + \" \" + \"L \" + p6.x + \" \" + p6.y + \" \" + \"L \" + p7.x + \" \" + p7.y + \" \" + \"L \" + p8.x + \" \" + p8.y;", "before_rect_change": "context.dxabc = context.abc.x - context.x;context.dyabc = context.abc.y - context.y;context.dycde = context.cde.y - context.y;", "after_rect_change": "context.abc = {x: context.x + context.dxabc, y:context.y+context.height*0.25};context.abc = {x: context.y + context.dyabc, y:context.y+context.height*0.25};context.cde = {x: context.y + context.dycde, y:context.y+context.height*0.5};"}
+        );
+
         //move_point(document.comp_ids[0], "Control", 100, 4);
         move_point(document.comp_ids[0], "Control", -20, 0);
         //move_point(document.comp_ids[0], "LB", -30, -10);

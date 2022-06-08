@@ -18,7 +18,10 @@ function formulaToHtml(elemNode: SlateElement, childrenHtml: string): string {
     // return `<span data-value=${value}>${parseMath(value).outerHTML}</span>`
     let node = parseMath(value)
     node.setAttribute('data-value', value)
-    return `${node.outerHTML}`
+    let math2 = document.createElement('math2')
+    math2.appendChild(node)
+    math2.setAttribute('data-value', value)
+    return `${math2.outerHTML}`
 }
 
 // 配置

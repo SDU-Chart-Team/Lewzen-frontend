@@ -2,6 +2,7 @@ import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {P} from "@/js/action/actionQueue";
 import {canvasAdjust} from "@/js/canvas/base_canvas";
 import {getCoreList} from "@/js/element/core/core_queue";
+import {get_coordinate_canvas} from "../element/last/last_map_operation";
 
 let canvas_scale_counter=1.0
 
@@ -36,14 +37,16 @@ export function set_shape_create(sort){
     var body = document.querySelector("body")
     // body.style.cursor= "move"
     let node=document.getElementById(getMySvg());
+
     node.onmouseenter=function (e) {
         if(shape_create!==undefined){
             // alert(1);
-            P("create",{id:shape_create})
-            move_enter['x']=e.offsetX;
-            move_enter['y']=e.offsetY;
+            let canvas_coor=get_coordinate_canvas();
+            move_enter['x']=e.offsetX+canvas_coor['x'];
+            move_enter['y']=e.offsetY+canvas_coor['y'];
             console.log(e.offsetY,e.offsetX);
             move_flag=true;
+            P("create",{id:shape_create})
             cancel_shape_create()
         }
         // P("create",{id:shape_create})
@@ -61,11 +64,14 @@ export function set_move_center(){
     let scrollLeft=node.scrollLeft;
     let width=node.clientWidth;
     let height=node.clientHeight;
+    let canvas_coor=get_coordinate_canvas();
+    width=scrollLeft+width/2+canvas_coor['x'];
+    height=scrollTop+height/2+canvas_coor['y']
     // console.log(scrollTop);
     // console.log(scrollLeft);
     // console.log(width)
     // console.log(height)
-    return{x:width/2,y:height/2};
+    return{x:width,y:height};
 }
 
 export function cancel_shape_create(){

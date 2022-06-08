@@ -15,8 +15,9 @@ import {parseMath} from "../../scripts/LaTeXParser"
  */
 function formulaToHtml(elemNode: SlateElement, childrenHtml: string): string {
   // const { value = '' } = elemNode as FormulaElement
-  let mathml = parseMath(childrenHtml).outerHTML
-  return `${mathml}`
+  let mathml = parseMath(childrenHtml)
+  mathml.setAttribute('data-value',childrenHtml)
+  return `${mathml.outerHTML}`
 }
 
 // 配置

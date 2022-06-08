@@ -421,9 +421,13 @@ export class Core_element {
     setMoveLinear(){
         let g_id=this.g_id;
         let node=document.getElementById(g_id);
+        console.log(node.getAttribute("style"))
         let childNodes=node.childNodes;
         let states=[];
         states={}
+        let parser=new cssParser();
+        parser.parseStyle(node.getAttribute("style"))
+
         if(node.style!==undefined&&node.style!==null){
             states['stroke_width']=node.style.strokeWidth
             states['stroke']=node.style.stroke;
@@ -432,9 +436,13 @@ export class Core_element {
             // node.setAttribute("stroke-width",2);
             // node.setAttribute("stroke","blue");
             // node.setAttribute("stroke-dasharray",'3,3')
-            node.style.setProperty("stroke","#00A8FF")
-            node.style.setProperty("stroke-width",1)
-            node.style.setProperty("stroke-dasharray",'1,1,1,1')
+            parser.updateStyle({stroke:"#00A8FF"});
+            parser.updateStyle({"stroke-width":2});
+            parser.updateStyle({"stroke-dasharray":"1,1,1,1"})
+            node.setAttribute("style",parser.get())
+            // node.style.setProperty("stroke","#00A8FF")
+            // node.style.setProperty("stroke-width",1)
+            // node.style.setProperty("stroke-dasharray",'1,1,1,1')
             // for(let i=0;i<childNodes.length;i++){
             //     states[i]={}
             //     states[i]['stroke_width']=childNodes[i].getAttribute("stroke_width")
@@ -446,6 +454,8 @@ export class Core_element {
             // }
             this.states=states;
         }
+        console.log(node.getAttribute("style"))
+
         // let bbox=node.getBBox();
         // let path=createElementByTag("polyline",this.g_id+"_linear");
         // let points="";
@@ -488,10 +498,15 @@ export class Core_element {
         let node=document.getElementById(g_id);
         let childNodes=node.childNodes;
         let states=this.states;
-
-        node.style.setProperty("stroke-width",states['stroke_width']);
-        node.style.setProperty("stroke",states['stroke']);
-        node.style.setProperty("stroke-dasharray",states['stroke_dasharray'])
+        let parser=new cssParser();
+        parser.parseStyle(node.getAttribute("style"))
+        parser.updateStyle({"stroke":states['stroke']})
+        parser.updateStyle({"stroke-width":states['stroke_width']})
+        parser.updateStyle({"stroke-dasharray":states['stroke_dasharray']})
+        node.setAttribute("style",parser.get())
+        // node.style.setProperty("stroke-width",states['stroke_width']);
+        // node.style.setProperty("stroke",states['stroke']);
+        // node.style.setProperty("stroke-dasharray",states['stroke_dasharray'])
         // for(let i=0;i<childNodes.length;i++){
         //     childNodes[i].setAttribute("stroke-width",states[i]['stroke_width']);
         //     childNodes[i].setAttribute("stroke",states[i]['stroke']);

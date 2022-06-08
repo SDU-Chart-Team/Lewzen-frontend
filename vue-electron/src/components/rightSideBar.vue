@@ -419,7 +419,7 @@
                         // console.log(widthBar)
                         bar.setAttribute("style","width:"+(widthBar)+"px;background-color: rgb(251, 251, 251);")
                         node.style.display="block";
-                        this.activeName="Menu"
+                        this.activeName="Setting"
                         this.BarBlock=true;
                     }
                     // console.log(111);

@@ -20,7 +20,7 @@ function parseHtml(
 }
 
 const parseHtmlConf = {
-  selector: 'math',
+  selector: 'math2',
   parseElemHtml: parseHtml,
 }
 

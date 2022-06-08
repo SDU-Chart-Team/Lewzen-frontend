@@ -270,14 +270,11 @@ export function saveAsHTML(){
 export function saveAsImage(){
     let node=document.getElementById(getMySvg());
     P("uncursor",{})
-    canvas_update("connect","",{type:"delete"})
-    let div=document.createElement("div");
-    div.append(node);
-    var string=div.innerHTML;
-    div.removeChild(node);
-    document.getElementById("myCanvas").append(node);
-    string='data:image/svg+xml;base64,'+window.btoa(unescape(encodeURIComponent(string)));
 
+    var svg = node.cloneNode(true)
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+    var string = (new XMLSerializer()).serializeToString(svg);
+    string='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(string);
 
     // let name=get_file_name();
     // var blob = new Blob([string], {type: "image/svg+xml"});
@@ -285,10 +282,13 @@ export function saveAsImage(){
 
     var image=new Image();
     image.src=string;
+    var img = document.createElement('img');
+    img.src = string;
+    document.body.append(img);
     image.onload = () => {
         var canvas=document.createElement('canvas');
-        canvas.width=parseInt(image.height)
-        canvas.height=parseInt(image.width)
+        canvas.width=parseInt(image.width)
+        canvas.height=parseInt(image.height)
         var context=canvas.getContext('2d');
         context.drawImage(image,0,0);
         var box=getBoundingBox(context, 0, 0, canvas.width, canvas.height);
@@ -303,86 +303,4 @@ export function saveAsImage(){
     }
 
     // div.setAttribute("style","background-image:url('data:image/svg+xml,"+string+"');")
-}
-
-function getBoundingBox(ctx, left, top, width, height) {
-    var ret = {};
-
-    // Get the pixel data from the canvas
-    var data = ctx.getImageData(left, top, width, height).data;
-    console.log(data);
-    var first = false;
-    var last = false;
-    var right = false;
-    var left = false;
-    var r = height;
-    var w = 0;
-    var c = 0;
-    var d = 0;
-
-    // 1. get bottom
-    while(!last && r) {
-        r--;
-        for(c = 0; c < width; c++) {
-            if(data[r * width * 4 + c * 4 + 3]) {
-                console.log('last', r);
-                last = r+1;
-                ret.bottom = r+1;
-                break;
-            }
-        }
-    }
-
-    // 2. get top
-    r = 0;
-    var checks = [];
-    while(!first && r < last) {
-
-        for(c = 0; c < width; c++) {
-            if(data[r * width * 4 + c * 4 + 3]) {
-                console.log('first', r);
-                first = r-1;
-                ret.top = r-1;
-                ret.height = last - first - 1;
-                break;
-            }
-        }
-        r++;
-    }
-
-    // 3. get right
-    c = width;
-    while(!right && c) {
-        c--;
-        for(r = 0; r < height; r++) {
-            if(data[r * width * 4 + c * 4 + 3]) {
-                console.log('last', r);
-                right = c+1;
-                ret.right = c+1;
-                break;
-            }
-        }
-    }
-
-    // 4. get left
-    c = 0;
-    while(!left && c < right) {
-
-        for(r = 0; r < height; r++) {
-            if(data[r * width * 4 + c * 4 + 3]) {
-                console.log('left', c-1);
-                left = c;
-                ret.left = c;
-                ret.width = right - left - 1;
-                break;
-            }
-        }
-        c++;
-
-        // If we've got it then return the height
-        if(left) {
-            return ret;
-        }
-    }
-    return {left:0,width:0,top:0,height:0};
 }

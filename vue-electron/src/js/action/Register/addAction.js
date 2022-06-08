@@ -21,6 +21,17 @@ import {
     get_dotted_line_type_Before,
     get_line_type_Before
 } from "../../util/setLineType";
+import Module from "../../socket/wasm";
+import {getMySvg} from "../../util/getCanvasIdOperation";
+import {interpreterDom} from "../../util/DomInterpreter";
+
+let userComponentJSON={}
+export function componentJSONSet(json) {
+    userComponentJSON=json;
+}
+export function componentJSONGet(){
+    return userComponentJSON;
+}
 
 export class AddAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -77,6 +88,18 @@ export class AddAction extends Base_action{
             if(this.type==="line"){
                 this.msg['id']=this.id[i];
                 createLine(this.msg);
+            }else if(this.type==="rectangle_scriptable"){
+                this.msg['id']=this.id[i];
+                let url_item=componentJSONGet();
+                createModule(this.msg);//需要修改
+                Module.server_run("{\"command\": \"cursor\", \"id\": \"" + this.msg['id'] + "\"}");
+                console.log(url_item);
+                var ret = JSON.parse(Module.server_run("{\"command\": \"rect_js_config\", \"config\": " + JSON.stringify(url_item) + "}"));
+                var cmd = ret["domcmd"];
+                console.log(cmd);
+                let id=getMySvg();
+                let root=document.getElementById(id);
+                interpreterDom(root, cmd);
             }else{
                 this.msg['id']=this.id[i];
                 createModule(this.msg);//需要修改
