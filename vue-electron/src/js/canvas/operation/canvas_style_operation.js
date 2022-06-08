@@ -74,9 +74,17 @@ export function updateStyleDia(id){
         if(Trim(fill).substr(0,1)==="u"){
             msg['gradientOn']=true;
             fill=Trim(fill);
-            // console.log(fill.substring(14,fill.length-1));
-            let fillColor=getGradient(fill.substring(14,fill.length-1));
-            msg['value_gradient']=fillColor['direction'];
+            console.log(fill);
+            // console.log(fill.substring(15,fill.length-2));
+
+            let fillColor=getGradient(fill);
+
+            console.log(fillColor);
+            if(msg['value_gradient']!==undefined){
+                msg['value_gradient']=fillColor['direction'];
+            }else{
+                msg['value_gradient']="south"
+            }
             msg['color_gradient']=fillColor['end_color'];
             msg['color_fill']=fillColor['start_color'];
         }else{
@@ -118,6 +126,7 @@ export function dialog_style_get(){
 export function updateStyle(id){
     let node=document.getElementById(id)
     let style=node.getAttribute("style")
+    console.log(style);
     let parser=new cssParser();
     parser.parseStyle(style);
     let msg={};
@@ -128,12 +137,21 @@ export function updateStyle(id){
     }else{
         msg["fillOn"]=true;
         let fill=parser.returnStyle("fill");
+        console.log(fill)
         // console.log(Trim(fill).substr(0,1))
         if(Trim(fill).substr(0,1)==="u"){
             msg['gradientOn']=true;
             fill=Trim(fill);
             // console.log(fill.substring(14,fill.length-1));
-            let fillColor=getGradient(fill.substring(14,fill.length-1));
+            console.log(fill);
+            // console.log(fill.substring(15,fill.length-2));
+            let fillColor=getGradient(fill);
+            console.log(fillColor);
+            if(msg['value_gradient']!==undefined){
+                msg['value_gradient']=fillColor['direction'];
+            }else{
+                msg['value_gradient']="south"
+            }
             msg['value_gradient']=fillColor['direction'];
             msg['color_gradient']=fillColor['end_color'];
             msg['color_fill']=fillColor['start_color'];
@@ -185,7 +203,8 @@ export function OnGradient(){
 export function GradientChange(e){
     console.log(e);
     // console.log("Gradient change!!!")
-    let id='url(#'+addLinearGradient(e)+')';
+    let id=addLinearGradient(e);
+    console.log(id);
     setCoreFillColor(id);
 }
 export function OffGradient(){

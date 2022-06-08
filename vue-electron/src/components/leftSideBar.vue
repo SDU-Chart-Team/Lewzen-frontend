@@ -138,14 +138,14 @@
                             @mousedown="handlemousedown(14,0)"
                             @mouseup="handlemouseup(14,0)"
                     ></img>
-                    <img
-                            :src="require('@/assets/rounded_rectangle.png')"
-                            @click="createShapeInForm2(15,0)"
-                            fit="contain"
-                            style="width: 40px; height: 30px"
-                            @mousedown="handlemousedown(15,0)"
-                            @mouseup="handlemouseup(15,0)"
-                    ></img>
+<!--                    <img-->
+<!--                            :src="require('@/assets/rounded_rectangle.png')"-->
+<!--                            @click="createShapeInForm2(15,0)"-->
+<!--                            fit="contain"-->
+<!--                            style="width: 40px; height: 30px"-->
+<!--                            @mousedown="handlemousedown(15,0)"-->
+<!--                            @mouseup="handlemouseup(15,0)"-->
+<!--                    ></img>-->
 
                     <img
                             :src="require('@/assets/star.png')"
@@ -709,6 +709,7 @@
     import Module from "@/js/socket/wasm";
     import {getMySvg} from "@/js/util/getCanvasIdOperation";
     import {interpreterDom} from "@/js/util/DomInterpreter";
+    import {componentJSONSet} from "@/js/action/Register/addAction";
 
     export default {
         name: "leftSideBar",
@@ -767,16 +768,18 @@
                                     node.src=url_svg;
                                     content[0].appendChild(node);
                                     node.onclick=function (e) {
+                                        componentJSONSet(url_item)
                                         that.createShapeInForm2(1000,0);
-                                        let comp_id=getCoreList()[0];
-                                        console.log(comp_id);
-                                        Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
-                                        var ret = JSON.parse(Module.server_run("{\"command\": \"rect_js_config\", \"config\": " + JSON.stringify(url_item) + "}"));
-                                        var cmd = ret["domcmd"];
-                                        console.log(cmd);
-                                        let id=getMySvg();
-                                        let root=document.getElementById(id);
-                                        interpreterDom(root, cmd);
+                                        // let comp_id=getCoreList()[0];
+                                        // console.log(comp_id);
+                                        // Module.server_run("{\"command\": \"cursor\", \"id\": \"" + comp_id + "\"}");
+                                        // console.log(url_item);
+                                        // var ret = JSON.parse(Module.server_run("{\"command\": \"rect_js_config\", \"config\": " + JSON.stringify(url_item) + "}"));
+                                        // var cmd = ret["domcmd"];
+                                        // console.log(cmd);
+                                        // let id=getMySvg();
+                                        // let root=document.getElementById(id);
+                                        // interpreterDom(root, cmd);
                                     }
                                 }
                             }

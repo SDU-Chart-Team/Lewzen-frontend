@@ -66,14 +66,6 @@
         top: 0,
         editorConfig: {
           placeholder: "请输入内容...",
-          hoverbarKeys:
-                  {
-                    formula:
-                            {
-                              menuKeys:
-                                      ['editorFormula']
-                            }
-                  }
         },
         toolbarConfig: {
           toolbarKeys: [
@@ -85,8 +77,6 @@
             "bold",
             "italic",
             "underline",
-            // '|',
-            // 'insertFormula',
             '|',
             "justifyLeft",
             "justifyRight",

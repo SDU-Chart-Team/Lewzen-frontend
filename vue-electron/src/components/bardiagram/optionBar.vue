@@ -6,7 +6,7 @@
                     v-model="optionList"
                     @change="handleOptionChange">
                 <!--                            <div class="bottom-item"><el-checkbox label="Connection Arrows"></el-checkbox></div>-->
-                <div class="bottom-item"><el-checkbox label="Connection Points"></el-checkbox></div>
+<!--                <div class="bottom-item"><el-checkbox label="Connection Points"></el-checkbox></div>-->
                 <div class="bottom-item"><el-checkbox label="Guides"></el-checkbox></div>
             </el-checkbox-group>
         </div>

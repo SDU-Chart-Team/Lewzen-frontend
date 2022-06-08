@@ -94,7 +94,7 @@ export function socketPush(msg){
             return;
         }
     }
-    // console.log(msg);
+    console.log(msg);
     // console.log(socket_return);
     // msg=msg['ok'];
     // if(msg===undefined){

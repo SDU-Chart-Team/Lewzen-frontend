@@ -2,6 +2,7 @@ import {getMySvg} from "@/js/util/getCanvasIdOperation";
 import {set_coordinate_canvas} from "../element/last/last_map_operation";
 import {canvasAdjust} from "../canvas/base_canvas";
 import {reverseUTF8} from "./utilChinese";
+import {getCoreList} from "../element/core/core_queue";
 
 export function parserCmd(cmd){
     let domCmd=cmd["domcmd"];
@@ -36,6 +37,11 @@ export function parserCmd(cmd){
 
 
 export function interpreterDom(root, cmds){
+    // let node=document.getElementById(getCoreList()[0])
+    // if(node!==undefined&&node!==null){
+    //     console.log(node.getAttribute("style"))
+    //
+    // }
     let i = 0;
     let next_parameter = () => {
         let j = i;
@@ -46,7 +52,10 @@ export function interpreterDom(root, cmds){
     }
     let next_string_nonspace = () => {
         let j = i + 1;
-        while (cmds[j] !== '"' && j < cmds.length) j++;
+        while (cmds[j] !== '"' && j < cmds.length) {
+            j++;
+        }
+
         let str = cmds.substring(i + 1, j);
         i = j + 2;
         return str;
@@ -177,7 +186,9 @@ export function interpreterDom(root, cmds){
                     let top=parseInt(node.scrollTop)-parseInt(tmp[1])+parseInt(d[1]);
                     let left=parseInt(node.scrollLeft)-parseInt(tmp[0])+parseInt(d[0]);
                     set_coordinate_canvas(parseInt(tmp[0]),parseInt(tmp[1]));
-
+                    let last=document.getElementById("last")
+                    last.setAttribute("x",tmp[0])
+                    last.setAttribute("y",tmp[1])
                     // console.log(node.getAttribute(""))
 
                     // console.log(top,left);
@@ -214,7 +225,11 @@ export function interpreterDom(root, cmds){
                 break;
             default:
                 console.log('DOM CMD Interpret: Unknown CMD "' + cmd + '"');
+
         }
+        // if(node!==undefined&&node!==null){
+        //     console.log(node.getAttribute("style"))
+        // }
     }
 }
 

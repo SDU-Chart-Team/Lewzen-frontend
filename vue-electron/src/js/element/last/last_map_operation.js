@@ -27,9 +27,11 @@ export function init_canvas(){
     let rect_id="update_rect"
     // let rect=createElementByTag("rect",rect_id);
     // node.appendChild(rect);
+
     node.onmousedown=function(e){
-        let start_x=e.offsetX;
-        let start_y=e.offsetY;
+        let canvas_coor=get_coordinate_canvas();
+        let start_x=e.offsetX+canvas_coor['x'];
+        let start_y=e.offsetY+canvas_coor['y'];
         let rect=createElementByTag("rect",rect_id);
         node.appendChild(rect);
         rect.setAttribute("x",start_x);
@@ -41,8 +43,9 @@ export function init_canvas(){
         let end_y=start_y;
         let svg=document.getElementById(getMySvg());
         svg.onmousemove=function(e){
-            end_x=e.offsetX;
-            end_y=e.offsetY;
+            canvas_coor=get_coordinate_canvas();
+            end_x=e.offsetX+canvas_coor['x'];
+            end_y=e.offsetY+canvas_coor['y'];
             if(end_x<start_x){
                 rect.setAttribute("x",end_x);
                 rect.setAttribute("width",start_x-end_x);
@@ -102,9 +105,11 @@ export function get_svg_flag(){
 function init_canvas_enter(){
     let node=document.getElementById("main_canvas");
     node.onmouseenter=function () {
+        console.log("enter_canvas");
         set_svg_flag(true);
     }
     node.onmouseleave=function () {
+        console.log("leave_canvas")
         set_svg_flag(false);
     }
 }
