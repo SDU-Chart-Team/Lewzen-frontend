@@ -78,24 +78,26 @@
                 let that=this;
                 let image_list=msg['json']['image'];
                 let image_size=msg['json']['image_size'];
-                for(let i=0;i<image_list.length;i++){
-                    let image_id=image_list[i]['image_id'];
-                    let image=document.getElementById(image_id);
-                    if(image!==null&&image!==undefined){
-                        let imageBar=document.getElementById("image_list");
-                        var img=new Image();
-                        img.src=image.src;
-                        img.id=image_id+"copy";
-                        img.style.height="100px";
-                        img.style.width="100px";
-                        img.ondblclick=function(e){
-                            that.change_id=id;
-                            that.onDialog();
+                if(image_list!==null&&image_list!==undefined){
+                    for(let i=0;i<image_list.length;i++){
+                        let image_id=image_list[i]['image_id'];
+                        let image=document.getElementById(image_id);
+                        if(image!==null&&image!==undefined){
+                            let imageBar=document.getElementById("image_list");
+                            var img=new Image();
+                            img.src=image.src;
+                            img.id=image_id+"copy";
+                            img.style.height="100px";
+                            img.style.width="100px";
+                            img.ondblclick=function(e){
+                                that.change_id=id;
+                                that.onDialog();
+                            }
+                            imageBar.appendChild(img);
                         }
-                        imageBar.appendChild(img);
                     }
+                    setImageCounter(image_size);
                 }
-                setImageCounter(image_size);
             },
             onSubmit(){
                 this.changeSize();
@@ -126,6 +128,9 @@
             },
             getImage(obj){
                 var fileobj=document.getElementById("imagePath").files[0];
+                if(fileobj===null||fileobj===undefined){
+                    return;
+                }
                 let that=this;
                 var reader=new FileReader();
                 reader.readAsDataURL(fileobj)
@@ -147,11 +152,11 @@
                         img.id=id+"copy";
                         img.style.height="100px";
                         img.style.width="100px";
-                        img.ondblclick=function(e){
-                            this.module_id=module_id;
-                            that.change_id=id;
-                            that.onDialog();
-                        }
+                        // img.ondblclick=function(e){
+                        //     this.module_id=module_id;
+                        //     that.change_id=id;
+                        //     that.onDialog();
+                        // }
                         let div=document.createElement("div");
                         div.appendChild(image);
                         imageBar.appendChild(img);
