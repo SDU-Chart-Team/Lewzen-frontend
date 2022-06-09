@@ -5,7 +5,7 @@ Windows Registry Editor Version 5.00
 "URL Protocol"= ""
 
 [HKEY_CLASSES_ROOT\myprotocol\DefaultIcon]
-@="D:\\WebstormProjects\\vue-electron\\public\\main\\main.exe"
+@="D:\\WebstormProjects\\vue-electron\\fewzon-win32-x64\\resources\\main\\main.exe"
 
 [HKEY_CLASSES_ROOT\myprotocol\shell]
 @= ""
@@ -14,4 +14,5 @@ Windows Registry Editor Version 5.00
 @= ""
 
 [HKEY_CLASSES_ROOT\myprotocol\shell\open\command]
-@="D:\\WebstormProjects\\vue-electron\\public\\main\\main.exe"
+@="D:\\WebstormProjects\\vue-electron\\fewzon-win32-x64\\resources\\main\\main.exe"
+

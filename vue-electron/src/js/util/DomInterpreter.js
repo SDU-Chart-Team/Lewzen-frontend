@@ -89,7 +89,7 @@ export function interpreterDom(root, cmds){
                 let xml = unescape(next_string(Number(next_parameter(i))));
                 // xml=reverseUTF8(xml)
                 current.insertAdjacentHTML('beforeend', xml);
-                console.log(current.id);
+                // console.log(current.id);
                 let id=current.id;
                 // if(id!==undefined&&id!==null){
                 //     id=id.split("_");

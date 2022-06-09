@@ -1,3 +1,4 @@
+<script src="../../js/action/Register/addAction.js"></script>
 <template>
     <div class="card">
         <div class="card-header">
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-    import {getActionCounter, P} from "@/js/action/actionQueue";
+    import {after_register_set, before_register_set, getActionCounter, P} from "@/js/action/actionQueue";
     import {getCoreList} from "@/js/element/core/core_queue";
     import {getChildrenOneList} from "@/js/element/module/module_tree";
     import {createUngroupAction} from "@/js/action/Register/ungroupAction";
@@ -55,6 +56,7 @@
                     command:"ungroup",
                     flag:true
                 }
+                before_register_set(true);
                 createUngroupAction(val,{group_id:coreList[0],son:son})
                 let time= getActionCounter();
                 P("remove",{time:time})

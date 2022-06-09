@@ -150,9 +150,11 @@ export class Core_element {
                         let coreList=getCoreList();
                         let ancestorList=getAncestorAll(that.g_id);
                         ancestorList.reverse();
+                        console.log(ancestorList);
                         for(let i=0;i<ancestorList.length;i++) {
                             let el = getModuleByGid(ancestorList[i])
                             if(!el.show){
+                                console.log(el.g_id);
                                 P("cursor",{ids:[el.g_id]})
                                 P("cover_children",{})
                             }

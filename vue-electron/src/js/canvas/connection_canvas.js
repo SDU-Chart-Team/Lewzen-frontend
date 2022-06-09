@@ -95,6 +95,7 @@ export class Connection_canvas {
     }
 
     show_outline(g_id){
+        if(!this.flag)return;
         let g = document.getElementById(g_id);
         if (g===null) return;
         let copied = g.cloneNode(true);
@@ -149,7 +150,7 @@ export class Connection_canvas {
             let y1=parseFloat(point['y'])
             // console.log(x1,y1);
             // console.log((x-x1)*(x-x1)+(y-y1)*(y-y1))
-            if((x-x1)*(x-x1)+(y-y1)*(y-y1)<50){
+            if((x-x1)*(x-x1)+(y-y1)*(y-y1)<100){
                 if((x-x1)*(x-x1)+(y-y1)*(y-y1)<=minn){
                     list=[];
                 }

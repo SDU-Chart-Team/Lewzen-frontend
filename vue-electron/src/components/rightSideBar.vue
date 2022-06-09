@@ -107,6 +107,17 @@
                 <on-offset-bar></on-offset-bar>
                 <set-dotted-line-bar></set-dotted-line-bar>
             </el-tab-pane>
+
+            <el-tab-pane name="Image">
+                <div class="menu">
+                   Image
+                </div>
+                <span slot="label"><i class="el-icon-picture"></i></span>
+
+                <image-bar></image-bar>
+
+            </el-tab-pane>
+
         </el-tabs>
 
 
@@ -217,6 +228,7 @@
         setLineModel, setRelationModel,
         setTextModel
     } from "@/js/canvas/operation/canvas_model_operation";
+    import ImageBar from "@/components/baritem/ImageBar";
     export default {
         name: "rightSideBar",
         mounted() {
@@ -235,6 +247,7 @@
             window.getRightModel=this.getRightModel;
         },
         components:{
+            ImageBar,
             BindBar,
             AliasBar,
             SetDottedLineBar,

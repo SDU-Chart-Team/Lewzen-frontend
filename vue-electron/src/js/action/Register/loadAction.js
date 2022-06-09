@@ -7,6 +7,7 @@ import {addModuleToTree, linkInTree} from "@/js/element/module/module_tree";
 import {getState} from "../actionQueue";
 import {createArrowFromAction} from "../ComponentLinear/setArrowFromAction";
 import {createArrowToAction} from "../ComponentLinear/setArrowToAction";
+import {setImageCounter} from "../../util/userImageManager";
 
 export class LoadAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -27,6 +28,7 @@ export class LoadAction extends Base_action{
         // console.log(arrow)
         let indices=this.msg['json']['indices'];
         let comps=this.msg['json']['comps'];
+        initImageBar(state);
         let index=0;
         for(let i=0;i<comps.length;i++){
             parseTree(comps[i],indices,index);
@@ -38,8 +40,9 @@ export class LoadAction extends Base_action{
             // console.log(index);
         }
         let list=document.getElementById(getShapeMapId()).childNodes;
+        console.log(arrow.length)
         for(let i=0;i<arrow.length;i++){
-            // console.log(arrow[i])
+            console.log(arrow[i])
             if(arrow[i]['id']===undefined)continue;
             arrow[i]['id']=list[arrow[i]['id']].getAttribute("id")
             if(arrow[i]['from_id']!==undefined){

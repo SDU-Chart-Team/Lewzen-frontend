@@ -9,7 +9,9 @@
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "build:electron": "npm run build && electron src/electron.js",
+    "build:exe": "electron-packager ./dist/ fewzon --platform=win32 --arch=x64 --icon=./src/assets/icon.png --overwrite"
   },
   "main": "src/background.js",
   "dependencies": {
@@ -42,6 +44,7 @@
     "css-loader": "^5.2.6",
     "electron": "^12.0.0",
     "electron-devtools-installer": "^3.1.0",
+    "electron-packager": "^15.5.1",
     "node-loader": "^2.0.0",
     "socket.io-client": "^4.4.1",
     "style-loader": "^3.0.0",

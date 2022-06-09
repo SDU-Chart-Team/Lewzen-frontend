@@ -19,7 +19,7 @@
                 <el-dropdown-item command=2>save</el-dropdown-item>
                 <el-dropdown-item command=3>save as html</el-dropdown-item>
                 <el-dropdown-item command=4>save as image</el-dropdown-item>
-                <el-dropdown-item>rename</el-dropdown-item>
+<!--                <el-dropdown-item>rename</el-dropdown-item>-->
                 <el-dropdown-item disabled>close</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
@@ -126,6 +126,8 @@
                     saveAsHTML();
                 }else if(command==="4"){
                     saveAsImage();
+                }else if(command==="0"){
+                    window.parent.location.reload();
                 }
             },
             handleEdit(command){
@@ -201,7 +203,7 @@
                       }
                   }
                   initCanvasState();
-                  // console.log(json)
+                  // console.log(json=this.masg]
                   updateState({json:json})
                   P("load",{json:json['json']})
               }
