@@ -284,7 +284,7 @@ export function saveAsImage(){
     image.src=string;
     var img = document.createElement('img');
     img.src = string;
-    document.body.append(img);
+    // document.body.append(img);
     image.onload = () => {
         var canvas=document.createElement('canvas');
         canvas.width=parseInt(image.width)

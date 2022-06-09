@@ -224,7 +224,8 @@
                       id="elementManageButton"
 
               >
-                  <a href="myprotocol://">
+<!--                  <a href="myprotocol://">-->
+                  <a href="myprotocol2://">
                       Add Your Element
                   </a>
 

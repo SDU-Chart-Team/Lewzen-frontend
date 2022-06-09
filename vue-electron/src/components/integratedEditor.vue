@@ -16,8 +16,9 @@
             :defaultConfig="editorConfig"
             :mode="mode"
             @onCreated="onCreated"
-            @onChange="handleBlur"
+            @onChange="handleChange"
             :disabled="text_flag"
+            @onBlur="handleBlur"
     />
   </div>
 </template>
@@ -87,7 +88,7 @@
             'sup',
             // menu key
             "headerSelect",
-
+            "insertImage",
             "insertFormula", // “插入公式”菜单
             "editFormula", // “编辑公式”菜单
             // group of menu items
@@ -153,12 +154,16 @@
         this.editor.selectAll();
       },
       // the function when the editor lose focal(blur)
-      handleBlur() {
+      handleChange() {
         // emit the event:editorBlur for the parent component
         updateState({html:this.valueHtml_last})
         P("set_html",{html:escape(this.valueHtml)})
         this.valueHtml_last=this.valueHtml;
         this.$emit("editorBlur");
+
+      },
+      handleBlur(){
+        // this.editor.clear()
       },
       setDisabled(){
         this.editor.disable();
