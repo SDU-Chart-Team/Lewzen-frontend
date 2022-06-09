@@ -112,7 +112,7 @@
                 <div class="menu">
                    Image
                 </div>
-                <span slot="label"><i class="el-icon-picture"></i></span>
+                <span slot="label"><i class="el-icon-picture-outline"></i></span>
 
                 <image-bar></image-bar>
 
