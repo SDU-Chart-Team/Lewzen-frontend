@@ -225,7 +225,7 @@
 
               >
                   <a href="myprotocol://">
-                      add your element
+                      Add Your Element
                   </a>
 
               </el-button>
