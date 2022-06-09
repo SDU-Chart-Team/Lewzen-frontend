@@ -201,6 +201,7 @@ export function setArrangeModel(){
         set_theta_bar("");
         // FlipFlag(true);
         setPosition({flag:false})
+        setElementSize({flag:false})
         groupFlag(true);
         return;
     }
@@ -209,6 +210,7 @@ export function setArrangeModel(){
         setThetaFlag(false);
         // FlipFlag(false);
         setPosition({flag:false})
+        setElementSize({flag:false})
         groupFlag(false);
         setGroupType(true);
     }else{
