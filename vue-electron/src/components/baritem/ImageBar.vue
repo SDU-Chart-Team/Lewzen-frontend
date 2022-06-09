@@ -144,8 +144,9 @@
                     let id='user_image'+getImageCounter();
                     let module_id=getCoreList()[0];
                     image.onload=()=>{
-                        image.style.height="100px";
-                        image.style.width="200px";
+                        // image.style.height="100px";
+                        // image.style.width="200px";
+
                         image.id=id;
                         // var img=new Image();
                         // img.src=src;
