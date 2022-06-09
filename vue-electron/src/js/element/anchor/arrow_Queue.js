@@ -369,7 +369,7 @@ class Arrow_Queue {
                     command:"arrow_to_null",
                     flag:true
                 };
-                let msg={g_id:g_id,line_id:from_list[i]['id'],a_id:from_list[i]['a_id']}
+                let msg={g_id:g_id,line_id:to_list[j]['id'],a_id:to_list[j]['a_id']}
                 before_register_set(true);
                 createArrowToNullAction(val,msg);
             }

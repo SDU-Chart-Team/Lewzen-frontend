@@ -40,7 +40,8 @@ export class UngroupAction extends Base_action {
     backward() {
         let id = this.msg['group_id'];
         let list = this.msg['son']
-
+        console.log(id);
+        console.log(list);
         for (var j = 0; j < list.length; j++) {
             linkByGroup(list[j], id);
         }

@@ -1,6 +1,7 @@
 const {defineConfig} = require('@vue/cli-service')
 module.exports = defineConfig({
     transpileDependencies: true,
+    publicPath:'./',
     devServer:{
         proxy:{
             '/socket.io':{
@@ -17,10 +18,7 @@ module.exports = defineConfig({
             .use("wasm-loader")
             .loader("wasm-loader")
             .end();
-    }
-})
-
-module.exports = {
+    },
     configureWebpack: {
         resolve: { extensions: [".ts", ".tsx", ".js", ".json"] },
         module: {
@@ -35,5 +33,15 @@ module.exports = {
                 }
             ]
         },
+        performance:{
+            hints:false,
+        },
+        optimization:{
+            minimize:true,
+            splitChunks:{
+                chunks:'all',
+            }
+        }
     },
-}
+})
+

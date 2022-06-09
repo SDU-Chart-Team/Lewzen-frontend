@@ -5,6 +5,7 @@ import {saveFile} from "@/js/util/fileOperation";
 import {getMyDefs, getMySvg, getShapeMapId} from "@/js/util/getCanvasIdOperation";
 import {getGradientList} from "@/js/util/LinearGradientCreator";
 import {getArrowList} from "../../element/anchor/arrow_Queue";
+import {getImage, getImageCounter} from "../../util/userImageManager";
 
 export class SaveAction extends Base_action{
     constructor(type,cmd,msg) {
@@ -41,8 +42,12 @@ export class SaveAction extends Base_action{
             }
             arrow.push(item);
         }
+        let image_list=getImage();
+        let image_size=getImageCounter();
+        console.log(image_list);
+        console.log(image_size);
         console.log(arrow);
-        let msg={json:this.msg['json'],color:gradientList,arrow:arrow}
+        let msg={json:this.msg['json'],color:gradientList,arrow:arrow,image:image_list,image_size:image_size}
         saveFile(msg)
     }
 

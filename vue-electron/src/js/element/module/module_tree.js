@@ -454,9 +454,10 @@ class Module_tree {
         if(father!==now){
             father=this.head[father];
 
-            for(let i=0;i<this.head[now]['children'].length;i++){
+            for(let i=0;i<father['children'].length;i++){
                 if(father['children'][i]===this.head[now]['tid']){
                     father['children'].splice(i,1);
+                    break;
                 }
             }
         }

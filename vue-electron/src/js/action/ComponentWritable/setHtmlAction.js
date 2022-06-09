@@ -23,8 +23,8 @@ export class SetHtmlAction extends Base_action{
     }
 
     after(){
-        console.log(this.msg['html'])
-        console.log(unescape(this.msg['html']))
+        // console.log(this.msg['html'])
+        // console.log(unescape(this.msg['html']))
         // console.log(reverseUTF8(this.msg['html']))
         // set_html_bar(this.msg['html'])
     }

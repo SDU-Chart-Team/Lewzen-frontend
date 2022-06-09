@@ -208,7 +208,7 @@
       </div>
     </div>
 <!--container-->
-    <el-container style="height:590px;border: 1px solid #eee">
+    <el-container style="height:620px;border: 1px solid #eee">
 <!--leftsider-->
       <el-aside :width="leftAsideWidth" class="aside-div clear" style="background-color: #FBFBFB;padding-right: 20px">
         <el-scrollbar style="height: 100%;width: 100%;float: left;">
@@ -285,6 +285,13 @@
           >
               <line-bar_dia></line-bar_dia>
           </el-dialog>
+          <el-dialog
+                  title="save file"
+                  :visible.sync="saveVisible"
+          >
+
+
+          </el-dialog>
 
 <!--          <el-dialog-->
 <!--                  title="Graph"-->
@@ -309,7 +316,7 @@
     <el-container>
       <el-footer
               id="footerBar"
-              style="background-color:#FBFBFB;height:29px;text-align: right; font-size: 12px">
+              style="background-color:#FBFBFB;height:50px;text-align: right; font-size: 12px">
       </el-footer>
     </el-container>
 
@@ -395,6 +402,7 @@
         window.color_change_bar=this.color_change_bar;
         window.get_file_name=this.get_file_name;
         window.showGraphBar=this.createGraph;
+        let node=document.getElementById("app");
     },
     data() {
           const item = {
@@ -403,6 +411,7 @@
               address: '上海市普陀区金沙江路 1518 弄'
           };
           return {
+              saveVisible:false,
               file_name:"Chart",
               file_name_change:false,
               tableData: Array(20).fill(item),
@@ -451,6 +460,10 @@
       },
     methods:{
 
+        getImage(obj){
+            var fileobj=document.getElementById("filePath").files[0];
+            console.log(fileobj);
+        },
 
         handleArrowStyle(e){
             // console.log(e);
