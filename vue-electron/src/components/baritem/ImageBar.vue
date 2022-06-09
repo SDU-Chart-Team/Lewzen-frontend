@@ -66,6 +66,7 @@
     import {initCanvasState} from "@/js/util/init";
     import {getCoreList} from "@/js/element/core/core_queue";
     import {addImage, getImageCounter, setImageCounter} from "@/js/util/userImageManager";
+    import {getBBox} from "@/js/util/bboxUtil";
 
     export default {
         name: "ImageBar",
@@ -146,7 +147,19 @@
                     image.onload=()=>{
                         // image.style.height="100px";
                         // image.style.width="200px";
-
+                        let bbox=getBBox(module_id);
+                        console.log(bbox);
+                        if(bbox===undefined||bbox===null){
+                            return;
+                        }
+                        let width=bbox.width;
+                        let height=bbox.height;
+                        image.style.height=height+"px";
+                        image.style.width=width+"px";
+                        console.log(height);
+                        console.log(width);
+                        console.log(image.style.height)
+                        console.log(image.style.width);
                         image.id=id;
                         // var img=new Image();
                         // img.src=src;
