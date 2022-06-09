@@ -144,7 +144,7 @@
                     image.src=src;
                     let id='user_image'+getImageCounter();
                     let module_id=getCoreList()[0];
-                    image.onload=()=>{
+                    image.onload=function () {
                         // image.style.height="100px";
                         // image.style.width="200px";
                         let bbox=getBBox(module_id);
@@ -154,8 +154,16 @@
                         }
                         let width=bbox.width;
                         let height=bbox.height;
-                        image.style.height=height+"px";
-                        image.style.width=width+"px";
+                        let x=this.width;
+                        let y=this.height;
+                        let width_f=x/width;
+                        let height_f=y/height;
+                        console.log(width,x,width_f);
+                        console.log(height,y,height_f);
+                        let f=Math.max(width_f,height_f);
+                        console.log(f);
+                        image.style.height=(y/f)+"px";
+                        image.style.width=(x/f)+"px";
                         console.log(height);
                         console.log(width);
                         console.log(image.style.height)
