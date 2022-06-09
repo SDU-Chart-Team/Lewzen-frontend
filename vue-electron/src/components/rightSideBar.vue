@@ -80,6 +80,7 @@
                 </div>
                 <alignment-bar></alignment-bar>
                 <spacing-bar></spacing-bar>
+                <image-bar></image-bar>
                 <integrated-editor></integrated-editor>
             </el-tab-pane>
 
@@ -108,15 +109,15 @@
                 <set-dotted-line-bar></set-dotted-line-bar>
             </el-tab-pane>
 
-            <el-tab-pane name="Image">
-                <div class="menu">
-                   Image
-                </div>
-                <span slot="label"><i class="el-icon-picture-outline"></i></span>
+<!--            <el-tab-pane name="Image">-->
+<!--                <div class="menu">-->
+<!--                   Image-->
+<!--                </div>-->
+<!--                <span slot="label"><i class="el-icon-picture-outline"></i></span>-->
 
-                <image-bar></image-bar>
+<!--                <image-bar></image-bar>-->
 
-            </el-tab-pane>
+<!--            </el-tab-pane>-->
 
         </el-tabs>
 

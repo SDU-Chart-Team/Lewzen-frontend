@@ -22,38 +22,38 @@
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                Image Size
-            </div>
-            <div id="image_list" class="card-item clear">
+<!--        <div class="card">-->
+<!--            <div class="card-header">-->
+<!--                Image Size-->
+<!--            </div>-->
+<!--            <div id="image_list" class="card-item clear">-->
 
-            </div>
-        </div>
-        <el-form v-if="size_change" label-width="60px">
-            <el-form-item label="width">
-                <el-input
-                        size="mini"
-                        v-model="image_width"
-                >
-                </el-input>
-            </el-form-item>
-            <el-form-item label="height">
-                <el-input
-                        size="mini"
-                        v-model="image_height"
-                >
-                </el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button
-                        size="mini"
-                        type="primary"
-                        @click="onSubmit">set</el-button>
-                <el-button
-                        size="mini"
-                        @click="offDialog">cancel</el-button>
-            </el-form-item>
+<!--            </div>-->
+<!--        </div>-->
+<!--        <el-form v-if="size_change" label-width="60px">-->
+<!--            <el-form-item label="width">-->
+<!--                <el-input-->
+<!--                        size="mini"-->
+<!--                        v-model="image_width"-->
+<!--                >-->
+<!--                </el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="height">-->
+<!--                <el-input-->
+<!--                        size="mini"-->
+<!--                        v-model="image_height"-->
+<!--                >-->
+<!--                </el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item>-->
+<!--                <el-button-->
+<!--                        size="mini"-->
+<!--                        type="primary"-->
+<!--                        @click="onSubmit">set</el-button>-->
+<!--                <el-button-->
+<!--                        size="mini"-->
+<!--                        @click="offDialog">cancel</el-button>-->
+<!--            </el-form-item>-->
         </el-form>
 
     </div>
@@ -147,11 +147,11 @@
                         image.style.height="100px";
                         image.style.width="200px";
                         image.id=id;
-                        var img=new Image();
-                        img.src=src;
-                        img.id=id+"copy";
-                        img.style.height="100px";
-                        img.style.width="100px";
+                        // var img=new Image();
+                        // img.src=src;
+                        // img.id=id+"copy";
+                        // img.style.height="100px";
+                        // img.style.width="100px";
                         // img.ondblclick=function(e){
                         //     this.module_id=module_id;
                         //     that.change_id=id;
@@ -159,7 +159,7 @@
                         // }
                         let div=document.createElement("div");
                         div.appendChild(image);
-                        imageBar.appendChild(img);
+                        // imageBar.appendChild(img);
                         addImage(module_id,id);
                         // console.log(div.innerHTML)
                         P("set_html",{html:escape(div.innerHTML)})
